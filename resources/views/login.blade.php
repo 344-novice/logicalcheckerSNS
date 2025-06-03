@@ -8,7 +8,16 @@
         <title>Laravel</title>
     </head>
     <body>
-        <h1>トップページ</h1>
-        <a href="/admin/login">ログアウト</a>
+        <h1>ログイン</h1>
+        <div class="loginFail"></div>
+        <form action="/login" method="POST" name="login">
+            @csrf
+            <p>アカウント名もしくはメールアドレス</p>
+            <input type="text" name="name-or-email"><br>
+            <p>パスワード</p>
+            <input type="password" name="password">
+            <input type="submit" id="submit" value="ログイン"><br>
+            <a href="/signin">アカウント登録がまだの方はこちら</a>
+        </form>
     </body>
 </html>

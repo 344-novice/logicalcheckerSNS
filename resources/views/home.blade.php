@@ -10,15 +10,15 @@
     <body>
         <h1>トップページ</h1>
         <a href="user">マイページ</a>
-        <a href="/">ログアウト</a>
+        <a href="/login">ログアウト</a>
         <div class="logicalCheckerFeedback"></div>
-        <form action="#" method="post" name="login">
+        <form action="home" method="post" name="post">
             @csrf
             <p>投稿フォーム</p>
-            <input type="text" id="postText"><br>
+            <input type="text" name="postText"><br>
             <input type="submit" id="submit" value="投稿"><br>
         </form>
         <a href="user">ユーザー詳細</a>
-        <a href="post">投稿詳細</a>
+        <a href="post">{{ $text }}</a>
     </body>
 </html>

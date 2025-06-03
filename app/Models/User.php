@@ -11,6 +11,14 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+    
+    function account(): array
+    {
+        return [
+            'nameOrEmail' => 'hoge',
+            'password' => 'hoge',
+        ];
+    }
 
     /**
      * The attributes that are mass assignable.

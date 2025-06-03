@@ -1,14 +1,14 @@
 <?php
 
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+// use Inertia\Inertia;
 
-Route::get('/', function() {
+Route::get('/login', function() {
     return view('login');
 });
-Route::post('/', function() {
-    return view('login');
-});
+Route::post('/login', [LoginController::class, 'auth']);
 
 Route::get('/signin', function() {
     return view('signin');
@@ -20,9 +20,7 @@ Route::post('/signin', function() {
 Route::get('/home', function() {
     return view('home');
 });
-Route::post('/home', function() {
-    return view('home');
-});
+Route::post('/home', [PostController::class, 'post']);
 
 Route::get('/user', function() {
     return view('user');
@@ -52,11 +50,11 @@ Route::post('/post', function() {
     return view('post_detail');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
-});
+// Route::middleware(['auth', 'verified'])->group(function () {
+//     Route::get('dashboard', function () {
+//         return Inertia::render('dashboard');
+//     })->name('dashboard');
+// });
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+// require __DIR__.'/settings.php';
+// require __DIR__.'/auth.php';
