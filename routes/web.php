@@ -1,60 +1,27 @@
 <?php
 
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-// use Inertia\Inertia;
+use Inertia\Inertia;
 
-Route::get('/login', function() {
-    return view('login');
-});
-Route::post('/login', [LoginController::class, 'auth']);
-
-Route::get('/signin', function() {
-    return view('signin');
-});
-Route::post('/signin', function() {
-    return view('signin');
+Route::get('/', function () {
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
 });
 
-Route::get('/home', function() {
-    return view('home');
-});
-Route::post('/home', [PostController::class, 'post']);
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/user', function() {
-    return view('user');
-});
-Route::post('/user', function() {
-    return view('user');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/admin/login', function() {
-    return view('admin/login');
-});
-Route::post('/admin/login', function() {
-    return view('admin/login');
-});
-
-Route::get('/admin/top', function() {
-    return view('admin/top');
-});
-Route::post('/admin/top', function() {
-    return view('admin/top');
-});
-
-Route::get('/post', function() {
-    return view('post_detail');
-});
-Route::post('/post', function() {
-    return view('post_detail');
-});
-
-// Route::middleware(['auth', 'verified'])->group(function () {
-//     Route::get('dashboard', function () {
-//         return Inertia::render('dashboard');
-//     })->name('dashboard');
-// });
-
-// require __DIR__.'/settings.php';
-// require __DIR__.'/auth.php';
+require __DIR__.'/auth.php';
