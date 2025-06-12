@@ -11,6 +11,16 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{ __("You're logged in!") }}
                 </div>
+                <form action="{{ route('tweet.store') }}" method="post">
+                    @csrf
+                    <input type="text" id="tweetText" name="tweet">
+                    <input type="submit" value="投稿">
+                </form>
+            </div>
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                @foreach ($tweets as $tweet)
+                {{ $tweet }} <br>
+                @endforeach
             </div>
         </div>
     </div>
