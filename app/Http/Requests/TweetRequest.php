@@ -22,7 +22,7 @@ class TweetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'tweet' => 'required'
         ];
     }
 }

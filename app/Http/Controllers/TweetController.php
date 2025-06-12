@@ -10,17 +10,17 @@ use Illuminate\Support\Facades\DB;
 
 class TweetController extends Controller
 {
-    public function index(TweetRequest $request) {
+    public function index(Request $request) {
         // ToDo: 依存注入
         $tweets = (new Tweet())->getAllTweets();
         return view('dashboard', ['tweets' => $tweets]);
     }
 
     public function store(Tweet $tweet, TweetRequest $request)
-    {
+    {        
         $tweet = new Tweet();
         $tweet->user_id = Auth::id(); 
-        $tweet->text = $request->input('tweet');
+        $tweet->tweet = $request->input('tweet');
         $tweet->save();
         
         return redirect()->route('dashboard');

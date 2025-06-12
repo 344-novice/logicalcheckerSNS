@@ -10,12 +10,12 @@ class Tweet extends Model
 {
     public function getAllTweets()
     {
-        return DB::table('tweets')->pluck('text');
+        return DB::table('tweets')->pluck('tweet');
     }
 
     protected $fillable = [
         'user_id',
-        'text',
+        'tweet',
         'image_path'
     ];
 
