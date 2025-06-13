@@ -8,7 +8,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', [TweetController::class, 'index'])->middleware('auth')->name('dashboard');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware('auth')->name('dashboard');
 Route::post('/dashboard', [TweetController::class, 'store'])->middleware('auth')->name('tweet.store');
 
 Route::middleware('auth')->group(function () {

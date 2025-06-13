@@ -11,25 +11,9 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{ __("論理チェッカーSNS(仮)へようこそ!") }}
                 </div>
-
                 <div id="post-form"></div>
-
-                <!-- <div class="m-10">
-                    <form action="{{ route('tweet.store') }}" method="post">
-                        @csrf
-                        <input type="text" id="tweetText" name="tweet">
-                        <input class="ml-5 p-1 px-3 border " type="submit" value="投稿">
-                        @error('tweet')
-                        <div class="m-2 0 0 2 text-red-500">文字が入ってないよ！</div>
-                        @enderror
-                    </form>
-                </div> -->
             </div>
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                @foreach ($tweets as $tweet)
-                <div class="m-5 p-2 border text-xl text-gray-800 dark:text-gray-200 leading-tight">{{ $tweet }}<br></div>
-                @endforeach
-            </div>
+            <div id="tweets-form"></div>
         </div>
     </div>
 </x-app-layout>
