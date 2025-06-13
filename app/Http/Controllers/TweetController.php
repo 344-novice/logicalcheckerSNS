@@ -12,8 +12,8 @@ class TweetController extends Controller
 {
     public function index(Request $request) {
         // ToDo: 依存注入
-        $tweets = (new Tweet())->getAllTweets();
-        return view('dashboard', ['tweets' => $tweets]);
+        $tweets = Tweet::all();
+        return response()->json($tweets);
     }
 
     public function store(Tweet $tweet, TweetRequest $request)
