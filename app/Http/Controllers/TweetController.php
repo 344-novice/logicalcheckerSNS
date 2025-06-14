@@ -16,13 +16,22 @@ class TweetController extends Controller
         return response()->json($tweets);
     }
 
-    public function store(Tweet $tweet, TweetRequest $request)
+    public function store(TweetRequest $request)
     {        
-        $tweet = new Tweet();
-        $tweet->user_id = Auth::id(); 
-        $tweet->tweet = $request->input('tweet');
-        $tweet->save();
+        $tweetText = $request->input('tweet');
+        $userId = 1; // 仮で固定ユーザーID
+
+        Tweet::create([
+            'tweet' => $tweetText,
+            'user_id' => $userId,
+            'liked_count' => 0,
+        ]);
+
+        // $tweet = new Tweet();
+        // $tweet->user_id = Auth::id(); 
+        // $tweet->tweet = $request->input('tweet');
+        // $tweet->save();
         
-        return redirect()->route('dashboard');
+        return response()->json(['message' => '投稿成功！']);
     }
 }
