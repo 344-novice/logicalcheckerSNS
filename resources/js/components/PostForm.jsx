@@ -1,14 +1,15 @@
-export default function PostForm() {
+export default function PostForm({ onSubmit }) {
     return (
         <div className="m-10">
-            <form className="flex items-end">
+            <form onSubmit={onSubmit} className="flex items-end">
                 <textarea
-                    className="w-[500px] resize-none"
+                    name="tweet"
                     rows="3"
                     type="text"
                     placeholder="グッドバイブなロジックを組み立てよう！"
+                    className="w-[500px] resize-none"
                 />
-                <button className="ml-5 p-1 w-[50px] border" type="submit">
+                <button type="submit" className="ml-5 p-1 w-[50px] border">
                     投稿
                 </button>
             </form>

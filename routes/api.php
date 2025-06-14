@@ -5,6 +5,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/tweet/index', [TweetController::class, 'index']);
 
-Route::get('/hello', function () {
-    return 'hello api';
-});
+Route::post('/tweet/post', [TweetController::class, 'store']);
+
