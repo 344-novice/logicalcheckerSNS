@@ -5,5 +5,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/tweet/index', [TweetController::class, 'index']);
 
-Route::post('/tweet/post', [TweetController::class, 'store']);
+Route::middleware('auth:sanctum')->post('/tweet/post', [TweetController::class, 'store']);
+
 

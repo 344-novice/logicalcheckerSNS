@@ -1,27 +1,13 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-
-// 一旦index機能を出してみる
-export default function TweetsForm() {
-    const [tweets, setTweets] = useState([]);
-
-    const url = "http://127.0.0.1:8000/api/tweet/index";
-
-    useEffect(() => {
-        (async () => {
-            try {
-                const res = await axios.get(url);
-                console.log("API成功レスポンス", res.data);
-                setTweets(res.data);
-            } catch (e) {
-                console.error("APIエラー", e);
-            }
-        })();
-    }, []);
-
+export default function TweetsForm({ tweets, msg }) {
+    if (msg === "読み込みに失敗しました") {
+        return (
+            <div className="m-5 p-2 text-l text-red-600 dark:text-gray-200 leading-tight">
+                {msg}
+            </div>
+        );
+    }
     return (
         <div>
-            <div></div>
             {tweets.map((tweet) => (
                 <div
                     key={tweet.id}

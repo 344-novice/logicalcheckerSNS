@@ -11,9 +11,11 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{ __("論理チェッカーSNS(仮)へようこそ!") }}
                 </div>
-                <div id="post-form"></div>
             </div>
-            <div id="tweets-form"></div>
+            <div id="app" class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div id="post-form"></div>
+                <div id="tweets-form"></div>
+            </div>
         </div>
     </div>
 </x-app-layout>

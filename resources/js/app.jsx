@@ -1,35 +1,60 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import PostForm from "./components/PostForm";
 import TweetsForm from "./components/TweetsForm";
-import axios from "axios";
 
 const postForm = document.getElementById("post-form");
 const tweetsForm = document.getElementById("tweets-form");
 
-if (postForm) {
-    ReactDOM.createRoot(postForm).render(
-        <PostForm
-            onSubmit={async (e) => {
-                e.preventDefault();
-                const formData = new FormData(e.target);
-                const tweet = formData.get("tweet");
+// ToDo: ステータスコードをTweetController.phpから受け取ってエラー分岐
+export default function App() {
+    const [tweets, setTweets] = useState([]);
+    const [indexErrMsg, setIndexErrMsg] = useState("");
+    const [postErrMsg, setPostErrMsg] = useState("");
 
-                try {
-                    await axios.post(
-                        "/api/tweet/post",
-                        { tweet },
-                        { withCredentials: true }
-                    );
-                    alert("投稿完了！");
-                } catch (err) {
-                    console.error("投稿失敗:", err);
-                }
-            }}
-        />
+    useEffect(() => {
+        const fetchTweets = async () => {
+            const res = await axios.get(
+                "http://127.0.0.1:8000/api/tweet/index"
+            );
+            setTweets(res.data);
+            if (res.status !== 200) {
+                setIndexErrMsg("読み込みに失敗しました");
+            }
+        };
+        fetchTweets();
+    }, []);
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const tweet = formData.get("tweet");
+
+        try {
+            const res = await axios.post(
+                "http://127.0.0.1:8000/api/tweet/post",
+                { tweet },
+                { withCredentials: true }
+            );
+            setTweets((prev) => [res.data, ...prev]);
+            e.target.reset();
+        } catch (err) {
+            if (err.response?.status === 400) {
+                setPostErrMsg("投稿に問題が発生しました");
+            } else if (err.response?.status === 500) {
+                setPostErrMsg("サーバーに問題が発生しました");
+            } else {
+                setPostErrMsg("予期せぬエラーが発生しました");
+            }
+        }
+    };
+
+    return (
+        <>
+            <PostForm onSubmit={onSubmit} msg={postErrMsg} />
+            <TweetsForm tweets={tweets} msg={indexErrMsg} />
+        </>
     );
 }
 
-if (tweetsForm) {
-    ReactDOM.createRoot(tweetsForm).render(<TweetsForm />);
-}
+ReactDOM.createRoot(document.getElementById("app")).render(<App />);
