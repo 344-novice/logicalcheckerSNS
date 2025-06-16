@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tweet;
+use App\Models\User;
 use App\Http\Requests\TweetRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class TweetController extends Controller
 {
@@ -16,22 +16,18 @@ class TweetController extends Controller
         return response()->json($tweets);
     }
 
+    // ToDo: ハードコードでのuserIdをリレーションで取得できるようにする
     public function store(TweetRequest $request)
-    {        
-        $tweetText = $request->input('tweet');
-        $userId = 1; // 仮で固定ユーザーID
+    {   
+        $userId = Auth::id();
 
-        Tweet::create([
-            'tweet' => $tweetText,
+        $tweet = Tweet::create([
+            'tweet' => $request->input('tweet'),
             'user_id' => $userId,
             'liked_count' => 0,
         ]);
-
-        // $tweet = new Tweet();
-        // $tweet->user_id = Auth::id(); 
-        // $tweet->tweet = $request->input('tweet');
-        // $tweet->save();
         
-        return response()->json(['message' => '投稿成功！']);
+        // ToDo:ステータスコードをapp.jsxに送る
+        return response()->json($tweet);
     }
 }
