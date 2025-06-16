@@ -16,7 +16,6 @@ class TweetController extends Controller
         return response()->json($tweets);
     }
 
-    // ToDo: ハードコードでのuserIdをリレーションで取得できるようにする
     public function store(TweetRequest $request)
     {   
         $userId = Auth::id();
@@ -27,7 +26,6 @@ class TweetController extends Controller
             'liked_count' => 0,
         ]);
         
-        // ToDo:ステータスコードをapp.jsxに送る
         return response()->json($tweet);
     }
 }

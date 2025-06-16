@@ -6,15 +6,27 @@ export default function TweetsForm({ tweets, msg }) {
             </div>
         );
     }
+
+    function formatDate(dateString) {
+        return new Date(dateString).toLocaleString();
+    }
+
     return (
         <div>
             {tweets.map((tweet) => (
-                <div
-                    key={tweet.id}
-                    className="m-5 p-2 border text-xl text-gray-800 dark:text-gray-200 leading-tight"
-                >
-                    {tweet.tweet}
-                </div>
+                <>
+                    <div className="m-5 p-2 border" key={tweet.id}>
+                        <div className="text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                            {tweet.tweet}
+                        </div>
+                        <div className="flex justify-end">
+                            ⭐ {formatDate(tweet.created_at)}
+                            <button type="submit" value={"削除"}>
+                                削除
+                            </button>
+                        </div>
+                    </div>
+                </>
             ))}
         </div>
     );
