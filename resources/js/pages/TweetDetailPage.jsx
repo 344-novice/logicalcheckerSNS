@@ -48,7 +48,7 @@ export default function TweetDetailPage() {
                     { tweetId },
                     { withCredentials: true }
                 );
-                window.location.href = "/dashboard";
+                window.location.href = "/home";
             } catch (err) {
                 if (err.response?.status === 400) {
                     alert("投稿に問題が発生しました");

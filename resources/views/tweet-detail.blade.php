@@ -17,6 +17,6 @@
     </div>
 
     <div class="flex justify-end">
-        <a href="dashboard" class="btn">戻る</a>
+        <a href="/home" class="btn">戻る</a>
     </div>
 </x-app-layout>
