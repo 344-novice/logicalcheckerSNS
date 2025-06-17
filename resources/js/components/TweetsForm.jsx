@@ -19,14 +19,19 @@ export default function TweetsForm({ tweets, loginUserId, deleteSubmit, msg }) {
                         {tweet.tweet}
                     </div>
                     <div className="flex justify-end">
-                        {formatDate(tweet.created_at)}
                         <form onSubmit={deleteSubmit}>
+                            <input
+                                type="hidden"
+                                name="tweet_id"
+                                value={tweet.id}
+                            />
                             {tweet.user_id === loginUserId ? (
                                 <button type="submit">削除</button>
                             ) : (
-                                <span>⭐</span>
+                                <span className>⭐</span>
                             )}
                         </form>
+                        {formatDate(tweet.created_at)}
                     </div>
                 </div>
             ))}
