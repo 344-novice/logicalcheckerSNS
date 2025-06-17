@@ -16,6 +16,11 @@ class TweetController extends Controller
         return response()->json($tweets);
     }
 
+    public function loginUserId(Request $request) {
+        $loginUserId = Auth::id();
+        return response()->json($loginUserId);
+    }
+
     public function store(TweetRequest $request)
     {   
         $userId = Auth::id();
