@@ -1,4 +1,4 @@
-export default function TweetsForm({ tweets, msg }) {
+export default function TweetsForm({ tweets, loginUserId, deleteSubmit, msg }) {
     if (msg === "読み込みに失敗しました") {
         return (
             <div className="m-5 p-2 text-l text-red-600 dark:text-gray-200 leading-tight">
@@ -14,19 +14,21 @@ export default function TweetsForm({ tweets, msg }) {
     return (
         <div>
             {tweets.map((tweet) => (
-                <>
-                    <div className="m-5 p-2 border" key={tweet.id}>
-                        <div className="text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                            {tweet.tweet}
-                        </div>
-                        <div className="flex justify-end">
-                            ⭐ {formatDate(tweet.created_at)}
-                            <button type="submit" value={"削除"}>
-                                削除
-                            </button>
-                        </div>
+                <div className="m-5 p-2 border" key={tweet.id}>
+                    <div className="text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                        {tweet.tweet}
                     </div>
-                </>
+                    <div className="flex justify-end">
+                        {formatDate(tweet.created_at)}
+                        <form onSubmit={deleteSubmit}>
+                            {tweet.user_id === loginUserId ? (
+                                <button type="submit">削除</button>
+                            ) : (
+                                <span>⭐</span>
+                            )}
+                        </form>
+                    </div>
+                </div>
             ))}
         </div>
     );

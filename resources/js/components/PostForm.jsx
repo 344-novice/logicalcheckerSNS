@@ -1,13 +1,13 @@
 import { useState } from "react";
 
-export default function PostForm({ onSubmit, postErrMsg }) {
+export default function PostForm({ postSubmit, postErrMsg }) {
     const [str, setStr] = useState("");
 
     const isDisabled = str.trim() === "";
 
     return (
         <div className="m-10">
-            <form onSubmit={onSubmit} className="flex items-end">
+            <form onSubmit={postSubmit} className="flex items-end">
                 <textarea
                     type="text"
                     name="tweet"
