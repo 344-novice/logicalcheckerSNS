@@ -9,3 +9,5 @@ Route::middleware('auth:sanctum')->get('/user/id', [TweetController::class, 'log
 
 Route::middleware('auth:sanctum')->post('/tweet/post', [TweetController::class, 'store']);
 
+Route::middleware('auth:sanctum')->get('/tweet/delete', [TweetController::class, 'delete']);
+Route::middleware('auth:sanctum')->post('/tweet/delete', [TweetController::class, 'delete']);

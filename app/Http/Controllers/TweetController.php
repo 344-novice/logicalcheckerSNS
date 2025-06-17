@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tweet;
-use App\Models\User;
 use App\Http\Requests\TweetRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 
+// ToDo:Tweet数が増えたらページネーションなどの対処
 class TweetController extends Controller
 {
     public function index(Request $request) {
@@ -32,5 +33,15 @@ class TweetController extends Controller
         ]);
         
         return response()->json($tweet);
+    }
+
+    public function delete(Request $request) {
+        $tweetId = $request->input('tweetId');
+        $tweet = Tweet::findOrFail($tweetId, 'id');
+        $tweet->delete_flag = 1;
+        $tweet->save();
+        $notDeletedTweets = Tweet::where('delete_flag', 0)->get();
+
+        return response()->json($notDeletedTweets);
     }
 }
