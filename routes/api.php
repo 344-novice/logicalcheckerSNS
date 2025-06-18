@@ -12,4 +12,4 @@ Route::middleware('auth:sanctum')->post('/tweet/post', [TweetController::class, 
 Route::middleware('auth:sanctum')->get('/tweet/delete', [TweetController::class, 'delete']);
 Route::middleware('auth:sanctum')->post('/tweet/delete', [TweetController::class, 'delete']);
 
-Route::middleware('auth:sanctum')->get('/tweet/detail', [TweetController::class, 'detail']);
+Route::middleware('auth:sanctum')->get('/tweet/detail/{id}', [TweetController::class, 'detail']);
