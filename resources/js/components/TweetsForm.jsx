@@ -7,6 +7,15 @@ export default function TweetsForm({ tweets, loginUserId, deleteSubmit, msg }) {
         );
     }
 
+    const handleTweetClick = (tweetId) => {
+        window.location.href = `/tweet-detail/${tweetId}`;
+    };
+
+    const handleUserClick = (e, userId) => {
+        e.stopPropagation();
+        window.location.href = `/user/${userId}`;
+    };
+
     function formatDate(dateString) {
         return new Date(dateString).toLocaleString();
     }
@@ -14,28 +23,37 @@ export default function TweetsForm({ tweets, loginUserId, deleteSubmit, msg }) {
     return (
         <div>
             {tweets.map((tweet) => (
-                <a href={`/tweet-detail/${tweet.id}`} key={tweet.id}>
-                    <div className="m-5 p-2 border">
+                <div
+                    key={tweet.id}
+                    onClick={() => handleTweetClick(tweet.id)}
+                    className="m-5 p-2 border cursor-pointer"
+                >
+                    <div onClick={(e) => handleUserClick(e, tweet.user_id)}>
                         <p>画像がここにくる</p>
-                        <div className="text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                            {tweet.tweet}
-                        </div>
-                        <p>ロジカルだとマークがつく</p>
-                        <div className="flex justify-end">
-                            <form onSubmit={deleteSubmit}>
-                                {tweet.user_id === loginUserId ? (
-                                    <div>
-                                        <button type="submit">削除</button>
-                                        <span>⭐</span>
-                                    </div>
-                                ) : (
-                                    <span>⭐</span>
-                                )}
-                            </form>
-                            {formatDate(tweet.created_at)}
-                        </div>
                     </div>
-                </a>
+                    <div className="text-xl text-gray-800 dark:text-gray-200 leading-tight">
+                        {tweet.tweet}
+                    </div>
+                    <p>ロジカルだとマークがつく</p>
+                    <div className="flex justify-end">
+                        <form
+                            onSubmit={(e) => {
+                                e.stopPropagation();
+                                deleteSubmit(e);
+                            }}
+                        >
+                            {tweet.user_id === loginUserId ? (
+                                <div>
+                                    <button type="submit">削除</button>
+                                    <span>⭐</span>
+                                </div>
+                            ) : (
+                                <span>⭐</span>
+                            )}
+                        </form>
+                        {formatDate(tweet.created_at)}
+                    </div>
+                </div>
             ))}
         </div>
     );
