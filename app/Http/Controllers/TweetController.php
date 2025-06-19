@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 
 // ToDo:Tweet数が増えたらページネーションなどの対処
+// ToDo: 依存注入
 class TweetController extends Controller
 {
     public function index(Request $request) {
-        // ToDo: 依存注入
         $tweets = Tweet::where('delete_flag', 0)->get();
         return response()->json($tweets);
     }
@@ -45,9 +45,9 @@ class TweetController extends Controller
         return response()->json($notDeletedTweets);
     }
 
-    public function detail(Request $request) {
-        // ToDo: 依存注入
-        $tweet = Tweet::where('id', 40)->first();
-        return response()->json($tweet);
-    }
+public function detail($id) {
+    $tweet = Tweet::where('id', $id)->first();
+
+    return response()->json($tweet);
+}
 }

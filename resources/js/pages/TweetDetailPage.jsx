@@ -7,6 +7,9 @@ export default function TweetDetailPage() {
     const [loginUserId, setLoginUserId] = useState(0);
 
     useEffect(() => {
+        const pathParts = window.location.pathname.split("/");
+        const id = pathParts[pathParts.length - 1];
+
         const fetchData = async () => {
             try {
                 const resUser = await axios.get(
@@ -21,13 +24,15 @@ export default function TweetDetailPage() {
                 setLoginUserId(resUser.data);
 
                 const res = await axios.get(
-                    "http://127.0.0.1:8000/api/tweet/detail"
+                    `http://127.0.0.1:8000/api/tweet/detail/${id}`,
+                    { withCredentials: true }
                 );
 
                 if (res.status !== 200) {
                     setMsg("読み込みに失敗しました");
                     return;
                 }
+
                 setTweet(res.data);
             } catch (error) {
                 setMsg("読み込みに失敗しました");
@@ -38,9 +43,10 @@ export default function TweetDetailPage() {
 
     const deleteSubmit = async (e) => {
         e.preventDefault();
-        const tweetId = 42;
 
+        const tweetId = tweet.id;
         const result = window.confirm("ツイートを削除しますか？");
+
         if (result) {
             try {
                 const res = await axios.post(
