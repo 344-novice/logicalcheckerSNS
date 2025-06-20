@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import UserForm from "../components/UserForm";
 
-export default function UserPage({ userId }) {
+export default function UserPage({ id, loginUserId }) {
     const [res, setRes] = useState([]);
     const [errMsg, setErrMsg] = useState("");
 
@@ -9,7 +9,7 @@ export default function UserPage({ userId }) {
         const fetchData = async () => {
             try {
                 const res = await axios.get(
-                    `http://127.0.0.1:8000/api/user/${userId}`,
+                    `http://127.0.0.1:8000/api/user/${id}`,
                     { withCredentials: true }
                 );
 
@@ -29,7 +29,7 @@ export default function UserPage({ userId }) {
 
     return (
         <>
-            <UserForm user={res} msg={errMsg} />
+            <UserForm user={res} loginUserId={loginUserId} msg={errMsg} />
         </>
     );
 }

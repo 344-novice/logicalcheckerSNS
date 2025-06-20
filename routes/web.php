@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,12 +17,13 @@ Route::get('/tweet-detail/{id}', function ($id) {
 })->where('id', '[0-9]+'); 
 
 Route::get('/mypage', function () {
-    return view('user');
-})->name('mypage'); 
+    return view('user', [
+        'id' => Auth::id()
+    ]);
+})->middleware('auth')->name('mypage');
 
-// ToDo: ログイン中のユーザーの詳細ページに飛んだらパス名をmypageに切り替え
 Route::get('/user/{id}', function ($id) {
-    return view('user', ['id' => $id]);
+    return view('user', ['id' => $id, 'loginUserId' => Auth::id()]);
 })->where('id', '[0-9]+')->name('user');
 
 Route::middleware('auth')->group(function () {
