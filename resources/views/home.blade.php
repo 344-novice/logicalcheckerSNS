@@ -12,7 +12,7 @@
                     {{ __("論理チェッカーSNS(仮)へようこそ!") }}
                 </div>
             </div>
-            <div id="home-page" class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div id="home-page" data-login-user-id="{{ $loginUserId }}" class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div id="post-form"></div>
                 <div id="tweets-form"></div>
             </div>

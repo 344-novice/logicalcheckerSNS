@@ -14,4 +14,12 @@ class UserController extends Controller
 
         return response()->json($user);
     }
+
+    public function updateThumbnail(Request $request, $id) {
+        $user = User::findOrFail($id);
+        $user->image = $request->input('img');
+        $user->save();
+
+        return response()->json();
+    }
 }

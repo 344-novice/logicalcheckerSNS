@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import PostForm from "../components/PostForm";
 import TweetsForm from "../components/TweetsForm";
 
-export default function HomePage() {
+export default function HomePage({ id }) {
     const [tweets, setTweets] = useState([]);
     const [loginUserId, setLoginUserId] = useState(0);
+    const [userImage, setUserImage] = useState("");
     const [indexErrMsg, setIndexErrMsg] = useState("");
     const [postErrMsg, setPostErrMsg] = useState("");
 
@@ -12,7 +13,7 @@ export default function HomePage() {
         const fetchData = async () => {
             try {
                 const resUser = await axios.get(
-                    "http://127.0.0.1:8000/api/user/id"
+                    `http://127.0.0.1:8000/api/user/${id}`
                 );
 
                 if (resUser.status !== 200) {
@@ -20,7 +21,7 @@ export default function HomePage() {
                     return;
                 }
 
-                setLoginUserId(resUser.data);
+                setLoginUserId(resUser.id);
 
                 const resTweets = await axios.get(
                     "http://127.0.0.1:8000/api/tweet/index"

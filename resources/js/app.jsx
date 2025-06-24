@@ -17,7 +17,10 @@ if (detailRoot) {
 const userRoot = document.getElementById("user-page");
 if (userRoot) {
     const userId = userRoot.dataset.userId;
-    ReactDOM.createRoot(userRoot).render(<UserPage userId={userId} />);
+    const loginUserId = userRoot.dataset.loginUserId;
+    ReactDOM.createRoot(userRoot).render(
+        <UserPage id={userId} loginUserId={loginUserId} />
+    );
 }
 
 const userPageNameRoot = document.getElementById("user-page-name");

@@ -15,7 +15,10 @@ export default function TweetDetail({ tweet, msg, loginUserId, deleteSubmit }) {
         <div className="m-5 p-2 border">
             <div className="text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 <div className="m-5 p-2 border" key={tweet.id}>
-                    <p>画像がここにくる</p>
+                    <img
+                        src={tweet?.user?.image && tweet.user.image}
+                        alt="サムネ"
+                    />
                     <div className="text-xl text-gray-800 dark:text-gray-200 leading-tight">
                         {tweet.tweet}
                     </div>

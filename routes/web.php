@@ -9,7 +9,7 @@ Route::get('/', function () {
 });
 
 Route::get('/home', function () {
-    return view('home');
+    return view('home', ['loginUserId' => Auth::id()]);
 })->middleware('auth')->name('home');
 
 Route::get('/tweet-detail/{id}', function ($id) {
@@ -18,7 +18,7 @@ Route::get('/tweet-detail/{id}', function ($id) {
 
 Route::get('/mypage', function () {
     return view('user', [
-        'id' => Auth::id()
+        'id' => Auth::id(), 'loginUserId' => Auth::id()
     ]);
 })->middleware('auth')->name('mypage');
 

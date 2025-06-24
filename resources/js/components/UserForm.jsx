@@ -1,3 +1,5 @@
+import UserImageUploader from "../pages/UserImageUploader";
+
 export default function UserForm({ user, loginUserId, msg }) {
     if (msg === "読み込みに失敗しました") {
         return (
@@ -10,18 +12,16 @@ export default function UserForm({ user, loginUserId, msg }) {
     return (
         <div key={user.id}>
             <div className="m-5 p-2 border">
-                {/* ToDo: 画像登録機能 */}
-                <p>画像がここにくる</p>
+                <img src={user.image} alt="サムネ" />
                 <div className="text-xl text-gray-800 dark:text-gray-200 leading-tight">
                     {user.name}
                 </div>
                 <p>ロジカルだとマークがつく</p>
                 <div className="flex justify-end">
-                    {user.id === loginUserId ? (
-                        <div>
-                            <button type="submit">画像投稿</button>
-                        </div>
-                    ) : null}
+                    {/* ToDo: この表記に他も揃える */}
+                    {Number(user.id) === Number(loginUserId) && (
+                        <UserImageUploader id={user.id} />
+                    )}
                 </div>
             </div>
         </div>
