@@ -13,7 +13,8 @@ export default function TweetDetailPage() {
         const fetchData = async () => {
             try {
                 const resUser = await axios.get(
-                    "http://127.0.0.1:8000/api/user/id"
+                    `http://127.0.0.1:8000/api/user/${id}`,
+                    { withCredentials: true }
                 );
 
                 if (resUser.status !== 200) {
@@ -21,7 +22,7 @@ export default function TweetDetailPage() {
                     return;
                 }
 
-                setLoginUserId(resUser.data);
+                setLoginUserId(resUser.id);
 
                 const res = await axios.get(
                     `http://127.0.0.1:8000/api/tweet/detail/${id}`,

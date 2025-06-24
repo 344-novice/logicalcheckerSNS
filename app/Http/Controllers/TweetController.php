@@ -12,14 +12,14 @@ use Illuminate\Support\Facades\Schema;
 // ToDo: 依存注入
 class TweetController extends Controller
 {
-    public function index(Request $request) {
-        $tweets = Tweet::where('delete_flag', 0)->get();
-        return response()->json($tweets);
-    }
+    public function index(Request $request)
+    {
+        $tweets = Tweet::with('user')
+            ->where('delete_flag', 0)
+            ->latest()
+            ->get();
 
-    public function loginUserId(Request $request) {
-        $loginUserId = Auth::id();
-        return response()->json($loginUserId);
+        return response()->json($tweets);
     }
 
     public function store(TweetRequest $request)
@@ -45,9 +45,11 @@ class TweetController extends Controller
         return response()->json($notDeletedTweets);
     }
 
-public function detail($id) {
-    $tweet = Tweet::where('id', $id)->first();
+    public function detail(Request $request, $id) {
+        $tweet = Tweet::with('user')
+            ->where('id', $id)
+            ->first();
 
-    return response()->json($tweet);
-}
+        return response()->json($tweet);
+    }
 }

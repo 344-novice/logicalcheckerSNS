@@ -29,7 +29,7 @@ export default function TweetsForm({ tweets, loginUserId, deleteSubmit, msg }) {
                     className="m-5 p-2 border cursor-pointer"
                 >
                     <div onClick={(e) => handleUserClick(e, tweet.user_id)}>
-                        <p>画像がここにくる</p>
+                        <img src={tweet.user.image} alt="サムネ" />
                     </div>
                     <div className="text-xl text-gray-800 dark:text-gray-200 leading-tight">
                         {tweet.tweet}
