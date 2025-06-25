@@ -51,7 +51,7 @@ export default function UserImageUploader({ id }) {
 
             const patch = await axios.patch(
                 `http://127.0.0.1:8000/api/user/${id}/thumbnail`,
-                { img: data.secure_url },
+                { image: data.secure_url },
                 { withCredentials: true }
             );
         } catch (error) {

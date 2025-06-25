@@ -42,7 +42,7 @@ export default function TweetsForm({ tweets, loginUserId, deleteSubmit, msg }) {
                                 deleteSubmit(e);
                             }}
                         >
-                            {tweet.user_id === loginUserId ? (
+                            {Number(tweet.user_id) === Number(loginUserId) ? (
                                 <div>
                                     <button type="submit">削除</button>
                                     <span>⭐</span>

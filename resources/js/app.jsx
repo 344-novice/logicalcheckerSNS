@@ -6,12 +6,18 @@ import UserPage from "./pages/UserPage";
 
 const homeRoot = document.getElementById("home-page");
 if (homeRoot) {
-    ReactDOM.createRoot(homeRoot).render(<HomePage />);
+    const loginUserId = homeRoot.dataset.loginUserId;
+    ReactDOM.createRoot(homeRoot).render(
+        <HomePage loginUserId={loginUserId} />
+    );
 }
 
 const detailRoot = document.getElementById("tweet-detail-page");
 if (detailRoot) {
-    ReactDOM.createRoot(detailRoot).render(<TweetDetailPage />);
+    const loginUserId = detailRoot.dataset.loginUserId;
+    ReactDOM.createRoot(detailRoot).render(
+        <TweetDetailPage loginUserId={loginUserId} />
+    );
 }
 
 const userRoot = document.getElementById("user-page");

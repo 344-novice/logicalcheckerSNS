@@ -19,10 +19,13 @@ class TweetRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+
+    // ToDO: tweetの文字数制限
     public function rules(): array
     {
         return [
-            'tweet' => 'required'
+            'tweet' => ['required', 'string',],
+            'image_path' => ['nullable', 'url'], 
         ];
     }
 }
