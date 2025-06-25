@@ -7,11 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class Tweet extends Model
 {
-    public function getAllTweets()
-    {
-        return DB::table('tweets')->pluck('tweet');
-    }
-
     protected $fillable = [
         'user_id',
         'tweet',

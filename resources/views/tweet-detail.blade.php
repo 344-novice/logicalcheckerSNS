@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     {{ __("投稿詳細") }}
                 </div>
-                <div id="tweet-detail-page"></div>
+                <div id="tweet-detail-page" data-login-user-id="{{ $loginUserId }}"></div>
             </div>
         </div>
     </div>

@@ -13,7 +13,9 @@ Route::get('/home', function () {
 })->middleware('auth')->name('home');
 
 Route::get('/tweet-detail/{id}', function ($id) {
-    return view('tweet-detail');
+    return view('tweet-detail', [
+        'loginUserId' => Auth::id(),
+    ]);
 })->where('id', '[0-9]+'); 
 
 Route::get('/mypage', function () {

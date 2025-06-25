@@ -31,7 +31,7 @@ export default function TweetDetail({ tweet, msg, loginUserId, deleteSubmit }) {
             </div>
             <div className="flex justify-end">
                 <form onSubmit={deleteSubmit}>
-                    {tweet.user_id === loginUserId ? (
+                    {Number(tweet.user_id) === Number(loginUserId) ? (
                         <button type="submit">削除</button>
                     ) : null}
                 </form>

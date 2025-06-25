@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import TweetDetail from "../components/TweetDetail";
 
-export default function TweetDetailPage() {
+export default function TweetDetailPage({ loginUserId }) {
     const [tweet, setTweet] = useState([]);
     const [msg, setMsg] = useState("");
-    const [loginUserId, setLoginUserId] = useState(0);
 
     useEffect(() => {
         const pathParts = window.location.pathname.split("/");
@@ -12,18 +11,6 @@ export default function TweetDetailPage() {
 
         const fetchData = async () => {
             try {
-                const resUser = await axios.get(
-                    `http://127.0.0.1:8000/api/user/${id}`,
-                    { withCredentials: true }
-                );
-
-                if (resUser.status !== 200) {
-                    setIndexErrMsg("読み込みに失敗しました");
-                    return;
-                }
-
-                setLoginUserId(resUser.id);
-
                 const res = await axios.get(
                     `http://127.0.0.1:8000/api/tweet/detail/${id}`,
                     { withCredentials: true }
