@@ -19,7 +19,27 @@ class TweetController extends Controller
             ->latest()
             ->get();
 
-        return response()->json($tweets);
+        // ToDo: Resourceファイルに分ける
+        $formattedTweets = $tweets->map(function ($tweet) {
+            $tweetArray = $tweet->toArray();
+
+            if (!empty($tweet->user->image)) {
+                $originalUrl = $tweet->user->image;
+                $transform = 'w_100,h_100,c_fill,q_auto,f_auto';
+
+                $transformedUrl = str_replace(
+                    '/upload/',
+                    '/upload/' . $transform . '/',
+                    $originalUrl
+                );
+
+                $tweetArray['user']['image'] = $transformedUrl;
+            }
+
+            return $tweetArray;
+        });
+
+        return response()->json($formattedTweets);
     }
 
     public function store(TweetRequest $request)
@@ -31,7 +51,22 @@ class TweetController extends Controller
             'user_id' => $userId,
             'liked_count' => 0,
         ]);
-        
+
+        $tweet->load('user');
+
+        if (!empty($tweet->user->image)) {
+            $originalUrl = $tweet->user->image;
+            $transform = 'w_150,h_150,c_fill,q_auto,f_auto';
+
+            $transformedUrl = str_replace(
+                '/upload/',
+                '/upload/' . $transform . '/',
+                $originalUrl
+            );
+
+            $tweet->user->image = $transformedUrl;
+        }
+            
         return response()->json($tweet);
     }
 
@@ -40,9 +75,28 @@ class TweetController extends Controller
         $tweet = Tweet::findOrFail($tweetId, 'id');
         $tweet->delete_flag = 1;
         $tweet->save();
-        $notDeletedTweets = Tweet::where('delete_flag', 0)->get();
 
-        return response()->json($notDeletedTweets);
+        $tweets = Tweet::with('user')
+            ->where('delete_flag', 0)
+            ->latest()
+            ->get();
+
+        $formattedTweets = $tweets->map(function ($tweet) {
+            $tweetArray = $tweet->toArray();
+
+            if (!empty($tweet->user->image)) {
+                $tweetArray['user']['image'] = str_replace(
+                    '/upload/',
+                    '/upload/w_100,h_100,c_fill,q_auto,f_auto/',
+                    $tweet->user->image
+                );
+            }
+
+            return $tweetArray;
+        }
+    );
+
+    return response()->json($formattedTweets);
     }
 
     public function detail(Request $request, $id) {
@@ -50,6 +104,21 @@ class TweetController extends Controller
             ->where('id', $id)
             ->first();
 
-        return response()->json($tweet);
+        $tweetData = $tweet->toArray();
+
+        if (!empty($tweet->user->image)) {
+            $originalUrl = $tweet->user->image;
+            $transform = 'w_200,h_200,c_fill,q_auto,f_auto';
+
+            $transformedUrl = str_replace(
+                '/upload/',
+                '/upload/' . $transform . '/',
+                $originalUrl
+            );
+
+            $tweetData['user']['image'] = $transformedUrl;
+        }
+
+        return response()->json($tweetData);
     }
 }

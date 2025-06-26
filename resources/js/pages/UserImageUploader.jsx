@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 
-export default function UserImageUploader({ id }) {
+// ToDo: アップロード成功の表示
+export default function UserImageUploader({ userId, onUploaded }) {
     const [file, setFile] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
@@ -23,7 +24,7 @@ export default function UserImageUploader({ id }) {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", preset);
-        formData.append("folder", `portfolio/user/${id}`);
+        formData.append("folder", `portfolio/user/${userId}`);
 
         try {
             const response = await fetch(url, {
@@ -41,7 +42,7 @@ export default function UserImageUploader({ id }) {
             setErrorMsg(null);
 
             const res = await axios.get(
-                `http://127.0.0.1:8000/api/user/${id}`,
+                `http://127.0.0.1:8000/api/user/${userId}`,
                 { withCredentials: true }
             );
 
@@ -50,10 +51,12 @@ export default function UserImageUploader({ id }) {
             });
 
             const patch = await axios.patch(
-                `http://127.0.0.1:8000/api/user/${id}/thumbnail`,
+                `http://127.0.0.1:8000/api/user/${userId}/thumbnail`,
                 { image: data.secure_url },
                 { withCredentials: true }
             );
+
+            if (onUploaded) onUploaded();
         } catch (error) {
             setErrorMsg("投稿に失敗しました: ");
         }
@@ -66,7 +69,6 @@ export default function UserImageUploader({ id }) {
             {errorMsg && (
                 <p style={{ color: "red", marginTop: "10px" }}>{errorMsg}</p>
             )}
-            {imageUrl && <img src={imageUrl} alt="ユーザーサムネイル" />}
         </div>
     );
 }
