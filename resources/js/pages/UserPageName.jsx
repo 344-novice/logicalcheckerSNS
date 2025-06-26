@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 
-export default function UserPageName({ id, loginUserId }) {
+export default function UserPageName({ userId, loginUserId }) {
     const [userPageName, setUserPageName] = useState("User");
 
     useEffect(() => {
-        if (location.pathname === "/mypage" || id === loginUserId) {
+        if (
+            location.pathname === "/mypage" ||
+            Number(userId) === Number(loginUserId)
+        ) {
             setUserPageName("MyPage");
         }
     }, []);

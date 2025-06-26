@@ -25,11 +25,15 @@ if (userRoot) {
     const userId = userRoot.dataset.userId;
     const loginUserId = userRoot.dataset.loginUserId;
     ReactDOM.createRoot(userRoot).render(
-        <UserPage id={userId} loginUserId={loginUserId} />
+        <UserPage userId={userId} loginUserId={loginUserId} />
     );
 }
 
 const userPageNameRoot = document.getElementById("user-page-name");
 if (userPageNameRoot) {
-    ReactDOM.createRoot(userPageNameRoot).render(<UserPageName />);
+    const userId = userPageNameRoot.dataset.userId;
+    const loginUserId = userPageNameRoot.dataset.loginUserId;
+    ReactDOM.createRoot(userPageNameRoot).render(
+        <UserPageName userId={userId} loginUserId={loginUserId} />
+    );
 }

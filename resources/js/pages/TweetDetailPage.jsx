@@ -59,9 +59,9 @@ export default function TweetDetailPage({ loginUserId }) {
         <>
             <TweetDetail
                 tweet={tweet}
-                msg={msg}
                 loginUserId={loginUserId}
                 deleteSubmit={deleteSubmit}
+                msg={msg}
             />
         </>
     );

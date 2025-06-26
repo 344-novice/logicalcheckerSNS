@@ -1,4 +1,4 @@
-export default function TweetDetail({ tweet, msg, loginUserId, deleteSubmit }) {
+export default function TweetDetail({ tweet, loginUserId, deleteSubmit, msg }) {
     if (msg === "読み込みに失敗しました") {
         return (
             <div className="m-5 p-2 text-l text-red-600 dark:text-gray-200 leading-tight">
