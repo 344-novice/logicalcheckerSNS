@@ -5,18 +5,22 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="pt-12 pb-5">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("投稿詳細") }}
-                </div>
                 <div id="tweet-detail-page" data-login-user-id="{{ $loginUserId }}"></div>
             </div>
         </div>
     </div>
 
-    <div class="flex justify-end">
-        <a href="/home" class="btn">戻る</a>
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="flex justify-end">
+            <a
+            href="/home"
+            class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition"
+            >
+            ← 戻る
+            </a>
+        </div>
     </div>
 </x-app-layout>

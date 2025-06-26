@@ -1,20 +1,20 @@
 import { useState } from "react";
 
-export default function PostForm({ postSubmit, postErrMsg }) {
+export default function PostForm({ postSubmit }) {
     const [str, setStr] = useState("");
 
     const isDisabled = str.trim() === "";
 
     return (
-        <div className="m-10">
+        <div className="mb-10">
             <form onSubmit={postSubmit} className="flex items-end">
                 <textarea
                     type="text"
                     name="tweet"
-                    rows="3"
+                    rows="7"
                     placeholder="グッドバイブなロジックを組み立てよう！"
                     onChange={(e) => setStr(e.target.value)}
-                    className="w-[500px] resize-none"
+                    className="h-[180px] w-[800px] resize-none border-2 border-green-500"
                 />
                 <button
                     type="submit"
@@ -27,7 +27,6 @@ export default function PostForm({ postSubmit, postErrMsg }) {
                     投稿
                 </button>
             </form>
-            <div className="text-red-600">{postErrMsg}</div>
         </div>
     );
 }

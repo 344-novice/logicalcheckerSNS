@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 
-// ToDo:Tweet数が増えたらページネーションなどの対処
-// ToDo: 依存注入
 class TweetController extends Controller
 {
     public function index(Request $request)
@@ -19,7 +17,6 @@ class TweetController extends Controller
             ->latest()
             ->get();
 
-        // ToDo: Resourceファイルに分ける
         $formattedTweets = $tweets->map(function ($tweet) {
             $tweetArray = $tweet->toArray();
 
@@ -56,7 +53,7 @@ class TweetController extends Controller
 
         if (!empty($tweet->user->image)) {
             $originalUrl = $tweet->user->image;
-            $transform = 'w_150,h_150,c_fill,q_auto,f_auto';
+            $transform = 'w_100,h_100,c_fill,q_auto,f_auto';
 
             $transformedUrl = str_replace(
                 '/upload/',

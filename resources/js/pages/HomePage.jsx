@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
+import { toast, Toaster } from "sonner";
+import axios from "axios";
 import PostForm from "../components/PostForm";
 import TweetsForm from "../components/TweetsForm";
+import DeleteConfirmDialog from "@/components/DeleteConfirmDialog";
 
 export default function HomePage({ loginUserId }) {
     const [tweets, setTweets] = useState([]);
-    const [userImage, setUserImage] = useState("");
+    const [isOpen, setIsOpen] = useState(false);
+    const [targetTweetId, setTargetTweetId] = useState(null);
     const [indexErrMsg, setIndexErrMsg] = useState("");
-    const [postErrMsg, setPostErrMsg] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -35,58 +38,64 @@ export default function HomePage({ loginUserId }) {
         const tweet = formData.get("tweet");
 
         try {
-            const res = await axios.post(
+            const resPostTweet = await axios.post(
                 "http://127.0.0.1:8000/api/tweet/post",
                 { tweet },
                 { withCredentials: true }
             );
-            setTweets((prev) => [res.data, ...prev]);
+            setTweets((prev) => [resPostTweet.data, ...prev]);
+            toast.success("投稿完了しました");
             e.target.reset();
         } catch (err) {
             if (err.response?.status === 400) {
-                setPostErrMsg("投稿に問題が発生しました");
+                toast.error("投稿に問題が発生しました");
             } else if (err.response?.status === 500) {
-                setPostErrMsg("サーバーに問題が発生しました");
+                toast.error("サーバーに問題が発生しました");
             } else {
-                setPostErrMsg("予期せぬエラーが発生しました");
+                toast.error("予期せぬエラーが発生しました");
             }
         }
     };
 
-    const deleteSubmit = async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const tweetId = formData.get("tweet_id");
-
-        const result = window.confirm("ツイートを削除しますか？");
-        if (result) {
-            try {
-                const res = await axios.post(
-                    "http://127.0.0.1:8000/api/tweet/delete",
-                    { tweetId },
-                    { withCredentials: true }
-                );
-                setTweets(res.data);
-            } catch (err) {
-                if (err.response?.status === 400) {
-                    alert("投稿に問題が発生しました");
-                } else if (err.response?.status === 500) {
-                    alert("サーバーに問題が発生しました");
-                } else {
-                    alert("予期せぬエラーが発生しました");
-                }
+    const deleteSubmit = async (tweetId) => {
+        try {
+            const resDeleteTweet = await axios.post(
+                "http://127.0.0.1:8000/api/tweet/delete",
+                { tweetId },
+                { withCredentials: true }
+            );
+            setTweets(resDeleteTweet.data);
+            toast.success("削除が完了しました");
+        } catch (err) {
+            if (err.response?.status === 400) {
+                toast.error("投稿に問題が発生しました");
+            } else if (err.response?.status === 500) {
+                toast.error("サーバーに問題が発生しました");
+            } else {
+                toast.error("予期せぬエラーが発生しました");
             }
         }
+    };
+
+    const openConfirmDialog = (tweetId) => {
+        setTargetTweetId(tweetId);
+        setIsOpen(true);
     };
 
     return (
         <>
-            <PostForm postSubmit={postSubmit} msg={postErrMsg} />
+            <Toaster position="top-center" />
+            <PostForm postSubmit={postSubmit} />
             <TweetsForm
                 tweets={tweets}
                 loginUserId={loginUserId}
-                deleteSubmit={deleteSubmit}
+                deleteSubmit={openConfirmDialog}
                 msg={indexErrMsg}
+            />
+            <DeleteConfirmDialog
+                isOpen={isOpen}
+                onClose={() => setIsOpen(false)}
+                onConfirm={() => deleteSubmit(targetTweetId)}
             />
         </>
     );
