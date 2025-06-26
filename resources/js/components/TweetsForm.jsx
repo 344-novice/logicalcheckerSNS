@@ -29,7 +29,7 @@ export default function TweetsForm({ tweets, loginUserId, deleteSubmit, msg }) {
                     className="m-5 p-2 border cursor-pointer"
                 >
                     <div onClick={(e) => handleUserClick(e, tweet.user_id)}>
-                        <img src={tweet.user.image} alt="サムネ" />
+                        <img src={tweet.user?.image} alt="サムネ" />
                     </div>
                     <div className="text-xl text-gray-800 dark:text-gray-200 leading-tight">
                         {tweet.tweet}
@@ -38,13 +38,20 @@ export default function TweetsForm({ tweets, loginUserId, deleteSubmit, msg }) {
                     <div className="flex justify-end">
                         <form
                             onSubmit={(e) => {
-                                e.stopPropagation();
-                                deleteSubmit(e);
+                                deleteSubmit(tweet.id);
                             }}
                         >
                             {Number(tweet.user_id) === Number(loginUserId) ? (
                                 <div>
-                                    <button type="submit">削除</button>
+                                    <button
+                                        type="button"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            deleteSubmit(tweet.id);
+                                        }}
+                                    >
+                                        削除
+                                    </button>
                                     <span>⭐</span>
                                 </div>
                             ) : (

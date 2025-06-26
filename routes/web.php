@@ -20,12 +20,12 @@ Route::get('/tweet-detail/{id}', function ($id) {
 
 Route::get('/mypage', function () {
     return view('user', [
-        'id' => Auth::id(), 'loginUserId' => Auth::id()
+        'userId' => Auth::id(), 'loginUserId' => Auth::id()
     ]);
 })->middleware('auth')->name('mypage');
 
 Route::get('/user/{id}', function ($id) {
-    return view('user', ['id' => $id, 'loginUserId' => Auth::id()]);
+    return view('user', ['userId' => $id, 'loginUserId' => Auth::id()]);
 })->where('id', '[0-9]+')->name('user');
 
 Route::middleware('auth')->group(function () {
