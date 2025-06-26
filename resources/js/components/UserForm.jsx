@@ -1,6 +1,6 @@
 import UserImageUploader from "../pages/UserImageUploader";
 
-export default function UserForm({ user, loginUserId, msg }) {
+export default function UserForm({ user, loginUserId, fetchUserAgain, msg }) {
     if (msg === "読み込みに失敗しました") {
         return (
             <div className="m-5 p-2 text-l text-red-600 dark:text-gray-200 leading-tight">
@@ -18,9 +18,11 @@ export default function UserForm({ user, loginUserId, msg }) {
                 </div>
                 <p>ロジカルだとマークがつく</p>
                 <div className="flex justify-end">
-                    {/* ToDo: この表記に他も揃える */}
                     {Number(user.id) === Number(loginUserId) && (
-                        <UserImageUploader id={user.id} />
+                        <UserImageUploader
+                            userId={user.id}
+                            onUploaded={fetchUserAgain}
+                        />
                     )}
                 </div>
             </div>
