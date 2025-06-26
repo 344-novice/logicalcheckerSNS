@@ -1,23 +1,20 @@
 import axios from "axios";
+import { toast, Toaster } from "sonner";
 import { useState } from "react";
 
-// ToDo: アップロード成功の表示
 export default function UserImageUploader({ userId, onUploaded }) {
     const [file, setFile] = useState(null);
-    const [imageUrl, setImageUrl] = useState(null);
-    const [errorMsg, setErrorMsg] = useState(null);
 
     const url = import.meta.env.VITE_CLOUDINARY_URL;
     const preset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
-        setErrorMsg(null);
     };
 
     const handleUpload = async () => {
         if (!file) {
-            setErrorMsg("ファイルが選択されていません");
+            toast.error("ファイルが選択されていません");
             return;
         }
 
@@ -33,42 +30,52 @@ export default function UserImageUploader({ userId, onUploaded }) {
             });
 
             if (!response.ok) {
-                setErrorMsg("アップロードに失敗しました");
+                toast.error("アップロードに失敗しました");
                 return;
             }
 
             const data = await response.json();
-            setImageUrl(data.secure_url);
-            setErrorMsg(null);
 
-            const res = await axios.get(
-                `http://127.0.0.1:8000/api/user/${userId}`,
-                { withCredentials: true }
-            );
+            await axios.get(`http://127.0.0.1:8000/api/user/${userId}`, {
+                withCredentials: true,
+            });
 
             await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
                 credentials: "include",
             });
 
-            const patch = await axios.patch(
+            await axios.patch(
                 `http://127.0.0.1:8000/api/user/${userId}/thumbnail`,
                 { image: data.secure_url },
                 { withCredentials: true }
             );
 
             if (onUploaded) onUploaded();
+            toast.success("画像を更新しました");
         } catch (error) {
-            setErrorMsg("投稿に失敗しました: ");
+            toast.error("アップロードに失敗しました: ");
         }
     };
 
     return (
-        <div>
-            <input type="file" onChange={handleFileChange} />
-            <button onClick={handleUpload}>アップロード</button>
-            {errorMsg && (
-                <p style={{ color: "red", marginTop: "10px" }}>{errorMsg}</p>
-            )}
-        </div>
+        <>
+            <Toaster position="top-center" />
+            <div className="flex flex-col space-y-3">
+                <label className="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition inline-block">
+                    サムネイルを選択
+                    <input
+                        type="file"
+                        onChange={handleFileChange}
+                        className="hidden"
+                    />
+                </label>
+                <button
+                    onClick={handleUpload}
+                    className="w-40 px-4 py-2 text-sm text-center border border-black bg-gray-50 text-black rounded hover:bg-black hover:text-white transition"
+                >
+                    アップロード
+                </button>
+            </div>
+        </>
     );
 }

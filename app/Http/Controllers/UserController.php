@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 
-// ToDo: 依存注入
 class UserController extends Controller
 {
     public function showUser($id)
