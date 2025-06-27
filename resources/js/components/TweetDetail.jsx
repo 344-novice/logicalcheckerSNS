@@ -26,8 +26,11 @@ export default function TweetDetail({ tweet, loginUserId, deleteSubmit, msg }) {
                     <img
                         src={tweet.user?.image}
                         alt="サムネ"
-                        className="mr-5 w-40 h-40 object-cover"
+                        className="mb-2 w-40 h-40 object-cover"
                     />
+                    <div className="text-xl hover:text-blue-500 cursor-pointer text-center">
+                        <p>{tweet.user.name}</p>
+                    </div>
                 </div>
                 <div className="ml-5 text-xl text-gray-800 dark:text-gray-200 leading-tight break-words">
                     {tweet.tweet}
