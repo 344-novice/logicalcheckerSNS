@@ -24,7 +24,7 @@ export default function TweetsForm({ tweets, loginUserId, deleteSubmit, msg }) {
         <div>
             {tweets.map((tweet) => (
                 <div key={tweet.id} className="my-5 p-5 border rounded">
-                    <div className="flex items-start relative mb-5">
+                    <div className="flex items-start relative mb-3">
                         <div
                             onClick={(e) => handleUserClick(e, tweet.user_id)}
                             className="flex-shrink-0"
@@ -32,8 +32,11 @@ export default function TweetsForm({ tweets, loginUserId, deleteSubmit, msg }) {
                             <img
                                 src={tweet.user?.image}
                                 alt="サムネ"
-                                className="w-30 h-30 cursor-pointer object-cover"
+                                className="mb-2 w-30 h-30 cursor-pointer object-cover"
                             />
+                            <div className="hover:text-blue-500 cursor-pointer text-center">
+                                <p>{tweet.user.name}</p>
+                            </div>
                         </div>
                         <div
                             onClick={() => handleTweetClick(tweet.id)}
