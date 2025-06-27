@@ -4,12 +4,17 @@ import { useState } from "react";
 
 export default function UserImageUploader({ userId, onUploaded }) {
     const [file, setFile] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState(null);
 
     const url = import.meta.env.VITE_CLOUDINARY_URL;
     const preset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
     const handleFileChange = (e) => {
-        setFile(e.target.files[0]);
+        const selectedFile = e.target.files[0];
+        if (!selectedFile) return;
+
+        setFile(selectedFile);
+        setPreviewUrl(URL.createObjectURL(selectedFile));
     };
 
     const handleUpload = async () => {
@@ -51,6 +56,8 @@ export default function UserImageUploader({ userId, onUploaded }) {
             );
 
             if (onUploaded) onUploaded();
+            setFile(null);
+            setPreviewUrl(null);
             toast.success("画像を更新しました");
         } catch (error) {
             toast.error("アップロードに失敗しました: ");
@@ -61,7 +68,7 @@ export default function UserImageUploader({ userId, onUploaded }) {
         <>
             <Toaster position="top-center" />
             <div className="flex flex-col space-y-3">
-                <label className="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition inline-block">
+                <label className="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition inline-block w-40 text-center">
                     サムネイルを選択
                     <input
                         type="file"
@@ -75,6 +82,15 @@ export default function UserImageUploader({ userId, onUploaded }) {
                 >
                     アップロード
                 </button>
+                {file && (
+                    <div>
+                        <img
+                            src={previewUrl}
+                            alt="プレビュー"
+                            className="mt-5 w-40 h-40 border-2 border-gray-400 object-cover block"
+                        />
+                    </div>
+                )}
             </div>
         </>
     );

@@ -8,7 +8,7 @@ export default function DeleteConfirmDialog({ isOpen, onClose, onConfirm }) {
             className="fixed z-50 inset-0 flex items-center justify-center"
         >
             <div
-                className="fixed inset-0 bg-black/30 pointer-events-none"
+                className="fixed inset-0 bg-black/30 pointer-events-none z-40"
                 aria-hidden="true"
             />
             <Dialog.Panel className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-sm mx-auto shadow-lg z-50">

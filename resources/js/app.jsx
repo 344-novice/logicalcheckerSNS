@@ -3,6 +3,8 @@ import UserPageName from "./pages/UserPageName";
 import HomePage from "./pages/HomePage";
 import TweetDetailPage from "./pages/TweetDetailPage";
 import UserPage from "./pages/UserPage";
+import { createRoot } from "react-dom/client";
+import DarkModeToggle from "./components/darkmodeSwitch";
 
 const homeRoot = document.getElementById("home-page");
 if (homeRoot) {
@@ -36,4 +38,10 @@ if (userPageNameRoot) {
     ReactDOM.createRoot(userPageNameRoot).render(
         <UserPageName userId={userId} loginUserId={loginUserId} />
     );
+}
+
+const container = document.getElementById("darkmode-switch");
+if (container) {
+    const root = createRoot(container);
+    root.render(<DarkModeToggle />);
 }
