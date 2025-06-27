@@ -13,7 +13,11 @@ export default function UserForm({ user, loginUserId, fetchUserAgain, msg }) {
         <div key={user.id} className="m-10 border rounded">
             <div className="m-5 flex">
                 <img
-                    src={user.image}
+                    src={
+                        user.image
+                            ? user.image
+                            : "https://res.cloudinary.com/dximtw3cr/image/upload/v1750989400/GridArt_20231217_195530767_xrrrnt.jpg"
+                    }
                     alt="サムネ"
                     className="m-5 w-40 h-40 object-cover inline-block"
                 />

@@ -43,7 +43,7 @@ export default function TweetDetail({ tweet, loginUserId, deleteSubmit, msg }) {
                                 e.stopPropagation();
                                 deleteSubmit(tweet.id);
                             }}
-                            className="mb-2 px-2 py-1 text-sm bg-red-100 text-red-700 rounded-full shadow-md hover:bg-red-600 hover:text-white transition"
+                            className="px-2 py-1 text-sm bg-red-100 text-red-700 rounded-full shadow-md hover:bg-red-600 hover:text-white transition"
                         >
                             削除
                         </button>
