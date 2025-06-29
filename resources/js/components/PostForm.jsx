@@ -1,10 +1,11 @@
 import { useState } from "react";
 
-export default function PostForm({ postSubmit }) {
+export default function PostForm({ postSubmit, warningMsg }) {
     const [str, setStr] = useState("");
 
     const isDisabled = str.trim() === "";
 
+    // ToDo: 論理チェッカーに基準をモーダルで確認できるボタン設置
     return (
         <div className="mb-10">
             <form onSubmit={postSubmit} className="flex items-end">
@@ -27,6 +28,11 @@ export default function PostForm({ postSubmit }) {
                     投稿
                 </button>
             </form>
+            {warningMsg && (
+                <p className="mt-2 whitespace-pre-line text-red-600 font-bold">
+                    {warningMsg}
+                </p>
+            )}
         </div>
     );
 }

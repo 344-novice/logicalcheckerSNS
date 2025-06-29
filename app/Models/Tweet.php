@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Tweet extends Model
 {
@@ -19,5 +18,10 @@ class Tweet extends Model
 
     public function user() {
         return $this->belongsTo('App\Models\User');
+    }
+
+    public function logicalCheck()
+    {
+        return $this->hasOne(LogicalCheck::class);
     }
 }
