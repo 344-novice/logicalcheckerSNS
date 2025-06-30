@@ -13,14 +13,13 @@ return new class extends Migration
     {
         Schema::create('logical_check', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('post_id');
+            $table->unsignedBigInteger('tweet_id');
             $table->boolean('is_moderate')->default(false);
             $table->boolean('is_logical_post')->default(false);
-            $table->tinyInteger('logical_level')->default(0);
             $table->text('feedback_comment')->nullable();
             $table->timestamps();
 
-            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+            $table->foreign('tweet_id')->references('id')->on('tweets')->onDelete('cascade');
         });
     }
 

@@ -13,7 +13,7 @@ Route::middleware('auth:sanctum')->patch('/user/{id}/thumbnail', [UserController
 
 Route::post('/tweet/logic-check', [LogicalCheckController::class, 'check']);
 
-Route::middleware('auth:sanctum')->post('/tweet/post', [TweetController::class, 'store']);
+Route::middleware('auth:sanctum')->post('/tweet/post', [TweetController::class, 'storeTweet']);
 
 Route::middleware('auth:sanctum')->get('/tweet/delete', [TweetController::class, 'delete']);
 Route::middleware('auth:sanctum')->post('/tweet/delete', [TweetController::class, 'delete']);

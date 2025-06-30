@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Tweet;
 use App\Http\Requests\TweetRequest;
+use App\Services\LogicalCheckService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Schema;
-
 class TweetController extends Controller
 {
     public function index(Request $request)
@@ -39,7 +38,7 @@ class TweetController extends Controller
         return response()->json($formattedTweets);
     }
 
-    public function store(TweetRequest $request)
+    public function storeTweet(TweetRequest $request)
     {   
         $userId = Auth::id();
 
@@ -50,6 +49,10 @@ class TweetController extends Controller
         ]);
 
         $tweet->load('user');
+
+        $logicalCheck = $request->input('logicalCheck');
+        
+        app(LogicalCheckService::class)->storeLogicalCheck($tweet->id, $logicalCheck);
 
         if (!empty($tweet->user->image)) {
             $originalUrl = $tweet->user->image;
