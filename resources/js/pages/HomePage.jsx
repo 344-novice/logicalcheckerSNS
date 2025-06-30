@@ -41,17 +41,18 @@ export default function HomePage({ loginUserId }) {
 
         try {
             // ToDo: 呼び出し中に二重送信ができないように投稿ボタンを無効化
-            const logicalCheckTweet = await axios.post(
+            const logicalCheck = await axios.post(
                 "http://127.0.0.1:8000/api/tweet/logic-check",
-                { tweet },
-                { withCredentials: true }
+                { tweet }
             );
 
+            if (logicalCheck.data.error) {
+                toast.fail(logicalCheck.data.message);
+            }
+
             // ToDo: flaggedだった場合、文章を修正するまで投稿ボタンを無効化
-            if (logicalCheckTweet.data.flagged) {
-                console.log(logicalCheckTweet.data);
-                const categoryKeys = logicalCheckTweet.data.categories;
-                console.log(categoryKeys);
+            if (logicalCheck.data.flagged) {
+                const categoryKeys = logicalCheck.data.categories;
                 const jaLabels = categoryKeys.map(
                     (key) => MODERATION_CATEGORY_JA[key] || key
                 );
@@ -77,7 +78,7 @@ export default function HomePage({ loginUserId }) {
         try {
             const resPostTweet = await axios.post(
                 "http://127.0.0.1:8000/api/tweet/post",
-                { tweet },
+                { tweet, logicalCheck: logicalCheck.data },
                 { withCredentials: true }
             );
             setTweets((prev) => [resPostTweet.data, ...prev]);
@@ -116,7 +117,11 @@ export default function HomePage({ loginUserId }) {
     return (
         <>
             <Toaster position="top-center" />
-            <PostForm postSubmit={postSubmit} warningMsg={warningMsg} />
+            <PostForm
+                postSubmit={postSubmit}
+                warningMsg={warningMsg}
+                logicalCheckComment={logicalCheck}
+            />
             <TweetsForm
                 tweets={tweets}
                 loginUserId={loginUserId}

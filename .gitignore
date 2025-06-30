@@ -22,3 +22,7 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+*.sock
+*.ibd
+*.frm
+logical_checker_sns
