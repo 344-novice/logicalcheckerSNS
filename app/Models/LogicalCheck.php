@@ -10,6 +10,7 @@ class LogicalCheck extends Model
     use HasFactory;
 
     protected $fillable = [
+        'tweet_id',
         'post_id',
         'is_moderate',
         'is_logical_post',

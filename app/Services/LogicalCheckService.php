@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\LogicalCheck;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class LogicalCheckService
@@ -52,5 +54,16 @@ class LogicalCheckService
             'reason' => $checkResult['reason'] ?? null,
             'hints' => isset($checkResult['hints']) ? json_encode($checkResult['hints']) : null,
         ]);
+
+        $userId = Auth::id();
+        if ($userId) {
+            if (!$checkResult['flagged']) {
+                User::where('id', $userId)->increment('total_moderate_false_count');
+            }
+
+            if ($checkResult['is_logical']) {
+                User::where('id', $userId)->increment('total_logical_true_count');
+            }
+        }
     }
 }

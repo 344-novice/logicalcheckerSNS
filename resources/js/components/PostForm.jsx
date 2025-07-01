@@ -5,7 +5,6 @@ export default function PostForm({ postSubmit, warningMsg }) {
 
     const isDisabled = str.trim() === "";
 
-    // ToDo: 論理チェッカーに基準をモーダルで確認できるボタン設置
     return (
         <div className="mb-10">
             <form onSubmit={postSubmit} className="flex items-end">

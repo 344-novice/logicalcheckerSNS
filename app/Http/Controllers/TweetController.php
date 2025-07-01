@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tweet;
+use App\Models\User;
 use App\Http\Requests\TweetRequest;
 use App\Services\LogicalCheckService;
 use Illuminate\Http\Request;
@@ -48,10 +49,20 @@ class TweetController extends Controller
             'liked_count' => 0,
         ]);
 
+        User::where('id', $userId)->increment('total_tweet_count');
+
         $tweet->load('user');
 
         $logicalCheck = $request->input('logicalCheck');
-        
+
+        if (isset($logicalCheck['logic_result'])) {
+            $logicalCheck = array_merge(
+        $logicalCheck,
+                $logicalCheck['logic_result']
+            );
+            unset($logicalCheck['logic_result']);
+        }
+    
         app(LogicalCheckService::class)->storeLogicalCheck($tweet->id, $logicalCheck);
 
         if (!empty($tweet->user->image)) {

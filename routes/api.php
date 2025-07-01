@@ -11,7 +11,7 @@ Route::middleware('auth:sanctum')->get('/user/{id}', [UserController::class, 'sh
 
 Route::middleware('auth:sanctum')->patch('/user/{id}/thumbnail', [UserController::class, 'updateThumbnail']);
 
-Route::post('/tweet/logic-check', [LogicalCheckController::class, 'check']);
+Route::middleware('auth:sanctum')->post('/tweet/logic-check', [LogicalCheckController::class, 'check']);
 
 Route::middleware('auth:sanctum')->post('/tweet/post', [TweetController::class, 'storeTweet']);
 

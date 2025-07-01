@@ -26,6 +26,28 @@ class LogicalCheckController extends Controller
             ]);
         }
 
+        if (!isset($result['flagged'])) {
+        $result['flagged'] = false;
+    }
+    
+    if (!isset($result['logic_result'])) {
+        $result['logic_result'] = [
+            'is_logical' => false,
+            'reason' => null,
+            'hints' => [],
+        ];
+    } else {
+        if (!isset($result['logic_result']['is_logical'])) {
+            $result['logic_result']['is_logical'] = false;
+        }
+        if (!isset($result['logic_result']['reason'])) {
+            $result['logic_result']['reason'] = null;
+        }
+        if (!isset($result['logic_result']['hints'])) {
+            $result['logic_result']['hints'] = [];
+        }
+    }
+
         return response()->json($result);
     }
 }
