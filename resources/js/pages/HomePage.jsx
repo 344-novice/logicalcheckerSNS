@@ -10,6 +10,7 @@ export default function HomePage({ loginUserId }) {
     const [tweets, setTweets] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [targetTweetId, setTargetTweetId] = useState(null);
+    const [logicalCheck, setLogicalCheck] = useState([]);
     const [indexErrMsg, setIndexErrMsg] = useState("");
     const [warningMsg, setWarningMsg] = useState("");
 
@@ -40,25 +41,25 @@ export default function HomePage({ loginUserId }) {
         const tweet = formData.get("tweet");
 
         try {
-            // ToDo: 呼び出し中に二重送信ができないように投稿ボタンを無効化
-            const logicalCheck = await axios.post(
+            const logicalCheckResponse = await axios.post(
                 "http://127.0.0.1:8000/api/tweet/logic-check",
-                { tweet }
+                { tweet },
+                { withCredentials: true }
             );
 
-            if (logicalCheck.data.error) {
-                toast.fail(logicalCheck.data.message);
+            setLogicalCheck(logicalCheckResponse.data);
+
+            if (logicalCheck.error) {
+                toast.fail(logicalCheck.message);
             }
 
-            // ToDo: flaggedだった場合、文章を修正するまで投稿ボタンを無効化
-            if (logicalCheck.data.flagged) {
-                const categoryKeys = logicalCheck.data.categories;
+            if (logicalCheck.flagged) {
+                const categoryKeys = logicalCheck.categories;
                 const jaLabels = categoryKeys.map(
                     (key) => MODERATION_CATEGORY_JA[key] || key
                 );
                 const categoryStr = jaLabels.join("、");
 
-                // ToDo: tailwindなどでもう少しこなれた感じに
                 setWarningMsg(
                     `上記文章に以下の内容が含まれていることが検知されました。修正の上、再度投稿をお願いします。
                     ${categoryStr}
@@ -69,8 +70,6 @@ export default function HomePage({ loginUserId }) {
             } else {
                 setWarningMsg("");
             }
-
-            // ToDo: moderation APIより時間がかかるので待機時間の画面表示
         } catch (err) {
             handleErrorToast(err.response?.status);
         }
@@ -78,7 +77,7 @@ export default function HomePage({ loginUserId }) {
         try {
             const resPostTweet = await axios.post(
                 "http://127.0.0.1:8000/api/tweet/post",
-                { tweet, logicalCheck: logicalCheck.data },
+                { tweet, logicalCheck: logicalCheck },
                 { withCredentials: true }
             );
             setTweets((prev) => [resPostTweet.data, ...prev]);
@@ -120,7 +119,7 @@ export default function HomePage({ loginUserId }) {
             <PostForm
                 postSubmit={postSubmit}
                 warningMsg={warningMsg}
-                logicalCheckComment={logicalCheck}
+                logicalCheckComment={logicalCheck.data}
             />
             <TweetsForm
                 tweets={tweets}

@@ -25,59 +25,59 @@ $tweet
 不適切な文言が含まれている場合も書き手側の批判的態度を加味してください。
 PROMPT;
 
-        try {
-            $response = Http::withToken(config('services.openai.key'))
-                ->post('https://api.openai.com/v1/chat/completions', [
-                    'model' => 'gpt-4o',
-                    'temperature' => 0.7,
-                    'messages' => [
-                        ['role' => 'system', 'content' => 'あなたは論理性判定の専門家です。返答は必ずJSON形式で行ってください。'],
-                        ['role' => 'user', 'content' => $prompt],
-                    ],
-            ]);
+        // try {
+        //     $response = Http::withToken(config('services.openai.key'))
+        //         ->post('https://api.openai.com/v1/chat/completions', [
+        //             'model' => 'gpt-4o',
+        //             'temperature' => 0.7,
+        //             'messages' => [
+        //                 ['role' => 'system', 'content' => 'あなたは論理性判定の専門家です。返答は必ずJSON形式で行ってください。'],
+        //                 ['role' => 'user', 'content' => $prompt],
+        //             ],
+        //     ]);
 
-            if ($response->failed()) {
-                return [
-                    'error' => 'chatGPT_api_error',
-                    'message' => 'chatGPT APIからのエラー応答です: ' . $response->status(),
-                ];
-            }
+        //     if ($response->failed()) {
+        //         return [
+        //             'error' => 'chatGPT_api_error',
+        //             'message' => 'chatGPT APIからのエラー応答です: ' . $response->status(),
+        //         ];
+        //     }
 
-            $result = $response->json();
-        } catch(\Throwable $e) {
-            return [
-                'error' => 'chatGPT_api_error',
-                'message' => 'chatGPT_APIからのレスポンスが不正です',
-            ];
-        }
+        //     $result = $response->json();
+        // } catch(\Throwable $e) {
+        //     return [
+        //         'error' => 'chatGPT_api_error',
+        //         'message' => 'chatGPT_APIからのレスポンスが不正です',
+        //     ];
+        // }
 
-        $rawText = $result['choices'][0]['message']['content'] ?? '{}';
+        // $rawText = $result['choices'][0]['message']['content'] ?? '{}';
 
-        $parsed = json_decode($rawText, true);
+        // $parsed = json_decode($rawText, true);
 
-        if (!is_array($parsed)) {
-            return [
-                'error' => 'chatGPT_response_error',
-                'message' => 'chatGPT APIの返答が不正な形式でした。',
-                'raw' => $rawText,
-            ];
-        }
+        // if (!is_array($parsed)) {
+        //     return [
+        //         'error' => 'chatGPT_response_error',
+        //         'message' => 'chatGPT APIの返答が不正な形式でした。',
+        //         'raw' => $rawText,
+        //     ];
+        // }
 
-        if (!isset($parsed['is_logical']) || !isset($parsed['reason']) || !isset($parsed['hints'])) {
-            return [
-                'error' => 'chatGPT_response_error',
-                'message' => 'chatGPT APIの返答に必要な情報が含まれていません。',
-                'raw' => $parsed,
-            ];
-        }
+        // if (!isset($parsed['is_logical']) || !isset($parsed['reason']) || !isset($parsed['hints'])) {
+        //     return [
+        //         'error' => 'chatGPT_response_error',
+        //         'message' => 'chatGPT APIの返答に必要な情報が含まれていません。',
+        //         'raw' => $parsed,
+        //     ];
+        // }
 
-        if (!is_bool($parsed['is_logical'])) {
-            return [
-                'error' => 'chatGPT_response_error',
-                'message' => '論理判定の結果がbooleanではありません。',
-                'raw' => $parsed,
-            ];
-        }
+        // if (!is_bool($parsed['is_logical'])) {
+        //     return [
+        //         'error' => 'chatGPT_response_error',
+        //         'message' => '論理判定の結果がbooleanではありません。',
+        //         'raw' => $parsed,
+        //     ];
+        // }
 
         // chatGPT APIはお金がかかるからしばらくはこのダミーデータを使う
         $parsed = [
@@ -96,7 +96,7 @@ PROMPT;
                 'reason' => $parsed['reason'] ?? '',
                 'hints' => $parsed['hints'] ?? [],
             ],
-            'raw' => $rawText,
+            // 'raw' => $rawText,
         ];
     }
 }
