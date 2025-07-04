@@ -1,4 +1,9 @@
-export default function TweetsForm({ tweets, loginUserId, deleteSubmit, msg }) {
+export default function TweetsForm({
+    tweets,
+    loginUserId,
+    openDeleteConfirmDialog,
+    msg,
+}) {
     if (msg === "読み込みに失敗しました") {
         return (
             <div className="m-5 p-4 text-xl font-bold text-red-700 dark:text-red-400 text-center leading-snug border border-red-700 rounded bg-red-100 dark:bg-red-900">
@@ -7,13 +12,13 @@ export default function TweetsForm({ tweets, loginUserId, deleteSubmit, msg }) {
         );
     }
 
-    const handleTweetClick = (tweetId) => {
-        window.location.href = `/tweet-detail/${tweetId}`;
-    };
-
     const handleUserClick = (e, userId) => {
         e.stopPropagation();
         window.location.href = `/user/${userId}`;
+    };
+
+    const handleTweetClick = (tweetId) => {
+        window.location.href = `/tweet-detail/${tweetId}`;
     };
 
     function formatDate(dateString) {
@@ -59,7 +64,7 @@ export default function TweetsForm({ tweets, loginUserId, deleteSubmit, msg }) {
                                     type="button"
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        deleteSubmit(tweet.id);
+                                        openDeleteConfirmDialog(tweet.id);
                                     }}
                                     className="mb-2 px-2 py-1 text-sm bg-red-100 text-red-700 rounded-full shadow-md hover:bg-red-600 hover:text-white transition"
                                 >

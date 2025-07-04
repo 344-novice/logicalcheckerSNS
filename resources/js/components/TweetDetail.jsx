@@ -1,4 +1,9 @@
-export default function TweetDetail({ tweet, loginUserId, deleteSubmit, msg }) {
+export default function TweetDetail({
+    tweet,
+    loginUserId,
+    openDeleteConfirmDialog,
+    msg,
+}) {
     if (msg === "読み込みに失敗しました") {
         return (
             <div className="m-5 p-4 text-xl font-bold text-red-700 dark:text-red-400 text-center leading-snug border border-red-700 rounded bg-red-100 dark:bg-red-900">
@@ -24,12 +29,16 @@ export default function TweetDetail({ tweet, loginUserId, deleteSubmit, msg }) {
                     className="flex-shrink-0 cursor-pointer"
                 >
                     <img
-                        src={tweet.user?.image}
+                        src={
+                            tweet.user.image
+                                ? tweet.user.image
+                                : "https://res.cloudinary.com/dximtw3cr/image/upload/v1750989400/GridArt_20231217_195530767_xrrrnt.jpg"
+                        }
                         alt="サムネ"
                         className="mb-2 w-40 h-40 object-cover"
                     />
                     <div className="text-xl hover:text-blue-500 cursor-pointer text-center">
-                        <p>{tweet.user.name}</p>
+                        <p>{tweet.user?.name}</p>
                     </div>
                 </div>
                 <div className="ml-5 text-xl text-gray-800 dark:text-gray-200 leading-tight break-words">
@@ -44,7 +53,7 @@ export default function TweetDetail({ tweet, loginUserId, deleteSubmit, msg }) {
                             type="button"
                             onClick={(e) => {
                                 e.stopPropagation();
-                                deleteSubmit(tweet.id);
+                                openDeleteConfirmDialog(tweet.id);
                             }}
                             className="px-2 py-1 text-sm bg-red-100 text-red-700 rounded-full shadow-md hover:bg-red-600 hover:text-white transition"
                         >
