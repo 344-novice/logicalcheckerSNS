@@ -8,6 +8,7 @@ use App\Http\Requests\TweetRequest;
 use App\Services\LogicalCheckService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 class TweetController extends Controller
 {
     public function index(Request $request)
@@ -41,6 +42,7 @@ class TweetController extends Controller
 
     public function storeTweet(TweetRequest $request)
     {   
+
         $userId = Auth::id();
 
         $tweet = Tweet::create([

@@ -5,13 +5,11 @@ namespace App\Services;
 use App\Models\LogicalCheck;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class LogicalCheckService
 {
     public function analyze(string $tweet): array
-    {
-        
+    {     
         $moderationResult = app(ModerationService::class)->check($tweet);
 
         if (isset($moderationResult['error'])) {
@@ -29,13 +27,6 @@ class LogicalCheckService
         $logicCheckResult = app(ChatGPTLogicService::class)->checkLogic($tweet);
 
         if (isset($logicCheckResult['error'])) {
-            Log::error('ChatGPTエラー', [
-                'tweet' => $tweet,
-                'response' => $logicCheckResult,
-            ]);
-
-            unset($logicCheckResult['raw']);
-
             return $logicCheckResult;
         }
 
@@ -47,21 +38,27 @@ class LogicalCheckService
 
     public function storeLogicalCheck(int $tweetId, array $checkResult): void
     {
+        $flagged = $checkResult['flagged'] ?? false;
+        $is_logical = $checkResult['is_logical'] ?? false;
+        $reason = $checkResult['reason'] ?? null;
+        $hints = isset($checkResult['hints']) ? json_encode($checkResult['hints']) : null;
+
         LogicalCheck::create([
             'tweet_id' => $tweetId,
-            'is_moderate' => $checkResult['flagged'],
-            'is_logical_post' => $checkResult['is_logical'],
-            'reason' => $checkResult['reason'] ?? null,
-            'hints' => isset($checkResult['hints']) ? json_encode($checkResult['hints']) : null,
+            'is_moderate' => $flagged,
+            'is_logical_post' => $is_logical,
+            'reason' => $reason,
+            'hints' => $hints,
         ]);
 
         $userId = Auth::id();
+
         if ($userId) {
-            if (!$checkResult['flagged']) {
+            if (!$flagged) {
                 User::where('id', $userId)->increment('total_moderate_false_count');
             }
 
-            if ($checkResult['is_logical']) {
+            if ($is_logical) {
                 User::where('id', $userId)->increment('total_logical_true_count');
             }
         }

@@ -54,7 +54,7 @@ export default function TweetDetailPage({ loginUserId }) {
         }
     };
 
-    const openConfirmDialog = (tweetId) => {
+    const openDeleteConfirmDialog = (tweetId) => {
         setTargetTweetId(tweetId);
         setIsOpen(true);
     };
@@ -65,7 +65,7 @@ export default function TweetDetailPage({ loginUserId }) {
             <TweetDetail
                 tweet={tweet}
                 loginUserId={loginUserId}
-                deleteSubmit={openConfirmDialog}
+                openDeleteConfirmDialog={openDeleteConfirmDialog}
                 msg={msg}
             />
             <DeleteConfirmDialog

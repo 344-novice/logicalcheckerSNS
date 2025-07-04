@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\LogicalCheck;
 use App\Services\LogicalCheckService;
-use App\Http\Requests\LogicalCheckRequest;
+use Illuminate\Support\Facades\Log;
 
 class LogicalCheckController extends Controller
 {
@@ -27,26 +26,26 @@ class LogicalCheckController extends Controller
         }
 
         if (!isset($result['flagged'])) {
-        $result['flagged'] = false;
-    }
-    
-    if (!isset($result['logic_result'])) {
-        $result['logic_result'] = [
-            'is_logical' => false,
-            'reason' => null,
-            'hints' => [],
-        ];
-    } else {
-        if (!isset($result['logic_result']['is_logical'])) {
-            $result['logic_result']['is_logical'] = false;
+            $result['flagged'] = false;
         }
-        if (!isset($result['logic_result']['reason'])) {
-            $result['logic_result']['reason'] = null;
+        
+        if (!isset($result['logic_result'])) {
+            $result['logic_result'] = [
+                'is_logical' => false,
+                'reason' => null,
+                'hints' => [],
+            ];
+        } else {
+            if (!isset($result['logic_result']['is_logical'])) {
+                $result['logic_result']['is_logical'] = false;
+            }
+            if (!isset($result['logic_result']['reason'])) {
+                $result['logic_result']['reason'] = null;
+            }
+            if (!isset($result['logic_result']['hints'])) {
+                $result['logic_result']['hints'] = [];
+            }
         }
-        if (!isset($result['logic_result']['hints'])) {
-            $result['logic_result']['hints'] = [];
-        }
-    }
 
         return response()->json($result);
     }

@@ -8,11 +8,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/tweet/index', [TweetController::class, 'index']);
 
 Route::middleware('auth:sanctum')->get('/user/{id}', [UserController::class, 'showUser']);
-
 Route::middleware('auth:sanctum')->patch('/user/{id}/thumbnail', [UserController::class, 'updateThumbnail']);
 
 Route::middleware('auth:sanctum')->post('/tweet/logic-check', [LogicalCheckController::class, 'check']);
-
 Route::middleware('auth:sanctum')->post('/tweet/post', [TweetController::class, 'storeTweet']);
 
 Route::middleware('auth:sanctum')->get('/tweet/delete', [TweetController::class, 'delete']);
