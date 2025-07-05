@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\LogicalCheckRequest;
 use App\Services\LogicalCheckService;
 
 class LogicalCheckController extends Controller
 {
-   public function check(Request $request)
+   public function check(LogicalCheckRequest $request)
     {
         $result = app(LogicalCheckService::class)->analyze($request->input('tweet'));
 

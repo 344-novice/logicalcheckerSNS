@@ -45,6 +45,16 @@ export default function HomePage({ loginUserId }) {
         fetchData();
     }, []);
 
+    useEffect(() => {
+        const homePageElement = document.getElementById("home-page");
+        if (homePageElement) {
+            const tweetLoadErrorMessage = homePageElement.dataset.errorMessage;
+            if (tweetLoadErrorMessage) {
+                toast.error(tweetLoadErrorMessage);
+            }
+        }
+    }, []);
+
     const logicCheck = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);

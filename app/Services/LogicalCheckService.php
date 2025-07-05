@@ -53,8 +53,8 @@ class LogicalCheckService
         LogicalCheck::create([
             'tweet_id' => $tweetId,
             'is_logical' => $is_logical,
-            'reason' => $reason,
-            'hints' => $hints,
+            'reason' => json_encode($reason),
+            'hints' => json_encode($hints),
         ]);
 
         $userId = Auth::id();

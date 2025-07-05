@@ -31,6 +31,7 @@
             <!-- Page Content -->
             <main>
                 {{ $slot }}
+                <div id="react-root"></div>
             </main>
         </div>
     </body>
