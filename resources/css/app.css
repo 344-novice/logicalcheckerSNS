@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+li[data-sonner-toast] {
+    max-width: 90vw !important;
+    width: auto !important;
+    word-break: break-word !important;
+}
+ol[data-sonner-toaster] {
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+}

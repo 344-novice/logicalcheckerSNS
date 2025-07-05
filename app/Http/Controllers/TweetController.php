@@ -45,8 +45,6 @@ class TweetController extends Controller
 
     public function storeTweet(TweetRequest $request)
     {   
-
-
         $userId = Auth::id();
 
         $tweet = Tweet::create([
@@ -121,8 +119,23 @@ class TweetController extends Controller
     return response()->json($formattedTweets);
     }
 
+    public function show($id)
+    {
+        $tweet = Tweet::where('id', $id)
+                    ->where('delete_flag', 0)
+                    ->first();
+
+        if (!$tweet) {
+            return redirect('/home')->with('error', '指定された投稿は存在しないか、削除されています。');
+        }
+
+        return view('tweet-detail', [
+            'loginUserId' => Auth::id(),
+        ]);
+    }
+
     public function detail(Request $request, $id) {
-        $tweet = Tweet::with('user')
+        $tweet = Tweet::with(['user', 'logicalCheck'])
             ->where('id', $id)
             ->first();
 

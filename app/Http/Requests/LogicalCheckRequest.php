@@ -22,11 +22,7 @@ class LogicalCheckRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'logicalCheck' => ['required', 'array'],
-            'logicalCheck.is_logical' => ['required', 'boolean'],
-            'logicalCheck.analysis' => ['required', 'array'],
-            'logicalCheck.analysis.reason' => ['required', 'string'],
-            'logicalCheck.analysis.hints' => ['required', 'array'],
+            'tweet' => ['required', 'string', 'max:500'],
         ];
     }
 }

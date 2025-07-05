@@ -22,7 +22,11 @@ class TweetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tweet' => ['required', 'string', 'max:500'],
+            'logicalCheck' => ['required', 'array'],
+            'logicalCheck.is_logical' => ['nullable', 'boolean'],
+            'logicalCheck.analysis' => ['nullable', 'array'],
+            'logicalCheck.analysis.reason' => ['nullable', 'string'],
+            'logicalCheck.analysis.hints' => ['nullable', 'array'],
             'image_path' => ['nullable', 'url'], 
         ];
     }
