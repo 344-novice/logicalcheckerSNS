@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\LogicalCheckService;
-use Illuminate\Support\Facades\Log;
 
 class LogicalCheckController extends Controller
 {

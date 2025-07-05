@@ -9,9 +9,10 @@ class ChatGPTLogicService
     public function checkLogic(string $tweet): array
     {
         $prompt = <<<PROMPT
-次の投稿文が論理的に書かれているかを判定してください。
-感情的・主観的な表現が含まれていても構いません。  
-論理的な整合性があるかどうかに焦点を当ててください。  
+以下の文章に論理的な問題がある場合のみ指摘してください。
+批判的/攻撃的な文調、似非科学などのデマの可能性の高い情報発信であれば、その主張に飛躍がないか精査してください。
+それ以外の場合は判定を緩和させてください。
+反語やジョークなどの主張の根幹ではない非論理的表現はスルーしてください。
 投稿文：
 $tweet
 
@@ -31,7 +32,7 @@ PROMPT;
             $response = Http::withToken(config('services.openai.key'))
                 ->post('https://api.openai.com/v1/chat/completions', [
                     'model' => 'gpt-4o',
-                    'temperature' => 0.5,
+                    'temperature' => 0.2,
                     'messages' => [
                         ['role' => 'system', 'content' => 'あなたは論理性判定の専門家です。返答は必ずJSON形式で行ってください。'],
                         ['role' => 'user', 'content' => $prompt],

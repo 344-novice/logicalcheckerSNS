@@ -30,8 +30,8 @@ export default function TweetDetail({
                 >
                     <img
                         src={
-                            tweet.user.image
-                                ? tweet.user.image
+                            tweet.user?.image
+                                ? tweet.user?.image
                                 : "https://res.cloudinary.com/dximtw3cr/image/upload/v1750989400/GridArt_20231217_195530767_xrrrnt.jpg"
                         }
                         alt="サムネ"
