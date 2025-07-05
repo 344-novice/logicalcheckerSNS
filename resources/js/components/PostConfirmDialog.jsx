@@ -28,18 +28,21 @@ export default function PostConfirmDialog({
                 <Dialog.Title className="text-lg font-bold mb-2 text-gray-900 dark:text-white">
                     投稿確認
                 </Dialog.Title>
-                <Dialog.Description className="text-sm text-gray-700 dark:text-gray-300 mb-4 space-y-2">
-                    以下の内容が論理的でない可能性があります：
-                    <br />
-                    <span className="bg-gray-100 dark:bg-gray-700 p-2 rounded whitespace-pre-wrap block">
+                <Dialog.Description
+                    as="div"
+                    className="text-sm text-gray-700 dark:text-gray-300 mb-4 space-y-2"
+                >
+                    <p>以下の内容が論理的でない可能性があります：</p>
+
+                    <div className="bg-gray-100 dark:bg-gray-700 p-2 rounded whitespace-pre-wrap">
                         {tweet}
-                    </span>
-                    <br />
+                    </div>
+
                     {reason && (
-                        <>
-                            <strong>理由：</strong> {formatReason(reason)}
-                            <br />
-                        </>
+                        <div>
+                            <strong>理由：</strong>
+                            {formatReason(reason)}
+                        </div>
                     )}
                 </Dialog.Description>
 

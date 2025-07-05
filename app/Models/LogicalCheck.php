@@ -9,13 +9,14 @@ class LogicalCheck extends Model
 {
     use HasFactory;
 
+    protected $table = 'logical_checks';
+
     protected $fillable = [
         'tweet_id',
         'post_id',
-        'is_moderate',
-        'is_logical_post',
-        'logical_level',
-        'feedback_comment',
+        'is_logical',
+        'reason',
+        'hints'
     ];
 
     public function post()

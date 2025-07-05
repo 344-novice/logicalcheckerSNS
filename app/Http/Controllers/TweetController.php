@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LogicalCheck;
 use App\Models\Tweet;
 use App\Models\User;
 use App\Http\Requests\TweetRequest;
@@ -13,7 +14,7 @@ class TweetController extends Controller
 {
     public function index(Request $request)
     {
-        $tweets = Tweet::with('user')
+        $tweets = Tweet::with(['user', 'logicalCheck'])
             ->where('delete_flag', 0)
             ->latest()
             ->get();
@@ -34,6 +35,8 @@ class TweetController extends Controller
                 $tweetArray['user']['image'] = $transformedUrl;
             }
 
+            $tweetArray['is_logical'] = $tweet->logicalCheck ? $tweet->logicalCheck->is_logical : false;
+
             return $tweetArray;
         });
 
@@ -42,6 +45,7 @@ class TweetController extends Controller
 
     public function storeTweet(TweetRequest $request)
     {   
+
 
         $userId = Auth::id();
 
@@ -67,6 +71,8 @@ class TweetController extends Controller
     
         app(LogicalCheckService::class)->storeLogicalCheck($tweet->id, $logicalCheck);
 
+        $logicalCheckRecord = LogicalCheck::where('tweet_id', $tweet->id)->first();
+
         if (!empty($tweet->user->image)) {
             $originalUrl = $tweet->user->image;
             $transform = 'w_100,h_100,c_fill,q_auto,f_auto';
@@ -80,7 +86,10 @@ class TweetController extends Controller
             $tweet->user->image = $transformedUrl;
         }
             
-        return response()->json($tweet);
+        return response()->json([
+            'tweet' => $tweet,
+            'is_logical' => $logicalCheckRecord->is_logical_ ?? false,
+        ]);
     }
 
     public function delete(Request $request) {
