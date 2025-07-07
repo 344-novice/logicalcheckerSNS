@@ -1,3 +1,5 @@
+import { DEFAULT_USER_IMAGE } from "../constants/index";
+
 export default function TweetDetail({
     tweet,
     loginUserId,
@@ -14,7 +16,11 @@ export default function TweetDetail({
 
     const handleUserClick = (e, userId) => {
         e.stopPropagation();
-        window.location.href = `/user/${userId}`;
+        if (Number(tweet.user_id) === Number(loginUserId)) {
+            window.location.href = "/mypage";
+        } else {
+            window.location.href = `/user/${userId}`;
+        }
     };
 
     function formatDate(dateString) {
@@ -32,7 +38,7 @@ export default function TweetDetail({
                         src={
                             tweet.user?.image
                                 ? tweet.user?.image
-                                : "https://res.cloudinary.com/dximtw3cr/image/upload/v1750989400/GridArt_20231217_195530767_xrrrnt.jpg"
+                                : DEFAULT_USER_IMAGE
                         }
                         alt="サムネ"
                         className="mb-2 w-40 h-40 object-cover"

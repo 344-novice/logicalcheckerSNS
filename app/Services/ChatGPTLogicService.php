@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Http;
 
 class ChatGPTLogicService
 {
+    private const CHATGPT_API_URL = 'https://api.openai.com/v1/chat/completions';
+
     public function checkLogic(string $tweet): array
     {
         $prompt = <<<PROMPT
@@ -28,45 +30,51 @@ $tweet
 不適切な文言が含まれている場合も書き手側の批判的態度を加味してください。
 PROMPT;
 
-        try {
-            $response = Http::withToken(config('services.openai.key'))
-                ->post('https://api.openai.com/v1/chat/completions', [
-                    'model' => 'gpt-4o',
-                    'temperature' => 0.2,
-                    'messages' => [
-                        ['role' => 'system', 'content' => 'あなたは論理性判定の専門家です。返答は必ずJSON形式で行ってください。'],
-                        ['role' => 'user', 'content' => $prompt],
-                    ],
-            ]);
+        // try {
+        //     $response = Http::withToken(config('services.openai.key'))
+        //         ->post(self::CHATGPT_API_URL, [
+        //             'model' => 'gpt-4o',
+        //             'temperature' => 0.2,
+        //             'messages' => [
+        //                 ['role' => 'system', 'content' => 'あなたは論理性判定の専門家です。返答は必ずJSON形式で行ってください。'],
+        //                 ['role' => 'user', 'content' => $prompt],
+        //             ],
+        //     ]);
 
-            if ($response->failed()) {
-                return [
-                    'error' => 'chatGPT_api_error',
-                    'message' => 'chatGPT APIからのエラー応答です: ' . $response->status(),
-                ];
-            }
+        //     if ($response->failed()) {
+        //         return [
+        //             'error' => 'chatGPT_api_error',
+        //             'message' => 'chatGPT APIからのエラー応答です: ' . $response->status(),
+        //         ];
+        //     }
 
-            $result = $response->json();
-        } catch(\Throwable $e) {
-            return [
-                'error' => 'chatGPT_api_error',
-                'message' => 'chatGPT_APIからのレスポンスが不正です',
-            ];
-        }
+        //     $result = $response->json();
+        // } catch(\Throwable $e) {
+        //     return [
+        //         'error' => 'chatGPT_api_error',
+        //         'message' => 'chatGPT_APIからのレスポンスが不正です',
+        //     ];
+        // }
 
-        $rawText = $result['choices'][0]['message']['content'] ?? '{}';
+        $rawText = '{
+  "is_logical": false,
+  "reason": "論理展開に飛躍がなく明確でした",
+  "hints": ["主張と根拠のつながりが明快", "不要な誇張表現がなく読みやすい"]
+}';
 
-        $rawText = trim($rawText);
+        // $rawText = $result['choices'][0]['message']['content'] ?? '{}';
 
-        if (str_starts_with($rawText, '```json')) {
-            $rawText = substr($rawText, strlen('```json'));
-            $rawText = trim($rawText);
-        }
+        // $rawText = trim($rawText);
 
-        if (str_ends_with($rawText, '```')) {
-            $rawText = substr($rawText, 0, -3);
-            $rawText = trim($rawText);
-        }
+        // if (str_starts_with($rawText, '```json')) {
+        //     $rawText = substr($rawText, strlen('```json'));
+        //     $rawText = trim($rawText);
+        // }
+
+        // if (str_ends_with($rawText, '```')) {
+        //     $rawText = substr($rawText, 0, -3);
+        //     $rawText = trim($rawText);
+        // }
 
         $parsed = json_decode($rawText, true);
 

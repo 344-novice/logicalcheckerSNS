@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('tweets', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->text('text');
+            $table->text('tweet');
             $table->string('image_path')->nullable();
-            $table->integer('liked_count');
+            $table->integer('liked_count')->default(0);
+             $table->boolean('delete_flag')->default(false);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

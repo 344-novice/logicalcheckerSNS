@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('logical_check', function (Blueprint $table) {
+        Schema::create('logical_checks', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tweet_id');
-            $table->boolean('is_moderate')->default(false);
-            $table->boolean('is_logical_post')->default(false);
-            $table->text('feedback_comment')->nullable();
+            $table->boolean('is_logical')->default(false);
+            $table->text('reason')->nullable();
+            $table->text('hints')->nullable();
+            
             $table->timestamps();
 
             $table->foreign('tweet_id')->references('id')->on('tweets')->onDelete('cascade');
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('logical_check');
+        Schema::dropIfExists('logical_checks');
     }
 };

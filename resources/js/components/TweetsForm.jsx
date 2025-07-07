@@ -1,3 +1,5 @@
+import { DEFAULT_USER_IMAGE } from "../constants/index";
+
 export default function TweetsForm({
     tweets,
     loginUserId,
@@ -31,16 +33,14 @@ export default function TweetsForm({
                 <div key={tweet.id} className="my-5 p-5 border rounded">
                     <div className="flex items-start relative mb-3">
                         <div
-                            onClick={(e) =>
-                                handleUserClick(e, tweet.user.image)
-                            }
+                            onClick={(e) => handleUserClick(e, tweet.user_id)}
                             className="flex-shrink-0"
                         >
                             <img
                                 src={
                                     tweet.user?.image
                                         ? tweet.user?.image
-                                        : "https://res.cloudinary.com/dximtw3cr/image/upload/v1750989400/GridArt_20231217_195530767_xrrrnt.jpg"
+                                        : DEFAULT_USER_IMAGE
                                 }
                                 alt="サムネ"
                                 className="mb-2 w-20 h-20 cursor-pointer object-cover"

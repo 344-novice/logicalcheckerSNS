@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { toast, Toaster } from "sonner";
-import axios from "axios";
 import TweetDetail from "../components/TweetDetail";
 import DeleteConfirmDialog from "@/components/DeleteConfirmDialog";
+import { deleteTweet, getTweetDetail } from "../api/tweetApi";
 
 export default function TweetDetailPage({ loginUserId }) {
     const [tweet, setTweet] = useState([]);
@@ -16,17 +16,13 @@ export default function TweetDetailPage({ loginUserId }) {
 
         const fetchData = async () => {
             try {
-                const res = await axios.get(
-                    `http://127.0.0.1:8000/api/tweet/detail/${id}`,
-                    { withCredentials: true }
-                );
-
-                if (res.status !== 200) {
+                const resTweetDetail = await getTweetDetail(id);
+                if (resTweetDetail.status !== 200) {
                     setMsg("読み込みに失敗しました");
                     return;
                 }
 
-                setTweet(res.data);
+                setTweet(resTweetDetail.data);
             } catch (error) {
                 setMsg("読み込みに失敗しました");
             }
@@ -36,11 +32,7 @@ export default function TweetDetailPage({ loginUserId }) {
 
     const deleteSubmit = async (tweetId) => {
         try {
-            const resDeleteTweet = await axios.post(
-                "http://127.0.0.1:8000/api/tweet/delete",
-                { tweetId },
-                { withCredentials: true }
-            );
+            await deleteTweet(tweetId);
             window.location.href = "/home";
             toast.success("削除が完了しました");
         } catch (err) {

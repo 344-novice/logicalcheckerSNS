@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+use App\Services\ImageService;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -12,18 +13,10 @@ class UserController extends Controller
         $user = User::find($id);
         $userData = $user->toArray();
 
-            if (!empty($user->image)) {
-                $originalUrl = $user->image;
-                $transform = 'w_200,h_200,c_fill,q_auto,f_auto';
-
-                $transformedUrl = str_replace(
-                    '/upload/',
-                    '/upload/' . $transform . '/',
-                    $originalUrl
-                );
-
-                $userData['image'] = $transformedUrl;
-            }
+        $userData['image'] = ImageService::getTransformedUrl(
+            $user->image ?? null,
+            'w_200,h_200,c_fill,q_auto,f_auto'
+        );
 
         return response()->json($userData);
     }

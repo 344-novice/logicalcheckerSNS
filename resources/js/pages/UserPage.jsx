@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import UserForm from "../components/UserForm";
+import { getUser } from "../api/userApi";
 
 export default function UserPage({ userId, loginUserId }) {
     const [resUser, setResUser] = useState([]);
@@ -8,10 +8,7 @@ export default function UserPage({ userId, loginUserId }) {
 
     const fetchUserData = async () => {
         try {
-            const resUser = await axios.get(
-                `http://127.0.0.1:8000/api/user/${userId}`,
-                { withCredentials: true }
-            );
+            const resUser = await getUser(userId);
 
             if (resUser.status !== 200) {
                 setErrMsg("読み込みに失敗しました");

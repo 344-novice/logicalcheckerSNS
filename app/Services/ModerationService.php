@@ -5,10 +5,11 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 
 class ModerationService {
+    private const MODERATION_API_URL = 'https://api.openai.com/v1/moderations';
     public function check($tweet) {
         try {
             $response = Http::withToken(config('services.openai.key'))
-                ->post('https://api.openai.com/v1/moderations', [
+                ->post(self::MODERATION_API_URL, [
                     'input' => $tweet,
                 ]);
 

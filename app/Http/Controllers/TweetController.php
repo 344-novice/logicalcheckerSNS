@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TweetRequest;
 use App\Models\LogicalCheck;
 use App\Models\Tweet;
 use App\Models\User;
-use App\Http\Requests\TweetRequest;
+use App\Services\ImageService;
 use App\Services\LogicalCheckService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+
 class TweetController extends Controller
 {
     public function index(Request $request)
@@ -22,20 +23,14 @@ class TweetController extends Controller
         $formattedTweets = $tweets->map(function ($tweet) {
             $tweetArray = $tweet->toArray();
 
-            if (!empty($tweet->user->image)) {
-                $originalUrl = $tweet->user->image;
-                $transform = 'w_100,h_100,c_fill,q_auto,f_auto';
-
-                $transformedUrl = str_replace(
-                    '/upload/',
-                    '/upload/' . $transform . '/',
-                    $originalUrl
-                );
-
-                $tweetArray['user']['image'] = $transformedUrl;
-            }
+            $tweetArray['user']['image'] = ImageService::getTransformedUrl(
+            $tweet->user->image ?? null,
+            'w_100,h_100,c_fill,q_auto,f_auto'
+            );
 
             $tweetArray['is_logical'] = $tweet->logicalCheck ? $tweet->logicalCheck->is_logical : false;
+
+            unset($tweetArray['logicalCheck']);
 
             return $tweetArray;
         });
@@ -57,6 +52,13 @@ class TweetController extends Controller
 
         $tweet->load('user');
 
+        if (!empty($tweet->user->image)) {
+            $tweet->user->image = ImageService::getTransformedUrl(
+                $tweet->user->image,
+                'w_100,h_100,c_fill,q_auto,f_auto'
+            );
+        }
+
         $logicalCheck = $request->input('logicalCheck');
 
         if (isset($logicalCheck['logic_result'])) {
@@ -64,30 +66,21 @@ class TweetController extends Controller
         $logicalCheck,
                 $logicalCheck['logic_result']
             );
+
             unset($logicalCheck['logic_result']);
         }
     
         app(LogicalCheckService::class)->storeLogicalCheck($tweet->id, $logicalCheck);
 
         $logicalCheckRecord = LogicalCheck::where('tweet_id', $tweet->id)->first();
-
-        if (!empty($tweet->user->image)) {
-            $originalUrl = $tweet->user->image;
-            $transform = 'w_100,h_100,c_fill,q_auto,f_auto';
-
-            $transformedUrl = str_replace(
-                '/upload/',
-                '/upload/' . $transform . '/',
-                $originalUrl
-            );
-
-            $tweet->user->image = $transformedUrl;
-        }
             
-        return response()->json([
-            'tweet' => $tweet,
-            'is_logical' => $logicalCheckRecord->is_logical_ ?? false,
-        ]);
+        return response()->json(array_merge(
+            $tweet->toArray(),
+            [
+                'is_logical' => $logicalCheckRecord->is_logical_ ?? false,
+                'user' => $tweet->user,
+            ]
+        ));
     }
 
     public function delete(Request $request) {
@@ -104,19 +97,15 @@ class TweetController extends Controller
         $formattedTweets = $tweets->map(function ($tweet) {
             $tweetArray = $tweet->toArray();
 
-            if (!empty($tweet->user->image)) {
-                $tweetArray['user']['image'] = str_replace(
-                    '/upload/',
-                    '/upload/w_100,h_100,c_fill,q_auto,f_auto/',
-                    $tweet->user->image
-                );
-            }
+            $tweetArray['user']['image'] = ImageService::getTransformedUrl(
+                $tweet->user->image ?? null,
+                'w_100,h_100,c_fill,q_auto,f_auto'
+            );
 
             return $tweetArray;
-        }
-    );
+        });
 
-    return response()->json($formattedTweets);
+        return response()->json($formattedTweets);
     }
 
     public function show($id)
@@ -141,18 +130,10 @@ class TweetController extends Controller
 
         $tweetData = $tweet->toArray();
 
-        if (!empty($tweet->user->image)) {
-            $originalUrl = $tweet->user->image;
-            $transform = 'w_200,h_200,c_fill,q_auto,f_auto';
-
-            $transformedUrl = str_replace(
-                '/upload/',
-                '/upload/' . $transform . '/',
-                $originalUrl
-            );
-
-            $tweetData['user']['image'] = $transformedUrl;
-        }
+        $tweetData['user']['image'] = ImageService::getTransformedUrl(
+            $tweet->user->image ?? null,
+            'w_200,h_200,c_fill,q_auto,f_auto'
+        );
 
         return response()->json($tweetData);
     }

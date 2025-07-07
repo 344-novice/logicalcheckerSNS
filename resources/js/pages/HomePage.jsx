@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import { toast, Toaster } from "sonner";
-import axios from "axios";
 import PostForm from "../components/PostForm";
 import TweetsForm from "../components/TweetsForm";
 import PostConfirmDialog from "@/components/PostConfirmDialog";
 import DeleteConfirmDialog from "@/components/DeleteConfirmDialog";
+import {
+    deleteTweet,
+    getLogicalCheck,
+    getTweets,
+    postTweet,
+} from "../api/tweetApi";
 import { MODERATION_CATEGORY_JA } from "../constants/moderationCategories";
 
 export default function HomePage({ loginUserId }) {
@@ -27,9 +32,7 @@ export default function HomePage({ loginUserId }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const resTweets = await axios.get(
-                    "http://127.0.0.1:8000/api/tweet/index"
-                );
+                const resTweets = await getTweets();
 
                 if (resTweets.status !== 200) {
                     setIndexErrMsg("読み込みに失敗しました");
@@ -70,16 +73,12 @@ export default function HomePage({ loginUserId }) {
         setIsSubmitting(true);
 
         try {
-            const logicalCheckResponse = await axios.post(
-                "http://127.0.0.1:8000/api/tweet/logic-check",
-                { tweet },
-                { withCredentials: true }
-            );
+            const resLogicalCheck = await getLogicalCheck(tweet);
 
             setWarningMsg("");
             setIsSubmitting(false);
 
-            const logicalCheckData = logicalCheckResponse.data;
+            const logicalCheckData = resLogicalCheck.data;
 
             if (logicalCheckData.error) {
                 toast.fail(logicalCheck.message);
@@ -105,7 +104,7 @@ export default function HomePage({ loginUserId }) {
             }
 
             if (tweet.length < 50 && logicalCheckData.flagged === false) {
-                await postTweet(tweet, logicalCheckData);
+                await postSubmit(tweet, logicalCheckData);
                 return;
             }
 
@@ -120,20 +119,16 @@ export default function HomePage({ loginUserId }) {
                 return;
             }
 
-            await postTweet(tweet, logicalCheckData);
+            await postSubmit(tweet, logicalCheckData);
         } catch (err) {
             handleErrorToast(err.response?.status);
             setIsSubmitting(false);
         }
     };
 
-    const postTweet = async (tweet, logicalCheckData) => {
+    const postSubmit = async (tweet, logicalCheckData) => {
         try {
-            const resPostTweet = await axios.post(
-                "http://127.0.0.1:8000/api/tweet/post",
-                { tweet, logicalCheck: logicalCheckData },
-                { withCredentials: true }
-            );
+            const resPostTweet = await postTweet(tweet, logicalCheckData);
             setTweets((prev) => [resPostTweet.data, ...prev]);
             toast.success("投稿完了しました");
             setStr("");
@@ -146,11 +141,7 @@ export default function HomePage({ loginUserId }) {
 
     const deleteSubmit = async (tweetId) => {
         try {
-            const resDeleteTweet = await axios.post(
-                "http://127.0.0.1:8000/api/tweet/delete",
-                { tweetId },
-                { withCredentials: true }
-            );
+            const resDeleteTweet = await deleteTweet(tweetId);
             setTweets(resDeleteTweet.data);
             toast.success("削除が完了しました");
         } catch (err) {
@@ -237,7 +228,7 @@ export default function HomePage({ loginUserId }) {
                 isOpen={isPostConfirmOpen}
                 onClose={() => setIsPostConfirmOpen(false)}
                 onConfirm={() =>
-                    postTweet(
+                    postSubmit(
                         postConfirmData.tweet,
                         postConfirmData.logicalCheckData
                     )

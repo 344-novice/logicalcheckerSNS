@@ -1,13 +1,15 @@
 import axios from "axios";
 import { toast, Toaster } from "sonner";
 import { useState } from "react";
+import { getCsrfCookie } from "../authApi";
+import { postUserThumbnail } from "../api/userApi";
 
 export default function UserImageUploader({ userId, onUploaded }) {
     const [file, setFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
 
-    const url = import.meta.env.VITE_CLOUDINARY_URL;
-    const preset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+    const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+    const UPLOAD_URL = import.meta.env.VITE_CLOUDINARY_UPLOAD_URL;
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
@@ -25,35 +27,15 @@ export default function UserImageUploader({ userId, onUploaded }) {
 
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("upload_preset", preset);
+        formData.append("upload_preset", UPLOAD_PRESET);
         formData.append("folder", `portfolio/user/${userId}`);
 
         try {
-            const response = await fetch(url, {
-                method: "POST",
-                body: formData,
-            });
+            const { data } = await axios.post(UPLOAD_URL, formData);
 
-            if (!response.ok) {
-                toast.error("アップロードに失敗しました");
-                return;
-            }
+            await getCsrfCookie();
 
-            const data = await response.json();
-
-            await axios.get(`http://127.0.0.1:8000/api/user/${userId}`, {
-                withCredentials: true,
-            });
-
-            await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
-                credentials: "include",
-            });
-
-            await axios.patch(
-                `http://127.0.0.1:8000/api/user/${userId}/thumbnail`,
-                { image: data.secure_url },
-                { withCredentials: true }
-            );
+            await postUserThumbnail(id);
 
             if (onUploaded) onUploaded();
             setFile(null);
