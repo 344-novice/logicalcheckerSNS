@@ -6,6 +6,7 @@ export default function UserImageUploader({ userId, onUploaded }) {
     const [file, setFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
 
+    // この定数表記を修正
     const url = import.meta.env.VITE_CLOUDINARY_URL;
     const preset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
@@ -18,36 +19,98 @@ export default function UserImageUploader({ userId, onUploaded }) {
     };
 
     const handleUpload = async () => {
+        console.log(
+            "axios.defaults.headers.post:",
+            axios.defaults.headers.post
+        );
         if (!file) {
             toast.error("ファイルが選択されていません");
             return;
         }
 
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", preset);
-        formData.append("folder", `portfolio/user/${userId}`);
-
         try {
-            const response = await fetch(url, {
-                method: "POST",
-                body: formData,
-            });
-
-            if (!response.ok) {
-                toast.error("アップロードに失敗しました");
-                return;
-            }
-
-            const data = await response.json();
-
-            await axios.get(`http://127.0.0.1:8000/api/user/${userId}`, {
-                withCredentials: true,
-            });
-
             await fetch("http://127.0.0.1:8000/sanctum/csrf-cookie", {
                 credentials: "include",
             });
+
+            const signatureRes = await axios.get(
+                `http://127.0.0.1:8000/api/cloudinary/signature/${userId}`,
+                { withCredentials: true }
+            );
+
+            const {
+                timestamp,
+                signature,
+                api_key,
+                // folder,
+                upload_preset: serverPreset,
+                signature_base_string,
+                errors,
+            } = signatureRes.data;
+
+            // 1,4 Laravel側envの簡易チェックエラー確認
+            if (errors && errors.length > 0) {
+                errors.forEach((e) => console.error("環境変数エラー:", e));
+                toast.error(
+                    "サーバー設定に問題があります。コンソールを確認して下さい。"
+                );
+                return;
+            }
+
+            // 2 upload_presetのクライアント側との一致チェック
+            if (
+                serverPreset !== import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+            ) {
+                console.error(
+                    `upload_preset不一致: サーバー=${serverPreset} / クライアント=${
+                        import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+                    }`
+                );
+                toast.error(
+                    "upload_presetがクライアントとサーバーで異なります。"
+                );
+                return;
+            }
+
+            // 3 timestampのずれをチェック（5分以上は警告）
+            const now = Math.floor(Date.now() / 1000);
+            if (Math.abs(now - timestamp) > 300) {
+                console.warn(
+                    "timestampが現在時刻と5分以上ずれています。署名エラーの可能性あり。"
+                );
+                toast.warning("署名のtimestampがずれています。");
+            }
+
+            // 5 署名対象文字列の完全一致チェック
+            const formParams = {
+                timestamp,
+                upload_preset: preset /* folderなしなら省く */,
+            };
+            const formBaseString = Object.keys(formParams)
+                .sort()
+                .map((k) => `${k}=${formParams[k]}`)
+                .join("&");
+
+            // ここまでクリアしたらアップロード実行
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("api_key", api_key);
+            formData.append("timestamp", timestamp);
+            formData.append("signature", signature);
+            // formData.append("folder", folder);
+            formData.append(
+                "upload_preset",
+                import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET
+            );
+
+            console.log([...formData.entries()]);
+
+            for (const [key, value] of formData.entries()) {
+                console.log(`${key}:`, value);
+            }
+
+            const response = await axios.post(url, formData);
+            const data = response.data;
 
             await axios.patch(
                 `http://127.0.0.1:8000/api/user/${userId}/thumbnail`,
@@ -55,12 +118,18 @@ export default function UserImageUploader({ userId, onUploaded }) {
                 { withCredentials: true }
             );
 
-            if (onUploaded) onUploaded();
             setFile(null);
             setPreviewUrl(null);
+
+            if (onUploaded) onUploaded();
+
             toast.success("画像を更新しました");
         } catch (error) {
-            toast.error("アップロードに失敗しました: ");
+            console.error(
+                "Cloudinary upload error:",
+                error.response?.data || error.message
+            );
+            toast.error("アップロードに失敗しました: " + error.message);
         }
     };
 
