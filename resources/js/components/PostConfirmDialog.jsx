@@ -21,10 +21,10 @@ export default function PostConfirmDialog({
             className="fixed z-50 inset-0 flex items-center justify-center"
         >
             <div
-                className="fixed inset-0 bg-black/30 pointer-events-none z-40"
+                className="fixed z-40 inset-0 bg-black/30 pointer-events-none"
                 aria-hidden="true"
             />
-            <Dialog.Panel className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-2xl mx-auto shadow-lg z-50">
+            <Dialog.Panel className="z-50 bg-white dark:bg-gray-800 rounded-lg p-6 max-w-2xl mx-auto shadow-lg">
                 <Dialog.Title className="text-lg font-bold mb-3 text-gray-900 dark:text-white text-center">
                     投稿確認
                 </Dialog.Title>
@@ -62,7 +62,7 @@ export default function PostConfirmDialog({
                 <div className="flex justify-end space-x-3">
                     <button
                         onClick={onClose}
-                        className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+                        className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500"
                     >
                         修正する
                     </button>

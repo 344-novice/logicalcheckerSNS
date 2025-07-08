@@ -8,7 +8,7 @@ export default function TweetsForm({
 }) {
     if (msg === "読み込みに失敗しました") {
         return (
-            <div className="m-5 p-4 text-xl font-bold text-red-700 dark:text-red-400 text-center leading-snug border border-red-700 rounded bg-red-100 dark:bg-red-900">
+            <div className="m-5 p-4 text-center text-xl font-bold text-red-700 dark:text-red-200 leading-snug bg-red-100 dark:bg-red-700 border-2 border-red-700 dark:border-red-500 rounded ">
                 {msg}
             </div>
         );
@@ -43,9 +43,9 @@ export default function TweetsForm({
                                         : DEFAULT_USER_IMAGE
                                 }
                                 alt="サムネ"
-                                className="mb-2 w-20 h-20 cursor-pointer object-cover"
+                                className="mb-2 w-20 h-20 cursor-pointer object-cover border-2 border-gray-300 dark:border-gray-400 hover:border-blue-500 dark:hover:border-blue-500 rounded"
                             />
-                            <div className="hover:text-blue-500 cursor-pointer text-center">
+                            <div className="mt-2 dark:text-white hover:text-blue-500 dark:hover:text-blue-500 cursor-pointer text-center">
                                 <p>{tweet.user?.name}</p>
                             </div>
                         </div>
@@ -68,14 +68,15 @@ export default function TweetsForm({
                                         e.stopPropagation();
                                         openDeleteConfirmDialog(tweet.id);
                                     }}
-                                    className="mb-2 px-2 py-1 text-sm bg-red-100 text-red-700 rounded-full shadow-md hover:bg-red-600 hover:text-white transition"
+                                    // ToDo: hoverがうまくいっていない
+                                    className="mb-2 px-2 py-1 text-sm bg-red-200 dark:bg-white text-red-700 dark:text-red-600 rounded-full shadow-md hover:bg-red-600 hover:text-white dark:transition"
                                 >
                                     削除
                                 </button>
                             ) : null}
                         </form>
                     </div>
-                    <div className="text-gray-500 text-sm text-right">
+                    <div className="text-sm text-right text-gray-500 dark:text-gray-200">
                         <span>⭐ 5　</span>
                         {formatDate(tweet.created_at)}
                     </div>

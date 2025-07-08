@@ -68,6 +68,11 @@ export default function HomePage({ loginUserId }) {
             return;
         }
 
+        if (tweet.length > 500) {
+            toast.error("投稿文章は500文字以内です");
+            return;
+        }
+
         if (isSubmitting) return;
 
         setIsSubmitting(true);
@@ -93,11 +98,17 @@ export default function HomePage({ loginUserId }) {
                 );
                 const categoryStr = jaLabels.join("、");
 
-                setWarningMsg(`
-                    上記文章に以下の内容が含まれていることが検知されました。修正の上、再度投稿をお願いします。
-                    ${categoryStr}
-                    ※批判の意図で引いた文言が検知された場合は、文脈をよりご明記いただくと投稿可能性が上がります。
-                    ※そのまま押し通すと管理人がOpenAIにBANされる可能性がありますので、何卒ご容赦ください。`);
+                setWarningMsg(
+                    <div className="text-center text-red-600 dark:text-orange-500">
+                        <p>
+                            上記文章に以下の内容が含まれていることが検知されました。修正の上、再度投稿をお願いします。
+                        </p>
+                        <div>{categoryStr}</div>
+                        <p>
+                            ※そのまま押し通すと管理人がOpenAIにBANされる可能性がありますので、何卒ご容赦ください。
+                        </p>
+                    </div>
+                );
                 setIsBlockedByFlagged(true);
                 setIsSubmitting(false);
                 return;
@@ -179,8 +190,8 @@ export default function HomePage({ loginUserId }) {
     return (
         <>
             {isSubmitting && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white dark:bg-gray-800 rounded-lg p-6 flex flex-col items-center">
+                <div className="fixed z-50 inset-0 bg-black/30 flex items-center justify-center">
+                    <div className="flex flex-col bg-white dark:bg-gray-800 rounded-lg p-6 items-center">
                         <svg
                             className="animate-spin h-8 w-8 text-blue-500 mb-4"
                             xmlns="http://www.w3.org/2000/svg"

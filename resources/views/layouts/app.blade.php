@@ -21,7 +21,7 @@
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white dark:bg-gray-800 shadow">
+                <header class="bg-white dark:bg-gray-700 shadow">
                     <div class="max-w-7xl mx-2 py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
@@ -33,6 +33,8 @@
                 {{ $slot }}
                 <div id="react-root"></div>
             </main>
+
+            {{ $backToHomeButton ?? '' }}
         </div>
     </body>
 </html>

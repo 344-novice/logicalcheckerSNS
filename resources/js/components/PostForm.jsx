@@ -9,17 +9,27 @@ export default function PostForm({
     return (
         <div className="mb-10">
             <form onSubmit={logicCheck} className="flex items-end">
-                <textarea
-                    type="text"
-                    name="tweet"
-                    rows="7"
-                    placeholder="グッドバイブなロジックを組み立てよう！"
-                    value={str}
-                    onChange={(e) => {
-                        setStr(e.target.value);
-                    }}
-                    className="h-[180px] w-[800px] resize-none border-2 border-green-500"
-                />
+                <div className="relative mx-auto w-full max-w-[800px] flex flex-col justify-end">
+                    <textarea
+                        name="tweet"
+                        rows="7"
+                        placeholder="グッドバイブなロジックを組み立てよう！"
+                        value={str}
+                        onChange={(e) => setStr(e.target.value)}
+                        className="h-[180px] w-full resize-none border-2 dark:border-4 border-green-500 dark:border-gray-400 p-2 pr-24"
+                    />
+                    <div
+                        className={`absolute bottom-3 right-3 text-sm ${
+                            str.length > 500
+                                ? "text-red-500"
+                                : str.length >= 491
+                                ? "text-yellow-500"
+                                : "text-gray-500"
+                        }`}
+                    >
+                        {str.length}/500字
+                    </div>
+                </div>
                 <button
                     type="submit"
                     disabled={
@@ -34,11 +44,9 @@ export default function PostForm({
                     投稿
                 </button>
             </form>
-            {warningMsg && (
-                <p className="mt-2 whitespace-pre-line text-red-600 font-bold">
-                    {warningMsg}
-                </p>
-            )}
+            <div className="mt-4 pr-20 mx-auto">
+                <div className="w-full">{warningMsg}</div>
+            </div>
         </div>
     );
 }
