@@ -56,6 +56,7 @@ export default function TweetDetailPage({ loginUserId }) {
             <Toaster position="top-center" />
             <TweetDetail
                 tweet={tweet}
+                setTweet={setTweet}
                 loginUserId={loginUserId}
                 openDeleteConfirmDialog={openDeleteConfirmDialog}
                 msg={msg}

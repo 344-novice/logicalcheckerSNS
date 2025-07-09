@@ -1,4 +1,25 @@
 <x-guest-layout>
+    <div id="register-explanation-modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="p-6 max-w-3xl w-full bg-white rounded-lg shadow-lg">
+            <h2 class="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-100">アカウント登録について</h2>
+            <ul class="text-gray-700 list-disc list-inside space-y-2">
+                <li>hogeやfooといったダミーデータの定番の名前は既に使われております。</li>
+                <li>
+                    本ページは複数の会社様に閲覧いただく想定です。
+                    <p class="mt-2">　 アカウント名の登録において、お名前や社名等を入れる際はその点をご留意ください。</p>
+                </li>
+            </ul>
+            <div class="mt-4 text-right">
+                <button
+                    id="modal-close-button"
+                    class="text-blue-600 hover:underline"
+                >
+                    閉じる
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="flex justify-between items-end mb-4 text-gray-600 dark:text-gray-400">
         <p class="font-bold mb-1">{{ __('アカウント登録') }}</p>
     </div>
@@ -44,10 +65,6 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <!-- <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a> -->
-
             <x-primary-button class="ms-4">
                 {{ __('アカウント登録') }}
             </x-primary-button>
@@ -55,4 +72,20 @@
     </form>
 
     <x-back-to-login-button />
+
+
+@push('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const closeBtn = document.getElementById("modal-close-button");
+        const modal = document.getElementById("register-explanation-modal");
+
+        if (closeBtn && modal) {
+            closeBtn.addEventListener("click", function () {
+                modal.style.display = "none";
+            });
+        }
+    });
+</script>
+@endpush
 </x-guest-layout>

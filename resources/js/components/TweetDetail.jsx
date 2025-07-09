@@ -1,7 +1,10 @@
+import { toast } from "sonner";
+import useLikeToggle from "../hooks/useLikeToggle";
 import { DEFAULT_USER_IMAGE } from "../constants/index";
 
 export default function TweetDetail({
     tweet,
+    setTweet,
     loginUserId,
     openDeleteConfirmDialog,
     msg,
@@ -27,6 +30,24 @@ export default function TweetDetail({
         return new Date(dateString).toLocaleString();
     }
 
+    const { changeLikedCount } = useLikeToggle();
+
+    const handleLike = async (tweetId) => {
+        const updated = await changeLikedCount(tweetId);
+        if (!updated) {
+            toast.error("いいねの変更に失敗しました");
+            return;
+        }
+
+        setTweet({
+            ...tweet,
+            liked_count: updated.liked_count,
+            liked: updated.liked,
+        });
+
+        setTweets(updatedTweets);
+    };
+
     return (
         <div className="m-10 border rounded">
             <div className="m-5 flex items-start relative mb-5">
@@ -41,7 +62,7 @@ export default function TweetDetail({
                                 : DEFAULT_USER_IMAGE
                         }
                         alt="サムネ"
-                        className="mb-2 w-40 h-40 cursor-pointer object-cover border-2 border-gray-300 dark:border-gray-400 hover:border-blue-500 dark:hover:border-blue-500 rounded"
+                        className="mb-2 w-40 h-40 cursor-pointer object-cover border-2 border-gray-300 dark:border-gray-400 hover:border-blue-500 dark:hover:border-4 dark:hover:border-blue-500 rounded"
                     />
                     <div className="text-xl dark:text-white hover:text-blue-500 dark:hover:text-blue-500 cursor-pointer text-center">
                         <p>{tweet.user?.name}</p>
@@ -62,7 +83,7 @@ export default function TweetDetail({
                                 openDeleteConfirmDialog(tweet.id);
                             }}
                             // ToDo: hoverがうまくいっていない
-                            className="px-2 py-1 text-sm bg-red-100 text-red-700 rounded-full shadow-md hover:bg-red-600 hover:text-white transition"
+                            className="px-2 py-1 text-sm bg-red-100 text-red-700 hover:bg-red-600 hover:text-white dark:hover:bg-red-600 dark:hover:text-white rounded-full shadow-md"
                         >
                             削除
                         </button>
@@ -70,7 +91,19 @@ export default function TweetDetail({
                 </form>
             </div>
             <div className="m-5 text-sm text-right text-gray-500 dark:text-gray-200">
-                <span>⭐ 5　</span>
+                <span
+                    onClick={() => handleLike(tweet.id)}
+                    className={`cursor-pointer select-none transition-colors duration-300 ease-in-out ${
+                        tweet.liked
+                            ? "text-pink-500 dark:text-pink-400 font-semibold"
+                            : "text-gray-500 dark:text-white hover:text-pink-500 dark:hover:text-pink-400"
+                    }`}
+                >
+                    いいね
+                </span>
+                <span className="mx-1" />
+                {tweet.liked_count}
+                <span className="mx-2" />
                 {formatDate(tweet.created_at)}
             </div>
         </div>

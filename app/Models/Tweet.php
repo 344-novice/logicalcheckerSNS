@@ -28,4 +28,8 @@ class Tweet extends Model
     {
         return $this->hasOne(LogicalCheck::class);
     }
+
+    public function likes() {
+        return $this->hasMany('App\Models\Like');
+    }
 }

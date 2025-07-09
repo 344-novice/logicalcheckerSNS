@@ -24,7 +24,7 @@ export default function PostConfirmDialog({
                 className="fixed z-40 inset-0 bg-black/30 pointer-events-none"
                 aria-hidden="true"
             />
-            <Dialog.Panel className="z-50 bg-white dark:bg-gray-800 rounded-lg p-6 max-w-2xl mx-auto shadow-lg">
+            <Dialog.Panel className="p-6 max-w-2xl mx-auto bg-white dark:bg-gray-800 dark:border-2 rounded-lg shadow-lg z-50">
                 <Dialog.Title className="text-lg font-bold mb-3 text-gray-900 dark:text-white text-center">
                     投稿確認
                 </Dialog.Title>

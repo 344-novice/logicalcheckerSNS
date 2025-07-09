@@ -50,7 +50,7 @@ export default function UserImageUploader({ userId, onUploaded }) {
         <>
             <Toaster position="top-center" />
             <div className="flex flex-col space-y-3">
-                <label className="cursor-pointer px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition inline-block w-40 text-center">
+                <label className="w-40 px-4 py-2 text-center bg-blue-500 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-600 text-white cursor-pointer rounded">
                     サムネイルを選択
                     <input
                         type="file"
@@ -60,7 +60,7 @@ export default function UserImageUploader({ userId, onUploaded }) {
                 </label>
                 <button
                     onClick={handleUpload}
-                    className="w-40 px-4 py-2 text-sm text-center border border-black bg-gray-50 text-black rounded hover:bg-black hover:text-white transition"
+                    className="w-40 px-4 py-2 text-center text-black hover:text-white bg-gray-100 hover:bg-gray-700 dark:hover:bg-gray-500 border border-black dark:border-none rounded"
                 >
                     アップロード
                 </button>

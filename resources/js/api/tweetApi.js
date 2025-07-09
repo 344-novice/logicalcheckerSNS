@@ -39,3 +39,14 @@ export const getTweetDetail = async (tweetId) => {
     );
     return resTweetDetail;
 };
+
+export const changeLikedCount = async (tweetId) => {
+    try {
+        const resChangeLikedCount = await axios.post(
+            `http://127.0.0.1:8000/api/tweet/liked-count/${tweetId}`
+        );
+        return resChangeLikedCount.data;
+    } catch (error) {
+        return null;
+    }
+};

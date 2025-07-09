@@ -8,6 +8,7 @@ use App\Models\Tweet;
 use App\Models\User;
 use App\Services\ImageService;
 use App\Services\LogicalCheckService;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,12 +16,14 @@ class TweetController extends Controller
 {
     public function index(Request $request)
     {
-        $tweets = Tweet::with(['user', 'logicalCheck'])
+        $userId = $request->user()->id;
+
+        $tweets = Tweet::with(['user', 'logicalCheck', 'likes'])
             ->where('delete_flag', 0)
             ->latest()
             ->get();
 
-        $formattedTweets = $tweets->map(function ($tweet) {
+        $formattedTweets = $tweets->map(function ($tweet) use ($userId) {
             $tweetArray = $tweet->toArray();
 
             $tweetArray['user']['image'] = ImageService::getTransformedUrl(
@@ -29,6 +32,7 @@ class TweetController extends Controller
             );
 
             $tweetArray['is_logical'] = $tweet->logicalCheck ? $tweet->logicalCheck->is_logical : false;
+            $tweetArray['liked'] = $userId ? $tweet->likes->contains('user_id', $userId) : false;
 
             unset($tweetArray['logicalCheck']);
 
@@ -136,5 +140,34 @@ class TweetController extends Controller
         );
 
         return response()->json($tweetData);
+    }
+
+    public function changeLikedCount(Request $request, $id)
+    {
+        $user = $request->user();
+
+        return DB::transaction(function () use ($id, $user) {
+            $tweet = Tweet::lockForUpdate()->findOrFail($id);
+
+            $likedRecord = $tweet->likes()->where('user_id', $user->id)->first();
+
+            if ($likedRecord) {
+                $likedRecord->delete();
+                $tweet->decrement('liked_count');
+                $liked = false;
+            } else {
+                $tweet->likes()->create(['user_id' => $user->id]);
+                $tweet->increment('liked_count');
+                $liked = true;
+            }
+
+            $tweet->refresh();
+
+            return response()->json([
+                'liked' => $liked,
+                'liked_count' => $tweet->liked_count,
+                'tweet_id' => $tweet->id,
+            ]);
+        });
     }
 }

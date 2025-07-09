@@ -11,7 +11,7 @@ export default function DeleteConfirmDialog({ isOpen, onClose, onConfirm }) {
                 className="fixed inset-0 bg-black/30 pointer-events-none z-40"
                 aria-hidden="true"
             />
-            <Dialog.Panel className="z-50 bg-white dark:bg-gray-800 rounded-lg p-6 max-w-sm mx-auto shadow-lg text-center">
+            <Dialog.Panel className="p-6 max-w-sm mx-auto text-center bg-white dark:bg-gray-800 dark:border-2 rounded-lg shadow-lg z-50">
                 <Dialog.Title className="text-lg font-bold mb-3 text-gray-900 dark:text-white">
                     削除確認
                 </Dialog.Title>

@@ -16,7 +16,7 @@ export default function UserForm({ user, loginUserId, fetchUserAgain, msg }) {
                 <img
                     src={user.image ? user.image : DEFAULT_USER_IMAGE}
                     alt="サムネ"
-                    className="m-5 w-40 h-40 object-cover inline-block"
+                    className="m-5 w-40 h-40 object-cover inline-block border-2 dark:border-gray-500 rounded"
                 />
                 <div className="m-5 text-xl text-gray-800 dark:text-gray-200 leading-normal">
                     ユーザー名：{user.name}

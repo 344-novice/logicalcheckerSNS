@@ -233,6 +233,7 @@ export default function HomePage({ loginUserId }) {
                 tweets={tweets}
                 loginUserId={loginUserId}
                 openDeleteConfirmDialog={openDeleteConfirmDialog}
+                setTweets={setTweets}
                 msg={indexErrMsg}
             />
             <PostConfirmDialog
