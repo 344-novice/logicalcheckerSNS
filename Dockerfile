@@ -24,4 +24,10 @@ RUN php artisan config:cache \
 
 EXPOSE 8080
 
-CMD php artisan serve --host=0.0.0.0 --port=$PORT
+CMD php artisan config:clear \
+ && php artisan view:clear \
+ && php artisan route:clear \
+ && php artisan config:cache \
+ && php artisan view:cache \
+ && php artisan route:cache \
+ && php artisan serve --host=0.0.0.0 --port=$PORT

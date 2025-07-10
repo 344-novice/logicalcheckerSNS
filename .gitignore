@@ -26,3 +26,5 @@ Thumbs.db
 *.ibd
 *.frm
 logical_checker_sns
+/bootstrap/cache/*.php
+!/bootstrap/cache/.gitignore
