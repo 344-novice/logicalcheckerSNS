@@ -1,8 +1,8 @@
 FROM php:8.2-fpm
 
 RUN apt-get update && apt-get install -y \
-    curl unzip zip git libzip-dev libpng-dev libonig-dev libxml2-dev \
-    && docker-php-ext-install pdo_mysql mbstring zip exif pcntl gd
+    curl unzip zip git libzip-dev libpng-dev libonig-dev libxml2-dev libpq-dev \
+    && docker-php-ext-install pdo_mysql pdo_pgsql mbstring zip exif pcntl gd
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -20,7 +20,6 @@ RUN composer install --no-dev --optimize-autoloader
 RUN php artisan config:cache \
     && php artisan route:cache \
     && php artisan view:cache
-
 
 EXPOSE 8080
 
