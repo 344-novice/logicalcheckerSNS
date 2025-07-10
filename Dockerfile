@@ -10,9 +10,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 WORKDIR /var/www/html
 
-# ソースコードをコピー
-COPY .env .env
-
 # storage と bootstrap/cache の書き込み権限を設定
 RUN chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
