@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e
+set -ex
 
 # .envファイルを作成
 cat > /var/www/html/.env <<EOF
