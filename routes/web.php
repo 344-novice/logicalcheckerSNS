@@ -5,10 +5,6 @@ use App\Http\Controllers\TweetController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/show-log', function () {
-    return response()->file(storage_path('logs/laravel.log'));
-});
-
 Route::redirect('/', '/login');
 
 Route::get('/home', function () {
