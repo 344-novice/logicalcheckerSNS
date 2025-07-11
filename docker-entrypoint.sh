@@ -65,5 +65,7 @@ php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 
+echo "[Entrypoint] Running CMD: $@"
+
 # 最後にCMDの引数を実行
 exec "$@"

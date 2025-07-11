@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:8.2-cli
 
 # 必要なパッケージをインストール
 RUN apt-get update && apt-get install -y \
@@ -16,7 +16,7 @@ COPY . .
 # composerインストール（production向け）
 RUN composer install --no-dev --optimize-autoloader
 
-# ポート公開
+# ポート公開（php artisan serveのポート）
 EXPOSE 8000
 
 # entrypointスクリプトをコピー＆実行権限付与
@@ -24,7 +24,7 @@ COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # entrypointとしてスクリプトを指定
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
-# コンテナ起動時にphp-fpmを実行
+# コンテナ起動時にLaravelの開発サーバーを起動
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
