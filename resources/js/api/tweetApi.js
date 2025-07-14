@@ -14,10 +14,10 @@ export const getLogicalCheck = async (tweet) => {
     return resLogicalCheck;
 };
 
-export const postTweet = async (tweet, logicalCheckData) => {
+export const postTweet = async (tweet, logicalCheck) => {
     const resPostTweet = await axios.post(
         "http://127.0.0.1:8000/api/tweet/post",
-        { tweet, logicalCheckData },
+        { tweet, logicalCheck },
         { withCredentials: true }
     );
     return resPostTweet;

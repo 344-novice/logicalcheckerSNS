@@ -26,7 +26,7 @@ export default function HomePage({ loginUserId }) {
         tweet: "",
         reason: "",
         hints: [],
-        logicalCheckData: null,
+        logicalCheck: null,
     });
 
     useEffect(() => {
@@ -83,16 +83,16 @@ export default function HomePage({ loginUserId }) {
             setWarningMsg("");
             setIsSubmitting(false);
 
-            const logicalCheckData = resLogicalCheck.data;
+            const logicalCheck = resLogicalCheck.data;
 
-            if (logicalCheckData.error) {
+            if (logicalCheck.error) {
                 toast.fail(logicalCheck.message);
                 setIsSubmitting(false);
                 return;
             }
 
-            if (logicalCheckData.flagged) {
-                const categoryKeys = logicalCheckData.categories;
+            if (logicalCheck.flagged) {
+                const categoryKeys = logicalCheck.categories;
                 const jaLabels = categoryKeys.map(
                     (key) => MODERATION_CATEGORY_JA[key] || key
                 );
@@ -114,32 +114,32 @@ export default function HomePage({ loginUserId }) {
                 return;
             }
 
-            if (tweet.length < 50 && logicalCheckData.flagged === false) {
-                await postSubmit(tweet, logicalCheckData);
+            if (tweet.length < 50 && logicalCheck.flagged === false) {
+                await postSubmit(tweet, logicalCheck);
                 return;
             }
 
-            if (!logicalCheckData.logic_result.is_logical) {
+            if (!logicalCheck.logic_result.is_logical) {
                 openPostConfirmDialog(
                     tweet,
-                    logicalCheckData.logic_result.reason,
-                    logicalCheckData.logic_result.hints,
-                    logicalCheckData
+                    logicalCheck.logic_result.reason,
+                    logicalCheck.logic_result.hints,
+                    logicalCheck
                 );
                 setIsSubmitting(false);
                 return;
             }
 
-            await postSubmit(tweet, logicalCheckData);
+            await postSubmit(tweet, logicalCheck);
         } catch (err) {
             handleErrorToast(err.response?.status);
             setIsSubmitting(false);
         }
     };
 
-    const postSubmit = async (tweet, logicalCheckData) => {
+    const postSubmit = async (tweet, logicalCheck) => {
         try {
-            const resPostTweet = await postTweet(tweet, logicalCheckData);
+            const resPostTweet = await postTweet(tweet, logicalCheck);
             setTweets((prev) => [resPostTweet.data, ...prev]);
             toast.success("投稿完了しました");
             setStr("");
@@ -160,12 +160,12 @@ export default function HomePage({ loginUserId }) {
         }
     };
 
-    const openPostConfirmDialog = (tweet, reason, hints, logicalCheckData) => {
+    const openPostConfirmDialog = (tweet, reason, hints, logicalCheck) => {
         setPostConfirmData({
             tweet,
             reason,
             hints,
-            logicalCheckData,
+            logicalCheck,
         });
         setIsPostConfirmOpen(true);
     };
@@ -242,7 +242,7 @@ export default function HomePage({ loginUserId }) {
                 onConfirm={() =>
                     postSubmit(
                         postConfirmData.tweet,
-                        postConfirmData.logicalCheckData
+                        postConfirmData.logicalCheck
                     )
                 }
                 tweet={postConfirmData.tweet}

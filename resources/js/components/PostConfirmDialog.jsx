@@ -57,12 +57,16 @@ export default function PostConfirmDialog({
                             </ul>
                         </div>
                     )}
+
+                    <p className="block mx-auto mt-3 px-3 py-1 text-center text-sm text-red-700 dark:text-red-500 bg-red-100 dark:bg-red-900/40 rounded">
+                        このまま投稿をする場合、アカウントの論理レベルが下がる場合があります
+                    </p>
                 </Dialog.Description>
 
                 <div className="flex justify-end space-x-3">
                     <button
                         onClick={onClose}
-                        className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-500"
+                        className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-500 dark:hover:bg-gray-400"
                     >
                         修正する
                     </button>
@@ -71,7 +75,7 @@ export default function PostConfirmDialog({
                             onConfirm();
                             onClose();
                         }}
-                        className="px-4 py-2 rounded bg-blue-500 text-white hover:bg-blue-600"
+                        className="px-4 py-2 rounded text-white bg-blue-500 hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-600"
                     >
                         投稿する
                     </button>
