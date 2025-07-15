@@ -71,7 +71,7 @@ export default function TweetDetail({
                 <div className="ml-5 text-xl text-gray-800 dark:text-gray-200 leading-tight break-words">
                     {tweet.tweet}
                 </div>
-                <div className="absolute right-0 top-0">✅</div>
+                <div className="ml-5">✅</div>
             </div>
             <div className="m-5 mb-0 flex justify-end space-x-2">
                 <form>
@@ -82,7 +82,6 @@ export default function TweetDetail({
                                 e.stopPropagation();
                                 openDeleteConfirmDialog(tweet.id);
                             }}
-                            // ToDo: hoverがうまくいっていない
                             className="px-2 py-1 text-sm bg-red-100 text-red-700 hover:bg-red-600 hover:text-white dark:hover:bg-red-600 dark:hover:text-white rounded-full shadow-md"
                         >
                             削除

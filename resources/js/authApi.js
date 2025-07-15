@@ -1,7 +1,5 @@
-import axios from "axios";
+import api from "./api/api";
 
 export const getCsrfCookie = async () => {
-    return await axios.get("http://127.0.0.1:8000/sanctum/csrf-cookie", {
-        withCredentials: true,
-    });
+    return await api.get("/sanctum/csrf-cookie");
 };

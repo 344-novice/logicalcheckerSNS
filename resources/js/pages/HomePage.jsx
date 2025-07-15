@@ -140,7 +140,13 @@ export default function HomePage({ loginUserId }) {
     const postSubmit = async (tweet, logicalCheck) => {
         try {
             const resPostTweet = await postTweet(tweet, logicalCheck);
-            setTweets((prev) => [resPostTweet.data, ...prev]);
+            setTweets((prev) => [
+                {
+                    ...resPostTweet.data,
+                    is_logical: logicalCheck.logic_result.is_logical,
+                },
+                ...prev,
+            ]);
             toast.success("投稿完了しました");
             setStr("");
         } catch (err) {
