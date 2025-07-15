@@ -35,7 +35,7 @@ export default function UserImageUploader({ userId, onUploaded }) {
 
             await getCsrfCookie();
 
-            await postUserThumbnail(id);
+            await postUserThumbnail(userId, data.secure_url);
 
             if (onUploaded) onUploaded();
             setFile(null);
