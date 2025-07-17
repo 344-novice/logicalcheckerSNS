@@ -42,7 +42,7 @@ export default function UserImageUploader({ userId, onUploaded }) {
             setPreviewUrl(null);
             toast.success("画像を更新しました");
         } catch (error) {
-            toast.error("アップロードに失敗しました: ");
+            toast.error("アップロードに失敗しました");
         }
     };
 

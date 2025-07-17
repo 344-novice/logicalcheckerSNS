@@ -23,8 +23,7 @@ COPY . .
 
 # 依存関係インストール
 RUN composer install --no-dev --optimize-autoloader \
-    && npm install \
-    && npm run build
+    && npm install
 
 # nginx設定ファイルをコンテナ内にコピー
 COPY nginx.conf /etc/nginx/nginx.conf

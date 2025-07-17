@@ -15,6 +15,11 @@ do
   esac
 done > /var/www/html/.env
 
+# Viteの環境変数も反映させた上でビルドを実行
+cd /var/www/html
+npm install
+npm run build
+
 # Laravel設定キャッシュ
 php artisan config:clear
 php artisan config:cache
