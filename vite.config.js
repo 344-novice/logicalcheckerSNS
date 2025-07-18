@@ -5,6 +5,9 @@ import react from "@vitejs/plugin-react";
 const isProd = process.env.APP_ENV === "production";
 
 export default defineConfig({
+    server: {
+        host: "127.0.0.1",
+    },
     base: isProd ? "https://logical-checker-sns.fly.dev/" : "/",
     plugins: [
         react(),
