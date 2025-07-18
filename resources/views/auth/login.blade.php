@@ -8,17 +8,21 @@
         </a>
     </div>
 
+    <div class="mb-2">
+        <p>複数のサービスを掛け持ちしてWeb公開しているため、挙動が非常に重いです。古のインターネットを思い出してノスタルジーに浸っていただければと思います。</p>
+    </div>
+
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}">
+    <form id="login-form" method="POST" action="{{ route('login') }}" data-dialup="true">
         @csrf
 
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('メールアドレス')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <x-input-label for="login" :value="__('アカウント名 or メールアドレス')" />
+            <x-text-input id="login" class="block mt-1 w-full" type="text" name="login" :value="old('login')" required autofocus autocomplete="username" />
+            <x-input-error :messages="$errors->get('login')" class="mt-2" />
         </div>
 
         <!-- Password -->
@@ -36,6 +40,7 @@
         <!-- Remember Me -->
         <div class="block mt-4">
             <label for="" class="inline-flex items-center">
+                <!-- //ToDo: registerのチェックボックスと揃える -->
                 <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
                 <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('ログイン状態を保持する') }}</span>
             </label>
@@ -47,12 +52,12 @@
                     {{ __('パスワードを忘れた場合はこちら') }}
                 </a>
             <!-- @if (Route::has('password.request'))
-                <a class="underline line-through text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
+                <a class="text-sm text-gray-600 dark:text-gray-400 hover:font-bold hover:text-gray-900 dark:hover:text-gray-100" href="{{ route('password.request') }}">
                     {{ __('パスワードを忘れた場合はこちら') }}
                 </a>
             @endif -->
 
-            <x-primary-button class="ms-3">
+            <x-primary-button id="login-button" class="ms-3">
                 {{ __('ログイン') }}
             </x-primary-button>
         </div>
