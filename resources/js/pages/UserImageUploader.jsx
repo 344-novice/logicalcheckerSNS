@@ -1,15 +1,13 @@
 import axios from "axios";
+import { useState, useRef } from "react";
 import { toast, Toaster } from "sonner";
-import { useState } from "react";
 import { getCsrfCookie } from "../authApi";
-import { postUserThumbnail } from "../api/userApi";
+import { uploadToCloudinary, postUserThumbnail } from "../api/userApi";
 
 export default function UserImageUploader({ userId, onUploaded }) {
     const [file, setFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
-
-    const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
-    const UPLOAD_URL = import.meta.env.VITE_CLOUDINARY_UPLOAD_URL;
+    const fileInputRef = useRef(null);
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
@@ -25,16 +23,13 @@ export default function UserImageUploader({ userId, onUploaded }) {
             return;
         }
 
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", UPLOAD_PRESET);
-        formData.append("folder", `portfolio/user/${userId}`);
-
         try {
-            const { data } = await axios.post(UPLOAD_URL, formData);
+            const formData = new FormData();
+            formData.append("file", file);
+
+            const { data } = await uploadToCloudinary(formData);
 
             await getCsrfCookie();
-
             await postUserThumbnail(userId, data.secure_url);
 
             if (onUploaded) onUploaded();
@@ -44,7 +39,39 @@ export default function UserImageUploader({ userId, onUploaded }) {
         } catch (error) {
             toast.error("アップロードに失敗しました");
         }
+
+        if (fileInputRef.current) fileInputRef.current.value = "";
     };
+    // const handleUpload = async () => {
+    //     if (!file) {
+    //         toast.error("ファイルが選択されていません");
+    //         return;
+    //     }
+
+    //     const formData = new FormData();
+    //     formData.append("file", file);
+    //     formData.append("upload_preset", UPLOAD_PRESET);
+    //     formData.append("folder", `portfolio/user/${userId}`);
+
+    //     try {
+    //         const { data } = await axios.post(UPLOAD_URL, formData);
+
+    //         await getCsrfCookie();
+
+    //         await postUserThumbnail(userId, data.secure_url);
+
+    //         if (onUploaded) onUploaded();
+    //         setFile(null);
+    //         setPreviewUrl(null);
+    //         toast.success("画像を更新しました");
+    //     } catch (error) {
+    //         toast.error("アップロードに失敗しました");
+    //     }
+
+    //     if (fileInputRef.current) {
+    //         fileInputRef.current.value = "";
+    //     }
+    // };
 
     return (
         <>
