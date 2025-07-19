@@ -51,8 +51,14 @@
     </form>
 
     <x-back-to-login-button />
+    <script>
+    window.registerPageData = {
+        hasErrors: @json($errors->any())
+    };
+    </script>
 
     <x-register-explanation-modal />
+    
     <script>
     window.registerPageData = {
         hasErrors: @json($errors->any())

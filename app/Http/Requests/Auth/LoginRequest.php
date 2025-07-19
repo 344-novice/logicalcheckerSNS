@@ -5,7 +5,6 @@ namespace App\Http\Requests\Auth;
 use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -61,6 +60,14 @@ class LoginRequest extends FormRequest
             throw ValidationException::withMessages([
                 'password' => trans('auth.password'),
             ]);
+        }
+
+        if (! Hash::check($password, $user->password)) {
+            RateLimiter::hit($this->throttleKey());
+                throw ValidationException::withMessages([
+                    'password' => trans('auth.password'),
+                ]
+            );
         }
 
         RateLimiter::clear($this->throttleKey());
