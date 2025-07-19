@@ -46,13 +46,19 @@ class LoginRequest extends FormRequest
         $password = $this->input('password');
 
         $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
-
         $user = User::where($fieldType, $login)->first();
 
         if (! $user) {
             RateLimiter::hit($this->throttleKey());
             throw ValidationException::withMessages([
                 'login' => trans('auth.failed'),
+            ]);
+        }
+
+        if (! Hash::check($password, $user->password)) {
+            RateLimiter::hit($this->throttleKey());
+            throw ValidationException::withMessages([
+                'password' => trans('auth.password'),
             ]);
         }
 
@@ -65,6 +71,8 @@ class LoginRequest extends FormRequest
         }
 
         RateLimiter::clear($this->throttleKey());
+
+        Auth::login($user, $this->boolean('remember'));
     }
 
     /**
@@ -95,6 +103,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->input('login')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->string('login')).'|'.$this->ip());
     }
 }

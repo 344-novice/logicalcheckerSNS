@@ -1,6 +1,6 @@
 import "./bootstrap";
 import Alpine from "alpinejs";
-import "./auth/registerModal.js";
+import "./auth/registerExplanationModal.js";
 import { playDialUpAudioAndSubmit } from "./auth/commonAudio.js";
 
 window.Alpine = Alpine;
