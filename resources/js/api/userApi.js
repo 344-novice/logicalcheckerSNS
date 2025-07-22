@@ -10,8 +10,8 @@ export const uploadToCloudinary = async (formData) => {
     });
 };
 
-export const postUserThumbnail = async (userId, secure_url) => {
-    return await api.patch(`/api/user/${userId}/thumbnail`, {
+export const postUserImage = async (userId, secure_url) => {
+    return await api.patch(`/api/user/${userId}/image`, {
         image: secure_url,
     });
 };

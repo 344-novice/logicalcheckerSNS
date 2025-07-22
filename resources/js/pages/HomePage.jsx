@@ -13,6 +13,7 @@ import {
 import { MODERATION_CATEGORY_JA } from "../constants/moderationCategories";
 
 export default function HomePage({ loginUserId }) {
+    // ToDo: tweets→tweetsData
     const [tweets, setTweets] = useState([]);
     const [isPostConfirmOpen, setIsPostConfirmOpen] = useState(false);
     const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);

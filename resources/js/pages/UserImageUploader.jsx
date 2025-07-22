@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { toast, Toaster } from "sonner";
 import { getCsrfCookie } from "../authApi";
-import { uploadToCloudinary, postUserThumbnail } from "../api/userApi";
+import { uploadToCloudinary, postUserImage } from "../api/userApi";
 
 export default function UserImageUploader({ userId, onUploaded }) {
     const [file, setFile] = useState(null);
@@ -32,7 +32,7 @@ export default function UserImageUploader({ userId, onUploaded }) {
             const { data } = await uploadToCloudinary(formData);
 
             await getCsrfCookie();
-            await postUserThumbnail(userId, data.secure_url);
+            await postUserImage(userId, data.secure_url);
 
             if (onUploaded) onUploaded();
             setFile(null);

@@ -26,12 +26,12 @@ class CloudinaryController extends Controller
         $file = $request->file('file');
         $userId = $request->input('user_id');
 
-        $publicId = "user_thumbnails/user_{$userId}";
+        $publicId = "user_images/user_{$userId}";
 
         $result = $cloudinary->uploadApi()->upload(
             $file->getPathname(),
             [
-                'folder' => 'user_thumbnails',
+                'folder' => 'user_images',
                 'public_id' => $publicId,
             ]
         );
