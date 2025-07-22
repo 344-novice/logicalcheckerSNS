@@ -18,7 +18,7 @@
     <form id="login-form" method="POST" action="{{ route('login') }}" data-dialup="true">
         @csrf
 
-        <!-- Email Address -->
+        <!-- User Name or Email Address -->
         <div>
             <x-input-label for="login" :value="__('アカウント名 or メールアドレス')" />
             <x-text-input id="login" class="block mt-1 w-full" type="text" name="login" :value="old('login')" required autofocus autocomplete="username" />

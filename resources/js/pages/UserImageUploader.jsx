@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState, useRef } from "react";
 import { toast, Toaster } from "sonner";
 import { getCsrfCookie } from "../authApi";
@@ -15,6 +14,8 @@ export default function UserImageUploader({ userId, onUploaded }) {
 
         setFile(selectedFile);
         setPreviewUrl(URL.createObjectURL(selectedFile));
+
+        e.target.value = null;
     };
 
     const handleUpload = async () => {
@@ -26,6 +27,7 @@ export default function UserImageUploader({ userId, onUploaded }) {
         try {
             const formData = new FormData();
             formData.append("file", file);
+            formData.append("user_id", userId);
 
             const { data } = await uploadToCloudinary(formData);
 
@@ -42,36 +44,6 @@ export default function UserImageUploader({ userId, onUploaded }) {
 
         if (fileInputRef.current) fileInputRef.current.value = "";
     };
-    // const handleUpload = async () => {
-    //     if (!file) {
-    //         toast.error("ファイルが選択されていません");
-    //         return;
-    //     }
-
-    //     const formData = new FormData();
-    //     formData.append("file", file);
-    //     formData.append("upload_preset", UPLOAD_PRESET);
-    //     formData.append("folder", `portfolio/user/${userId}`);
-
-    //     try {
-    //         const { data } = await axios.post(UPLOAD_URL, formData);
-
-    //         await getCsrfCookie();
-
-    //         await postUserThumbnail(userId, data.secure_url);
-
-    //         if (onUploaded) onUploaded();
-    //         setFile(null);
-    //         setPreviewUrl(null);
-    //         toast.success("画像を更新しました");
-    //     } catch (error) {
-    //         toast.error("アップロードに失敗しました");
-    //     }
-
-    //     if (fileInputRef.current) {
-    //         fileInputRef.current.value = "";
-    //     }
-    // };
 
     return (
         <>

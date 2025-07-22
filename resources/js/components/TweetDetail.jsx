@@ -50,7 +50,7 @@ export default function TweetDetail({
 
     return (
         <div className="m-10 border rounded">
-            <div className="m-5 flex items-start relative mb-5">
+            <div className="flex items-start relative m-5">
                 <div
                     onClick={(e) => handleUserClick(e, tweet.user_id)}
                     className="flex-shrink-0 cursor-pointer"
@@ -64,14 +64,28 @@ export default function TweetDetail({
                         alt="サムネ"
                         className="mb-2 w-40 h-40 cursor-pointer object-cover border-2 border-gray-300 dark:border-gray-400 hover:border-blue-500 dark:hover:border-4 dark:hover:border-blue-500 rounded"
                     />
-                    <div className="text-xl dark:text-white hover:text-blue-500 dark:hover:text-blue-500 cursor-pointer text-center">
-                        <p>{tweet.user?.name}</p>
+                </div>
+                <div className="flex flex-col justify-start ml-10">
+                    <p
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleUserClick(e, tweet.user_id);
+                        }}
+                        className="text-xl font-bold dark:text-white hover:text-blue-500 dark:hover:text-blue-500 cursor-pointer"
+                    >
+                        {tweet.user?.name}
+                    </p>
+
+                    <div
+                        onClick={() => handleTweetClick(tweet.id)}
+                        className="mt-3 mr-10 text-xl text-gray-800 dark:text-gray-200 leading-tight break-words"
+                    >
+                        {tweet.tweet}
                     </div>
+                    {tweet.is_logical ? (
+                        <div className="absolute right-0 top-0">✅</div>
+                    ) : null}
                 </div>
-                <div className="ml-5 text-xl text-gray-800 dark:text-gray-200 leading-tight break-words">
-                    {tweet.tweet}
-                </div>
-                <div className="ml-5">✅</div>
             </div>
             <div className="m-5 mb-0 flex justify-end space-x-2">
                 <form>

@@ -8,8 +8,8 @@ use App\Models\Tweet;
 use App\Models\User;
 use App\Services\ImageService;
 use App\Services\LogicalCheckService;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class TweetController extends Controller

@@ -1,7 +1,7 @@
 import api from "./api";
 
-export const getUser = async (id) => {
-    return await api.get(`/api/user/${id}`);
+export const getUser = async (userId) => {
+    return await api.get(`/api/user/${userId}`);
 };
 
 export const uploadToCloudinary = async (formData) => {
@@ -10,8 +10,12 @@ export const uploadToCloudinary = async (formData) => {
     });
 };
 
-export const postUserThumbnail = async (id, secure_url) => {
-    return await api.patch(`/api/user/${id}/thumbnail`, {
+export const postUserThumbnail = async (userId, secure_url) => {
+    return await api.patch(`/api/user/${userId}/thumbnail`, {
         image: secure_url,
     });
+};
+
+export const updateUserInfo = async (userId, updateData) => {
+    return await api.patch(`/api/user/${userId}/info`, updateData);
 };
