@@ -12,6 +12,7 @@ class CloudinaryController extends Controller
     {
         $request->validate([
             'file' => 'required|file|image|max:10240',
+            'user_id' => 'required|integer',
         ]);
 
         $cloudinary = new Cloudinary([
@@ -23,9 +24,9 @@ class CloudinaryController extends Controller
         ]);
 
         $file = $request->file('file');
+        $userId = $request->input('user_id');
 
-        $timestamp = time();
-        $publicId = 'user_thumbnails/' . pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) . "_{$timestamp}";
+        $publicId = "user_thumbnails/user_{$userId}";
 
         $result = $cloudinary->uploadApi()->upload(
             $file->getPathname(),
@@ -37,7 +38,6 @@ class CloudinaryController extends Controller
 
         return response()->json([
             'secure_url' => $result['secure_url'],
-            'public_id' => $result['public_id'],
         ]);
     }
 }

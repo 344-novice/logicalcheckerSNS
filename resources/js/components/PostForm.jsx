@@ -13,9 +13,9 @@ export default function PostForm({
                     <textarea
                         name="tweet"
                         rows="7"
-                        placeholder="グッドバイブなロジックを組み立てよう！"
                         value={str}
                         onChange={(e) => setStr(e.target.value)}
+                        placeholder="グッドバイブなロジックを組み立てよう！"
                         className="h-[180px] w-full resize-none border-2 dark:border-4 border-green-500 dark:border-gray-400 p-2 pr-24"
                     />
                     <div

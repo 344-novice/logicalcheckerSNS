@@ -59,7 +59,7 @@ export default function TweetsForm({
                     <div className="flex items-start relative mb-3">
                         <div
                             onClick={(e) => handleUserClick(e, tweet.user_id)}
-                            className="flex-shrink-0"
+                            className="flex-shrink-0 cursor-pointer"
                         >
                             <img
                                 src={
@@ -68,22 +68,34 @@ export default function TweetsForm({
                                         : DEFAULT_USER_IMAGE
                                 }
                                 alt="サムネ"
-                                className="mb-2 w-20 h-20 cursor-pointer object-cover border-2 border-gray-300 dark:border-gray-400 hover:border-blue-500 dark:hover:border-blue-500 rounded"
+                                className="my-2 w-20 h-20 cursor-pointer object-cover border-2 border-gray-300 dark:border-gray-400 hover:border-blue-500 dark:hover:border-blue-500 rounded"
                             />
-                            <div className="mt-2 dark:text-white hover:text-blue-500 dark:hover:text-blue-500 cursor-pointer text-center">
-                                <p>{tweet.user?.name}</p>
+                        </div>
+
+                        <div className="flex flex-col justify-start ml-4">
+                            <p
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleUserClick(e, tweet.user_id);
+                                }}
+                                className="font-semibold text-gray-800 dark:text-white hover:text-blue-500 dark:hover:text-blue-50 cursor-pointer"
+                            >
+                                {tweet.user?.name}
+                            </p>
+
+                            <div
+                                onClick={() => handleTweetClick(tweet.id)}
+                                className="font-normal mr-10 mt-3 text-lg text-gray-800 dark:text-gray-200 leading-tight break-words hover:text-blue-500 dark:hover:text-blue-500 cursor-pointer"
+                            >
+                                {tweet.tweet}
                             </div>
                         </div>
-                        <div
-                            onClick={() => handleTweetClick(tweet.id)}
-                            className="font-normal mx-5 text-lg text-gray-800 dark:text-gray-200 leading-tight break-words hover:text-blue-500 dark:hover:text-blue-500 cursor-pointer"
-                        >
-                            {tweet.tweet}
-                        </div>
+
                         {tweet.is_logical ? (
                             <div className="absolute right-0 top-0">✅</div>
                         ) : null}
                     </div>
+
                     <div className="flex justify-end space-x-2">
                         <form>
                             {Number(tweet.user_id) === Number(loginUserId) ? (
@@ -100,6 +112,7 @@ export default function TweetsForm({
                             ) : null}
                         </form>
                     </div>
+
                     <div className="text-sm text-right text-gray-500 dark:text-gray-200">
                         <span
                             onClick={() => handleLike(tweet.id)}
