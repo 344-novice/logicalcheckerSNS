@@ -23,7 +23,7 @@ class UserController extends Controller
         return response()->json($userData);
     }
 
-    public function updateThumbnail(Request $request, $userId) {
+    public function updateimage(Request $request, $userId) {
         $user = User::findOrFail($userId);
 
         // ToDo: policy導入検討
@@ -43,7 +43,6 @@ class UserController extends Controller
 
     public function updateUserInfo(Request $request, $userId)
     {
-        Log::info($request->all());
         $user = User::findOrFail($userId);
 
         // ToDo: policy導入検討

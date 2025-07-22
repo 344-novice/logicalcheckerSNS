@@ -11,7 +11,7 @@ Route::get('/tweet/index', [TweetController::class, 'index']);
 Route::middleware('auth:sanctum')->get('/user/{userId}', [UserController::class, 'showUser']);
 
 Route::middleware('auth:sanctum')->post('/cloudinary/upload', [CloudinaryController::class, 'uploadImage']);
-Route::middleware('auth:sanctum')->patch('/user/{userId}/thumbnail', [UserController::class, 'updateThumbnail']);
+Route::middleware('auth:sanctum')->patch('/user/{userId}/image', [UserController::class, 'updateImage']);
 Route::middleware('auth:sanctum')->patch('/user/{userId}/info', [UserController::class, 'updateUserInfo']);
 
 Route::middleware('auth:sanctum')->post('/tweet/logic-check', [LogicalCheckController::class, 'check']);

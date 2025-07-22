@@ -35,11 +35,21 @@ export default function UserForm({
     return (
         <div key={userData.id} className="m-10 border rounded">
             <div className="m-5 flex">
-                <img
-                    src={userData.image || DEFAULT_USER_IMAGE}
-                    alt="サムネ"
-                    className="m-5 w-40 h-40 object-cover inline-block border-2 dark:border-gray-500 rounded"
-                />
+                <div className="flex flex-col items-center">
+                    <img
+                        src={userData.image || DEFAULT_USER_IMAGE}
+                        alt="サムネ"
+                        className="m-5 w-40 h-40 object-cover inline-block border-2 dark:border-gray-500 rounded"
+                    />
+                    <div className="mb-10 flex">
+                        {isMyPage && (
+                            <UserImageUploader
+                                userId={userData.id}
+                                onUploaded={fetchUserAgain}
+                            />
+                        )}
+                    </div>
+                </div>
                 <div className="m-5 flex-1 min-w-0 text-xl text-gray-800 dark:text-gray-200 leading-normal">
                     {editMode ? (
                         <form onSubmit={handleSubmit}>
@@ -147,14 +157,6 @@ export default function UserForm({
                         </>
                     )}
                 </div>
-            </div>
-            <div className="ml-10 mb-10 flex">
-                {isMyPage && (
-                    <UserImageUploader
-                        userId={userData.id}
-                        onUploaded={fetchUserAgain}
-                    />
-                )}
             </div>
         </div>
     );
