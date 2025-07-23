@@ -1,7 +1,7 @@
 import api from "./api";
 
-export const getTweets = async () => {
-    return await api.get("/api/tweet/index");
+export const getTweets = async (page = 1) => {
+    return await api.get(`/api/tweet/index?page=${page}`);
 };
 
 export const getLogicalCheck = async (tweet) => {

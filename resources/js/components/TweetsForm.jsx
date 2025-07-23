@@ -1,6 +1,7 @@
 import { toast } from "sonner";
 import useLikeToggle from "../hooks/useLikeToggle";
 import { DEFAULT_USER_IMAGE } from "../constants/index";
+import PaginationButton from "./PaginationButton";
 
 export default function TweetsForm({
     tweets,
@@ -8,6 +9,9 @@ export default function TweetsForm({
     loginUserId,
     openDeleteConfirmDialog,
     msg,
+    currentPage,
+    setCurrentPage,
+    lastPage,
 }) {
     if (msg === "読み込みに失敗しました") {
         return (
@@ -85,20 +89,22 @@ export default function TweetsForm({
 
                             <div
                                 onClick={() => handleTweetClick(tweet.id)}
-                                className="font-normal mr-10 mt-3 text-lg text-gray-800 dark:text-gray-200 leading-tight break-words hover:text-blue-500 dark:hover:text-blue-500 cursor-pointer"
+                                className="font-normal mr-5 mt-3 text-lg text-gray-800 dark:text-gray-200 leading-tight break-words hover:text-blue-500 dark:hover:text-blue-500 cursor-pointer"
                             >
                                 {tweet.tweet}
                             </div>
                         </div>
 
                         {tweet.is_logical ? (
-                            <div className="absolute right-0 top-0">✅</div>
+                            <div className="mr-5 absolute right-0 top-0">
+                                ✅
+                            </div>
                         ) : null}
                     </div>
 
-                    <div className="flex justify-end space-x-2">
+                    <div className="flex justify-end mr-5">
                         <form>
-                            {Number(tweet.user_id) === Number(loginUserId) ? (
+                            {Number(tweet.user.id) === Number(loginUserId) ? (
                                 <button
                                     type="button"
                                     onClick={(e) => {
@@ -113,7 +119,7 @@ export default function TweetsForm({
                         </form>
                     </div>
 
-                    <div className="text-sm text-right text-gray-500 dark:text-gray-200">
+                    <div className="mr-5 text-sm text-right text-gray-500 dark:text-gray-200">
                         <span
                             onClick={() => handleLike(tweet.id)}
                             className={`cursor-pointer select-none transition-colors duration-300 ease-in-out ${
@@ -131,6 +137,17 @@ export default function TweetsForm({
                     </div>
                 </div>
             ))}
+            <div>
+                <PaginationButton
+                    currentPage={currentPage}
+                    lastPage={lastPage}
+                    onPageChange={(page) => {
+                        if (page >= 1 && page <= lastPage) {
+                            setCurrentPage(page);
+                        }
+                    }}
+                />
+            </div>
         </div>
     );
 }

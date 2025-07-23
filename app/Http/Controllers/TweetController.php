@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TweetRequest;
+use App\Http\Resources\TweetResource;
 use App\Models\LogicalCheck;
 use App\Models\Tweet;
 use App\Models\User;
@@ -11,35 +12,18 @@ use App\Services\LogicalCheckService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class TweetController extends Controller
 {
     public function index(Request $request)
     {
-        $userId = $request->user()->id;
-
         $tweets = Tweet::with(['user', 'logicalCheck', 'likes'])
             ->where('delete_flag', 0)
             ->latest()
-            ->get();
-
-        $formattedTweets = $tweets->map(function ($tweet) use ($userId) {
-            $tweetArray = $tweet->toArray();
-
-            $tweetArray['user']['image'] = ImageService::getTransformedUrl(
-            $tweet->user->image ?? null,
-            'w_100,h_100,c_fill,q_auto,f_auto'
-            );
-
-            $tweetArray['is_logical'] = $tweet->logicalCheck ? $tweet->logicalCheck->is_logical : false;
-            $tweetArray['liked'] = $userId ? $tweet->likes->contains('user_id', $userId) : false;
-
-            unset($tweetArray['logicalCheck']);
-
-            return $tweetArray;
-        });
-
-        return response()->json($formattedTweets);
+            ->paginate(5);;
+            
+        return TweetResource::collection($tweets);
     }
 
     public function storeTweet(TweetRequest $request)
