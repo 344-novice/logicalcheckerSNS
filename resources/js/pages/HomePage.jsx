@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast, Toaster } from "sonner";
 import PostForm from "../components/PostForm";
 import TweetsForm from "../components/TweetsForm";
@@ -29,25 +29,29 @@ export default function HomePage({ loginUserId }) {
         hints: [],
         logicalCheck: null,
     });
+    const [currentPage, setCurrentPage] = useState(1);
+    const [lastPage, setLastPage] = useState(1);
 
-    useEffect(() => {
-        const fetchData = async () => {
+    const fetchData = useCallback(
+        async (page) => {
             try {
-                const resTweets = await getTweets();
-
+                const resTweets = await getTweets(page);
                 if (resTweets.status !== 200) {
                     setIndexErrMsg("読み込みに失敗しました");
                     return;
                 }
-
-                setTweets(resTweets.data);
+                setTweets(resTweets.data.data);
+                setLastPage(resTweets.data.meta.last_page);
             } catch (error) {
                 setIndexErrMsg("読み込みに失敗しました");
             }
-        };
+        },
+        [setTweets, setLastPage, setIndexErrMsg]
+    );
 
-        fetchData();
-    }, []);
+    useEffect(() => {
+        fetchData(currentPage);
+    }, [currentPage, fetchData]);
 
     useEffect(() => {
         const homePageElement = document.getElementById("home-page");
@@ -140,16 +144,10 @@ export default function HomePage({ loginUserId }) {
 
     const postSubmit = async (tweet, logicalCheck) => {
         try {
-            const resPostTweet = await postTweet(tweet, logicalCheck);
-            setTweets((prev) => [
-                {
-                    ...resPostTweet.data,
-                    is_logical: logicalCheck.logic_result.is_logical,
-                },
-                ...prev,
-            ]);
+            await postTweet(tweet, logicalCheck);
             toast.success("投稿完了しました");
             setStr("");
+            fetchData(currentPage);
         } catch (err) {
             handleErrorToast(err.response?.status);
         } finally {
@@ -159,9 +157,17 @@ export default function HomePage({ loginUserId }) {
 
     const deleteSubmit = async (tweetId) => {
         try {
-            const resDeleteTweet = await deleteTweet(tweetId);
-            setTweets(resDeleteTweet.data);
+            await deleteTweet(tweetId);
             toast.success("削除が完了しました");
+
+            const resTweets = await getTweets(currentPage);
+
+            if (currentPage > resTweets.data.meta.last_page) {
+                setCurrentPage(resTweets.data.meta.last_page);
+            } else {
+                setTweets(resTweets.data.data);
+                setLastPage(resTweets.data.meta.last_page);
+            }
         } catch (err) {
             handleErrorToast(err.response?.status);
         }
@@ -242,6 +248,9 @@ export default function HomePage({ loginUserId }) {
                 openDeleteConfirmDialog={openDeleteConfirmDialog}
                 setTweets={setTweets}
                 msg={indexErrMsg}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                lastPage={lastPage}
             />
             <PostConfirmDialog
                 isOpen={isPostConfirmOpen}

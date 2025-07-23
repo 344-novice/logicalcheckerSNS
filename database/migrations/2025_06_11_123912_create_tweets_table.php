@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('tweet');
             $table->string('image_path')->nullable();
             $table->integer('liked_count')->default(0);
-             $table->boolean('delete_flag')->default(false);
+            $table->boolean('delete_flag')->default(false);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

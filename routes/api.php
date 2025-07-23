@@ -11,10 +11,10 @@ Route::get('/tweet/index', [TweetController::class, 'index']);
 Route::middleware('auth:sanctum')->get('/user/{userId}', [UserController::class, 'showUser']);
 
 Route::middleware('auth:sanctum')->post('/cloudinary/upload', [CloudinaryController::class, 'uploadImage']);
-Route::middleware('auth:sanctum')->patch('/user/{userId}/image', [UserController::class, 'updateImage']);
+Route::middleware(['auth:sanctum', 'throttle:5,1'])->patch('/user/{userId}/image', [UserController::class, 'updateImage']);
 Route::middleware('auth:sanctum')->patch('/user/{userId}/info', [UserController::class, 'updateUserInfo']);
 
-Route::middleware('auth:sanctum')->post('/tweet/logic-check', [LogicalCheckController::class, 'check']);
+Route::middleware(['auth:sanctum', 'throttle:10,1'])->post('/tweet/logic-check', [LogicalCheckController::class, 'check']);
 Route::middleware('auth:sanctum')->post('/tweet/post', [TweetController::class, 'storeTweet']);
 
 Route::middleware('auth:sanctum')->get('/tweet/delete', [TweetController::class, 'delete']);
@@ -22,4 +22,4 @@ Route::middleware('auth:sanctum')->post('/tweet/delete', [TweetController::class
 
 Route::middleware('auth:sanctum')->get('/tweet/detail/{tweetId}', [TweetController::class, 'detail']);
 
-Route::middleware('auth:sanctum')->post('/tweet/liked-count/{tweetId}', [TweetController::class, 'changeLikedCount']);
+Route::middleware(['auth:sanctum', 'throttle:20,1'])->post('/tweet/liked-count/{tweetId}', [TweetController::class, 'changeLikedCount']);
