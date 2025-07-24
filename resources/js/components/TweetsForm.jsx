@@ -63,12 +63,17 @@ export default function TweetsForm({
                     <div className="flex items-start relative mb-3">
                         <div
                             onClick={(e) => handleUserClick(e, tweet.user.id)}
-                            className="flex-shrink-0 cursor-pointer"
+                            className="flex flex-col flex-shrink-0 items-center cursor-pointer"
                         >
                             <PreloadedImage
                                 imageUrl={tweet.user?.image}
-                                className="my-2 w-20 h-20 cursor-pointer object-cover border-2 border-gray-300 dark:border-gray-400 hover:border-blue-500 dark:hover:border-blue-500 rounded"
+                                className="w-20 h-20 cursor-pointer object-cover border-2 border-gray-300 dark:border-gray-400 hover:border-blue-500 dark:hover:border-blue-500 rounded"
                             />
+                            {tweet.user?.is_logical_gold && (
+                                <span className="mt-3 text-center text-lg">
+                                    🥇
+                                </span>
+                            )}
                         </div>
 
                         <div className="flex flex-col justify-start ml-4">

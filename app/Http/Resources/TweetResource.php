@@ -27,6 +27,7 @@ class TweetResource extends JsonResource
                     $this->user->image ?? null,
                     'w_100,h_100,c_fill,q_auto,f_auto'
                 ),
+                'is_logical_gold' => $this->user->is_logical_gold,
             ],
             'is_logical' => $this->logicalCheck ? $this->logicalCheck->is_logical : false,
             'liked' => $userId ? $this->likes->contains('user_id', $userId) : false,

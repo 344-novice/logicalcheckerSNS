@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 
 /**
  * @property string|null $image
+ * @property int $total_tweet_count
+ * @property int $total_logical_true_count
  */
 class User extends Authenticatable{
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -50,5 +52,16 @@ class User extends Authenticatable{
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected $appends = ['is_logical_gold'];
+
+    public function getIsLogicalGoldAttribute()
+    {
+        if ($this->total_tweet_count === 0) {
+            return false;
+        }
+
+        return ($this->total_logical_true_count / $this->total_tweet_count) >= 0.5;
     }
 }
