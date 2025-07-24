@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
+/**
+ * @property bool $is_logical_gold;
+ */
 class TweetController extends Controller
 {
     public function index(Request $request)
@@ -122,6 +125,8 @@ class TweetController extends Controller
             $tweet->user->image ?? null,
             'w_200,h_200,c_fill,q_auto,f_auto'
         );
+
+        $tweetData['user']['is_logical_gold'] = $tweet->user->is_logical_gold;
 
         return response()->json($tweetData);
     }

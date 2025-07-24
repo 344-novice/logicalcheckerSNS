@@ -1,6 +1,6 @@
 import { toast } from "sonner";
 import useLikeToggle from "../hooks/useLikeToggle";
-import { DEFAULT_USER_IMAGE } from "../constants/index";
+import PreloadedImage from "./PreloadedImage";
 
 export default function TweetDetail({
     tweet,
@@ -53,17 +53,15 @@ export default function TweetDetail({
             <div className="flex items-start relative m-5">
                 <div
                     onClick={(e) => handleUserClick(e, tweet.user_id)}
-                    className="flex-shrink-0 cursor-pointer"
+                    className="flex flex-col flex-shrink-0 items-center cursor-pointer"
                 >
-                    <img
-                        src={
-                            tweet.user?.image
-                                ? tweet.user?.image
-                                : DEFAULT_USER_IMAGE
-                        }
-                        alt="サムネ"
+                    <PreloadedImage
+                        imageUrl={tweet.user?.image}
                         className="mb-2 w-40 h-40 cursor-pointer object-cover border-2 border-gray-300 dark:border-gray-400 hover:border-blue-500 dark:hover:border-4 dark:hover:border-blue-500 rounded"
                     />
+                    {tweet.user?.is_logical_gold && (
+                        <span className="mt-3 text-center text-3xl">🥇</span>
+                    )}
                 </div>
                 <div className="flex flex-col justify-start ml-10">
                     <p

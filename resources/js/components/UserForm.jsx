@@ -1,6 +1,6 @@
 import { useState } from "react";
 import UserImageUploader from "../pages/UserImageUploader";
-import { DEFAULT_USER_IMAGE } from "../constants/index";
+import PreloadedImage from "./PreloadedImage";
 
 export default function UserForm({
     userData,
@@ -32,16 +32,23 @@ export default function UserForm({
         setEditMode(false);
     };
 
+    console.log(userData);
+
     return (
         <div key={userData.id} className="m-10 border rounded">
             <div className="m-5 flex">
-                <div className="flex flex-col items-center">
-                    <img
-                        src={userData.image || DEFAULT_USER_IMAGE}
-                        alt="サムネ"
-                        className="m-5 w-40 h-40 object-cover inline-block border-2 dark:border-gray-500 rounded"
+                <div className="flex flex-col flex-shrink-0 items-center cursor-pointer">
+                    <PreloadedImage
+                        imageUrl={userData.image}
+                        className="mx-5 mt-5 w-40 h-40 object-cover inline-block border-2 dark:border-gray-500 rounded"
                     />
-                    <div className="mb-10 flex">
+                    <span
+                        style={{ opacity: userData.is_logical_gold ? 1 : 0 }}
+                        className="my-3 text-center text-3xl"
+                    >
+                        🥇
+                    </span>
+                    <div>
                         {isMyPage && (
                             <UserImageUploader
                                 userId={userData.id}

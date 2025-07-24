@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 import useLikeToggle from "../hooks/useLikeToggle";
-import { DEFAULT_USER_IMAGE } from "../constants/index";
 import PaginationButton from "./PaginationButton";
+import PreloadedImage from "./PreloadedImage";
 
 export default function TweetsForm({
     tweets,
@@ -62,25 +62,25 @@ export default function TweetsForm({
                 <div key={tweet.id} className="my-5 p-5 border rounded">
                     <div className="flex items-start relative mb-3">
                         <div
-                            onClick={(e) => handleUserClick(e, tweet.user_id)}
-                            className="flex-shrink-0 cursor-pointer"
+                            onClick={(e) => handleUserClick(e, tweet.user.id)}
+                            className="flex flex-col flex-shrink-0 items-center cursor-pointer"
                         >
-                            <img
-                                src={
-                                    tweet.user?.image
-                                        ? tweet.user?.image
-                                        : DEFAULT_USER_IMAGE
-                                }
-                                alt="サムネ"
-                                className="my-2 w-20 h-20 cursor-pointer object-cover border-2 border-gray-300 dark:border-gray-400 hover:border-blue-500 dark:hover:border-blue-500 rounded"
+                            <PreloadedImage
+                                imageUrl={tweet.user?.image}
+                                className="w-20 h-20 cursor-pointer object-cover border-2 border-gray-300 dark:border-gray-400 hover:border-blue-500 dark:hover:border-blue-500 rounded"
                             />
+                            {tweet.user?.is_logical_gold && (
+                                <span className="mt-3 text-center text-lg">
+                                    🥇
+                                </span>
+                            )}
                         </div>
 
                         <div className="flex flex-col justify-start ml-4">
                             <p
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    handleUserClick(e, tweet.user_id);
+                                    handleUserClick(e, tweet.user.id);
                                 }}
                                 className="font-semibold text-gray-800 dark:text-white hover:text-blue-500 dark:hover:text-blue-50 cursor-pointer"
                             >
