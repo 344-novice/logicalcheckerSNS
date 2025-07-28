@@ -1,4 +1,6 @@
 <x-guest-layout>
+    <x-register-explanation-modal />
+    
     <div class="flex justify-between items-end mb-4 text-gray-600 dark:text-gray-400">
         <p class="font-bold mb-1">{{ __('アカウント登録') }}</p>
     </div>
@@ -47,7 +49,7 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <x-primary-button id="register-form" class="ms-4">
+            <x-primary-button id="register-button" class="ms-4">
                 {{ __('アカウント登録') }}
             </x-primary-button>
         </div>
@@ -58,6 +60,21 @@
     window.registerPageData = {
         hasErrors: @json($errors->any())
     };
+    </script>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('register-form');
+            const registerButton = document.getElementById('register-button');
+
+            if (form && registerButton) {
+                form.addEventListener('submit', function () {
+                    registerButton.disabled = true;
+                    registerButton.innerText = '登録中…';
+                    registerButton.classList.add('font-bold', 'bg-white', 'text-black', 'border', 'breeze-loading');
+                });
+            }
+        });
     </script>
 
     @push('scripts')

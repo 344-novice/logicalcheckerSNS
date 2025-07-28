@@ -7,7 +7,17 @@ export function playDialUpAudioAndSubmit(formId, buttonIds) {
 
         buttonIds.forEach((id) => {
             const btn = document.getElementById(id);
-            if (btn) btn.disabled = true;
+            if (btn) {
+                btn.disabled = true;
+                btn.innerText = "ログイン中…";
+                btn.classList.add(
+                    "font-bold",
+                    "bg-white",
+                    "text-black",
+                    "border",
+                    "breeze-loading"
+                );
+            }
         });
 
         const audio = new Audio("/dial-up_connection.mp3");
