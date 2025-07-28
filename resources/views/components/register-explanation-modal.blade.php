@@ -8,6 +8,7 @@
                 <p class="mt-2">　 アカウント名の登録において、お名前や社名等を入れる際はその点をご留意ください。</p>
             </li>
             <li>メールアドレスはダミーでもいいですが、@と.の入っていない場合は弾かれます。</li>
+            <li>パスワードリセット機能を利用する際には実際のメールアドレスを登録する必要があります。</li>
         </ul>
     <div class="mt-6 flex justify-between items-center">
         <label class="flex items-center space-x-2 -ml-1">

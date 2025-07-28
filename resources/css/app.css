@@ -12,3 +12,12 @@ ol[data-sonner-toaster] {
     justify-content: center !important;
     width: 100% !important;
 }
+
+.breeze-loading,
+.breeze-loading:hover,
+.breeze-loading:focus {
+    background-color: white !important;
+    color: black !important;
+    cursor: default !important;
+    border: 1px solid black !important;
+}

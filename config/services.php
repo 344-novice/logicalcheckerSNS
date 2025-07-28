@@ -38,4 +38,11 @@ return [
     'openai' => [
         'key' => env('OPENAI_API_KEY'),
     ],
+
+    'gmail' => [
+        'client_id' => env('GMAIL_CLIENT_ID'),
+        'client_secret' => env('GMAIL_CLIENT_SECRET'),
+        'email' => env('GMAIL_EMAIL'),
+        'token_path' => env('GMAIL_TOKENS_PATH'),
+    ],
 ];

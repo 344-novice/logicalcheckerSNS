@@ -47,15 +47,11 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <p class="font-bold text-red-500">改修中：</p>
-                <a class="underline line-through text-sm text-gray-600 dark:text-gray-400 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-                    {{ __('パスワードを忘れた場合はこちら') }}
-                </a>
-            <!-- @if (Route::has('password.request'))
+            @if (Route::has('password.request'))
                 <a class="text-sm text-gray-600 dark:text-gray-400 hover:font-bold hover:text-gray-900 dark:hover:text-gray-100" href="{{ route('password.request') }}">
                     {{ __('パスワードを忘れた場合はこちら') }}
                 </a>
-            @endif -->
+            @endif
 
             <x-primary-button id="login-button" class="ms-3">
                 {{ __('ログイン') }}
