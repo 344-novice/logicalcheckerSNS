@@ -5,7 +5,7 @@ import DeleteConfirmDialog from "@/components/DeleteConfirmDialog";
 import { deleteTweet, getTweetDetail } from "../api/tweetApi";
 
 export default function TweetDetailPage({ loginUserId }) {
-    const [tweet, setTweet] = useState([]);
+    const [tweetData, setTweetData] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
     const [targetTweetId, setTargetTweetId] = useState(null);
     const [msg, setMsg] = useState("");
@@ -22,7 +22,7 @@ export default function TweetDetailPage({ loginUserId }) {
                     return;
                 }
 
-                setTweet(resTweetDetail.data);
+                setTweetData(resTweetDetail.data);
             } catch (error) {
                 setMsg("読み込みに失敗しました");
             }
@@ -55,8 +55,8 @@ export default function TweetDetailPage({ loginUserId }) {
         <>
             <Toaster position="top-center" />
             <TweetDetail
-                tweet={tweet}
-                setTweet={setTweet}
+                tweetData={tweetData}
+                setTweetData={setTweetData}
                 loginUserId={loginUserId}
                 openDeleteConfirmDialog={openDeleteConfirmDialog}
                 msg={msg}

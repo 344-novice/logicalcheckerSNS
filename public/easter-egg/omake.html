@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="refresh" content="65; URL=/home" />
+        <title>Css Sample</title>
+        <style>
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                overflow: hidden;
+                background: black;
+                font-family: Arial, sans-serif;
+            }
+            body {
+                perspective: 800px;
+            }
+
+            .intro-text {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: #50cfdb;
+                font-family: "Yu Gothic";
+                font-weight: 100;
+                font-size: 3vw;
+                line-height: 1.5;
+                text-align: left;
+                white-space: normal;
+                opacity: 0;
+                animation: introFadeInOut 5s linear forwards;
+            }
+            .intro-text span {
+                white-space: nowrap;
+            }
+
+            @keyframes introFadeInOut {
+                0% {
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 1;
+                }
+                90% {
+                    opacity: 1;
+                }
+                100% {
+                    opacity: 0;
+                }
+            }
+
+            .logo {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform-style: preserve-3d;
+                transform-origin: center center;
+                font-family: "Arial Black", Arial, sans-serif;
+                font-size: 24vw;
+                color: black;
+                -webkit-text-fill-color: black;
+                -webkit-text-stroke: 8px #ffe81f;
+                text-shadow: 0 0 10px rgba(255, 232, 31, 0.7);
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(1.2);
+                animation: logoShowShrinkFade 10s linear forwards;
+                animation-delay: 7s;
+                user-select: none;
+                line-height: 1.1;
+                letter-spacing: -0.02em;
+                text-transform: uppercase;
+                z-index: 2;
+                text-align: center;
+            }
+
+            @keyframes logoShowShrinkFade {
+                0% {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) scale(1.4);
+                }
+                8% {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) scale(1.2);
+                }
+                40% {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) scale(0.5);
+                }
+                70% {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) scale(0.2);
+                }
+                98% {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) scale(0.05);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translate(-50%, -50%) scale(0.04);
+                }
+            }
+
+            .crawl-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                overflow: hidden;
+                display: flex;
+                justify-content: center;
+                align-items: flex-end;
+                opacity: 0;
+                animation: crawlFadeIn 1s linear forwards;
+                animation-delay: 16s;
+            }
+
+            @keyframes crawlFadeIn {
+                to {
+                    opacity: 1;
+                }
+            }
+
+            #titles {
+                position: absolute;
+                width: 18em;
+                height: 50em;
+                bottom: 0;
+                left: 50%;
+                margin-left: -9em;
+                font-size: 350%;
+                font-weight: bold;
+                text-align: justify;
+                overflow: hidden;
+                transform-origin: 50% 100%;
+                transform: perspective(300px) rotateX(25deg);
+                text-align: center;
+            }
+
+            #titles:after {
+                position: absolute;
+                content: " ";
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 60%;
+                background-image: linear-gradient(
+                    to bottom,
+                    rgba(0, 0, 0, 1) 0%,
+                    transparent 100%
+                );
+                pointer-events: none;
+            }
+
+            #titlecontent {
+                position: absolute;
+                top: 100%;
+                animation: scroll 100s linear 18s forwards;
+                color: yellow;
+                line-height: 1.8;
+                text-align: center;
+            }
+
+            #titlecontent p {
+                margin: 0 0 1.5em 0;
+            }
+
+            @keyframes scroll {
+                0% {
+                    top: 100%;
+                }
+                100% {
+                    top: -170%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="intro-text">
+            A long time ago, in a galaxy far,<br />
+            <span>far&nbsp;away….</span>
+        </div>
+
+        <div class="logo">DEBUG WARS</div>
+
+        <div class="crawl-container">
+            <div id="titles">
+                <div id="titlecontent">
+                    <p>Episode MMXXV</p>
+                    <p>REVENGE OF THE BUILD</p>
+                    <p>
+                        The legacy codebase strikes back. Chaos spreads across
+                        the deployment pipeline.
+                    </p>
+                    <p>
+                        Our heroes refactor, test, and deploy, pushing through
+                        infinite CI loops.
+                    </p>
+                    <p>But the dark side of tech debt looms large...</p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
