@@ -13,8 +13,7 @@ import {
 import { MODERATION_CATEGORY_JA } from "../constants/moderationCategories";
 
 export default function HomePage({ loginUserId }) {
-    // ToDo: tweets→tweetsData
-    const [tweets, setTweets] = useState([]);
+    const [tweetsData, setTweetsData] = useState([]);
     const [isPostConfirmOpen, setIsPostConfirmOpen] = useState(false);
     const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
     const [targetTweetId, setTargetTweetId] = useState(null);
@@ -40,13 +39,13 @@ export default function HomePage({ loginUserId }) {
                     setIndexErrMsg("読み込みに失敗しました");
                     return;
                 }
-                setTweets(resTweets.data.data);
+                setTweetsData(resTweets.data.data);
                 setLastPage(resTweets.data.meta.last_page);
             } catch (error) {
                 setIndexErrMsg("読み込みに失敗しました");
             }
         },
-        [setTweets, setLastPage, setIndexErrMsg]
+        [setTweetsData, setLastPage, setIndexErrMsg]
     );
 
     useEffect(() => {
@@ -243,10 +242,10 @@ export default function HomePage({ loginUserId }) {
                 openPostConfirmDialog={openPostConfirmDialog}
             />
             <TweetsForm
-                tweets={tweets}
+                tweetsData={tweetsData}
                 loginUserId={loginUserId}
                 openDeleteConfirmDialog={openDeleteConfirmDialog}
-                setTweets={setTweets}
+                setTweetsData={setTweetsData}
                 msg={indexErrMsg}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}

@@ -3,8 +3,8 @@ import useLikeToggle from "../hooks/useLikeToggle";
 import PreloadedImage from "./PreloadedImage";
 
 export default function TweetDetail({
-    tweet,
-    setTweet,
+    tweetData,
+    setTweetData,
     loginUserId,
     openDeleteConfirmDialog,
     msg,
@@ -19,7 +19,7 @@ export default function TweetDetail({
 
     const handleUserClick = (e, userId) => {
         e.stopPropagation();
-        if (Number(tweet.user_id) === Number(loginUserId)) {
+        if (Number(tweetData.user_id) === Number(loginUserId)) {
             window.location.href = "/mypage";
         } else {
             window.location.href = `/user/${userId}`;
@@ -39,34 +39,34 @@ export default function TweetDetail({
             return;
         }
 
-        setTweet({
-            ...tweet,
+        setTweetData({
+            ...tweetData,
             liked_count: updated.liked_count,
             liked: updated.liked,
         });
 
-        setTweets(updatedTweets);
+        setTweetsData(updatedTweets);
     };
 
     return (
         <div
             role="article"
-            aria-label={`ツイート by ${tweet.user?.name}`}
+            aria-label={`ツイート by ${tweetData.user?.name}`}
             className="m-10 border rounded"
         >
             <div className="relative flex items-start m-5">
                 <button
                     type="button"
-                    aria-label={`${tweet.user?.name}さんのプロフィールを見る`}
-                    onClick={(e) => handleUserClick(e, tweet.user_id)}
+                    aria-label={`${tweetData.user?.name}さんのプロフィールを見る`}
+                    onClick={(e) => handleUserClick(e, tweetData.user_id)}
                     className="flex flex-col flex-shrink-0 items-center cursor-pointer"
                 >
                     <PreloadedImage
-                        imageUrl={tweet.user?.image}
-                        alt={`${tweet.user?.name}のプロフィール画像`}
+                        imageUrl={tweetData.user?.image}
+                        alt={`${tweetData.user?.name}のプロフィール画像`}
                         className="mb-2 w-40 h-40 cursor-pointer object-cover border-2 dark:hover:border-4 border-gray-300 dark:border-gray-400 hover:border-blue-500 dark:hover:border-blue-500 rounded"
                     />
-                    {tweet.user?.is_logical_gold && (
+                    {tweetData.user?.is_logical_gold && (
                         <span
                             aria-label="論理性の優秀なユーザー"
                             role="img"
@@ -79,25 +79,25 @@ export default function TweetDetail({
                 <div className="flex flex-col justify-start ml-10">
                     <button
                         type="button"
-                        aria-label={`${tweet.user?.name}さんのプロフィールを見る`}
+                        aria-label={`${tweetData.user?.name}さんのプロフィールを見る`}
                         onClick={(e) => {
                             e.stopPropagation();
-                            handleUserClick(e, tweet.user_id);
+                            handleUserClick(e, tweetData.user_id);
                         }}
                         className="text-xl font-bold dark:text-white hover:text-blue-500 dark:hover:text-blue-500 cursor-pointer"
                     >
-                        {tweet.user?.name}
+                        {tweetData.user?.name}
                     </button>
 
                     <div
                         aria-label="ツイート本文"
                         role="button"
-                        onClick={() => handleTweetClick(tweet.id)}
+                        onClick={() => handleTweetClick(tweetData.id)}
                         className="mt-3 mr-10 text-xl text-gray-800 dark:text-gray-200 leading-tight break-words"
                     >
-                        {tweet.tweet}
+                        {tweetData.tweet}
                     </div>
-                    {tweet.is_logical ? (
+                    {tweetData.is_logical ? (
                         <div
                             aria-label="論理的なツイートマーク"
                             role="img"
@@ -110,13 +110,13 @@ export default function TweetDetail({
             </div>
             <div className="flex justify-end space-x-2 m-5 mb-0">
                 <form>
-                    {Number(tweet.user_id) === Number(loginUserId) ? (
+                    {Number(tweetData.user_id) === Number(loginUserId) ? (
                         <button
                             type="button"
                             aria-label="ツイートを削除"
                             onClick={(e) => {
                                 e.stopPropagation();
-                                openDeleteConfirmDialog(tweet.id);
+                                openDeleteConfirmDialog(tweetData.id);
                             }}
                             className="px-2 py-1 text-sm bg-red-100 text-red-700 hover:bg-red-600 hover:text-white dark:hover:bg-red-600 dark:hover:text-white rounded-full shadow-md"
                         >
@@ -128,13 +128,13 @@ export default function TweetDetail({
             <div className="m-5 text-sm text-right text-gray-500 dark:text-gray-200">
                 <button
                     type="button"
-                    aria-pressed={tweet.liked}
+                    aria-pressed={tweetData.liked}
                     aria-label={
-                        tweet.liked ? "いいねを取り消す" : "いいねを付ける"
+                        tweetData.liked ? "いいねを取り消す" : "いいねを付ける"
                     }
-                    onClick={() => handleLike(tweet.id)}
+                    onClick={() => handleLike(tweetData.id)}
                     className={`cursor-pointer select-none transition-colors duration-300 ease-in-out ${
-                        tweet.liked
+                        tweetData.liked
                             ? "font-semibold text-pink-500 dark:text-pink-400"
                             : "text-gray-500 dark:text-white hover:text-pink-500 dark:hover:text-pink-400"
                     }`}
@@ -142,9 +142,9 @@ export default function TweetDetail({
                     いいね
                 </button>
                 <span className="mx-1" />
-                {tweet.liked_count}
+                {tweetData.liked_count}
                 <span className="mx-2" />
-                {formatDate(tweet.created_at)}
+                {formatDate(tweetData.created_at)}
             </div>
         </div>
     );
