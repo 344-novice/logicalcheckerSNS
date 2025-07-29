@@ -25,7 +25,6 @@ class UserController extends Controller
     public function updateimage(Request $request, $userId) {
         $user = User::findOrFail($userId);
 
-        // ToDo: policy導入検討
         if (Auth::id() !== $user->id) {
             abort(403, '許可されていません');
         }
@@ -44,7 +43,6 @@ class UserController extends Controller
     {
         $user = User::findOrFail($userId);
 
-        // ToDo: policy導入検討
         if (Auth::id() !== $user->id) {
             abort(403, '許可されていません');
         }

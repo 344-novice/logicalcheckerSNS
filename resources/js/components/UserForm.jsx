@@ -35,14 +35,23 @@ export default function UserForm({
     console.log(userData);
 
     return (
-        <div key={userData.id} className="m-10 border rounded">
-            <div className="m-5 flex">
+        <div
+            role="region"
+            aria-labelledby="user-profile-heading"
+            className="m-10 border rounded"
+        >
+            <h2 id="user-profile-heading" className="sr-only">
+                ユーザープロフィール
+            </h2>
+            <div className="flex m-5">
                 <div className="flex flex-col flex-shrink-0 items-center cursor-pointer">
                     <PreloadedImage
                         imageUrl={userData.image}
                         className="mx-5 mt-5 w-40 h-40 object-cover inline-block border-2 dark:border-gray-500 rounded"
                     />
                     <span
+                        aria-hidden={!userData.is_logical_gold}
+                        aria-label="論理性の優秀なユーザー"
                         style={{ opacity: userData.is_logical_gold ? 1 : 0 }}
                         className="my-3 text-center text-3xl"
                     >
@@ -61,17 +70,21 @@ export default function UserForm({
                     {editMode ? (
                         <form onSubmit={handleSubmit}>
                             <div className="relative flex items-center">
-                                <label className="whitespace-nowrap">
+                                <label
+                                    htmlFor="username"
+                                    className="whitespace-nowrap"
+                                >
                                     ユーザー名：
                                 </label>
                                 <input
+                                    id="username"
                                     type="text"
                                     value={editName}
                                     onChange={(e) =>
                                         setEditName(e.target.value)
                                     }
                                     maxLength={30}
-                                    className="ml-2 pr-16 px-2 py-1 w-full border dark:border-2 rounded-sm"
+                                    className="ml-2 px-2 py-1 pr-16 w-full border dark:border-2 rounded-sm"
                                 />
                                 <div
                                     className={`absolute bottom-2 right-3 text-sm select-none pointer-events-none ${
@@ -87,10 +100,14 @@ export default function UserForm({
                             </div>
 
                             <div className="relative flex items-center mt-5">
-                                <label className="whitespace-nowrap">
+                                <label
+                                    htmlFor="profile"
+                                    className="whitespace-nowrap"
+                                >
                                     自己紹介文：
                                 </label>
                                 <textarea
+                                    id="profile"
                                     value={editProfile}
                                     rows={7}
                                     onChange={(e) =>
@@ -98,7 +115,7 @@ export default function UserForm({
                                     }
                                     maxLength={500}
                                     placeholder="500文字以内で入力"
-                                    className="px-2 pr-24 py-1 ml-2 w-full border dark:border-2 rounded-sm resize-none"
+                                    className="px-2py-1  pr-24 ml-2 w-full border dark:border-2 rounded-sm resize-none"
                                 />
                                 <div
                                     className={`absolute bottom-2 right-3 text-sm select-none pointer-events-none ${
@@ -138,15 +155,14 @@ export default function UserForm({
                             </div>
                         </form>
                     ) : (
-                        // ToDo: ランクづけなど項目が増えていったらデザイン再検討
                         <>
                             <>
-                                <div className="inline-block p-3 border-2 w-full max-w-full break-words whitespace-normal rounded-sm">
+                                <div className="inline-block p-3 w-full max-w-full border-2 break-words whitespace-normal rounded-sm">
                                     <span>ユーザー名：</span>
                                     {userData.name}
                                 </div>
 
-                                <div className="p-3 mt-3 border-2 w-full max-w-full break-words whitespace-normal rounded-sm">
+                                <div className="p-3 mt-3 w-full max-w-full border-2 break-words whitespace-normal rounded-sm">
                                     自己紹介文：{userData.profile}
                                 </div>
                             </>
@@ -155,7 +171,7 @@ export default function UserForm({
                                 {isMyPage && (
                                     <button
                                         onClick={() => setEditMode(true)}
-                                        className="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 focus:outline-none"
+                                        className="px-3 py-1 bg-gray-300 hover:bg-gray-400 text-gray-700 focus:outline-none rounded"
                                     >
                                         編集
                                     </button>

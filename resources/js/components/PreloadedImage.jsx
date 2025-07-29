@@ -26,7 +26,7 @@ export default function PreloadedImage({ imageUrl, className = "" }) {
     return (
         <img
             src={src}
-            alt="サムネ"
+            alt="デフォルトのサムネイル画像"
             className={`${className} ${loaded ? "opacity-100" : "opacity-0"}`}
         />
     );

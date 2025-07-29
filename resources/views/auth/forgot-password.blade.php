@@ -1,6 +1,6 @@
 <x-guest-layout>
     <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        <p class="font-bold mb-1">{{ __('パスワードをお忘れの場合：') }}</p>
+        <p class="mb-1 font-bold">{{ __('パスワードをお忘れの場合：') }}</p>
         <p>{{ __('アカウント名とメールアドレスを入力してください。') }}</p>
         <p>{{ __('パスワードリセット用のリンクをメールでお送りします。') }}</p>
     </div>
@@ -14,15 +14,15 @@
         <!-- Name -->
         <div class="mb-4">
             <x-input-label for="name" :value="__('アカウント名：')" class="text-lg" />
-            <x-text-input id="name" class="block mt-2 w-full" type="text" name="name" :value="old('name')" required />
-            <x-input-error :messages="$errors->get('password-reset')" class="mt-2" />
+            <x-text-input id="name" type="text" name="name" :value="old('name')" class="block mt-2 w-full" required />
+            <x-input-error id="name-error" :messages="$errors->get('password-reset')" class="mt-2" />
         </div>
 
         <!-- Email -->
         <div class="mb-4">
             <x-input-label for="email" :value="__('メールアドレス：')" class="text-lg" />
-            <x-text-input id="email" class="block mt-2 w-full" type="email" name="email" :value="old('email')" required />
-            <x-input-error :messages="$errors->get('password-reset')" class="mt-2" />
+            <x-text-input id="email" type="email" name="email" :value="old('email')" class="block mt-2 w-full" required />
+            <x-input-error id="email-error" :messages="$errors->get('password-reset')" class="mt-2" />
         </div>
 
         <div class="flex items-center justify-end mt-4">

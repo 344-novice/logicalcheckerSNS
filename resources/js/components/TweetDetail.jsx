@@ -49,22 +49,37 @@ export default function TweetDetail({
     };
 
     return (
-        <div className="m-10 border rounded">
-            <div className="flex items-start relative m-5">
-                <div
+        <div
+            role="article"
+            aria-label={`ツイート by ${tweet.user?.name}`}
+            className="m-10 border rounded"
+        >
+            <div className="relative flex items-start m-5">
+                <button
+                    type="button"
+                    aria-label={`${tweet.user?.name}さんのプロフィールを見る`}
                     onClick={(e) => handleUserClick(e, tweet.user_id)}
                     className="flex flex-col flex-shrink-0 items-center cursor-pointer"
                 >
                     <PreloadedImage
                         imageUrl={tweet.user?.image}
-                        className="mb-2 w-40 h-40 cursor-pointer object-cover border-2 border-gray-300 dark:border-gray-400 hover:border-blue-500 dark:hover:border-4 dark:hover:border-blue-500 rounded"
+                        alt={`${tweet.user?.name}のプロフィール画像`}
+                        className="mb-2 w-40 h-40 cursor-pointer object-cover border-2 dark:hover:border-4 border-gray-300 dark:border-gray-400 hover:border-blue-500 dark:hover:border-blue-500 rounded"
                     />
                     {tweet.user?.is_logical_gold && (
-                        <span className="mt-3 text-center text-3xl">🥇</span>
+                        <span
+                            aria-label="論理性の優秀なユーザー"
+                            role="img"
+                            className="mt-3 text-center text-3xl"
+                        >
+                            🥇
+                        </span>
                     )}
-                </div>
+                </button>
                 <div className="flex flex-col justify-start ml-10">
-                    <p
+                    <button
+                        type="button"
+                        aria-label={`${tweet.user?.name}さんのプロフィールを見る`}
                         onClick={(e) => {
                             e.stopPropagation();
                             handleUserClick(e, tweet.user_id);
@@ -72,24 +87,33 @@ export default function TweetDetail({
                         className="text-xl font-bold dark:text-white hover:text-blue-500 dark:hover:text-blue-500 cursor-pointer"
                     >
                         {tweet.user?.name}
-                    </p>
+                    </button>
 
                     <div
+                        aria-label="ツイート本文"
+                        role="button"
                         onClick={() => handleTweetClick(tweet.id)}
                         className="mt-3 mr-10 text-xl text-gray-800 dark:text-gray-200 leading-tight break-words"
                     >
                         {tweet.tweet}
                     </div>
                     {tweet.is_logical ? (
-                        <div className="absolute right-0 top-0">✅</div>
+                        <div
+                            aria-label="論理的なツイートマーク"
+                            role="img"
+                            className="absolute right-0 top-0"
+                        >
+                            ✅
+                        </div>
                     ) : null}
                 </div>
             </div>
-            <div className="m-5 mb-0 flex justify-end space-x-2">
+            <div className="flex justify-end space-x-2 m-5 mb-0">
                 <form>
                     {Number(tweet.user_id) === Number(loginUserId) ? (
                         <button
                             type="button"
+                            aria-label="ツイートを削除"
                             onClick={(e) => {
                                 e.stopPropagation();
                                 openDeleteConfirmDialog(tweet.id);
@@ -102,16 +126,21 @@ export default function TweetDetail({
                 </form>
             </div>
             <div className="m-5 text-sm text-right text-gray-500 dark:text-gray-200">
-                <span
+                <button
+                    type="button"
+                    aria-pressed={tweet.liked}
+                    aria-label={
+                        tweet.liked ? "いいねを取り消す" : "いいねを付ける"
+                    }
                     onClick={() => handleLike(tweet.id)}
                     className={`cursor-pointer select-none transition-colors duration-300 ease-in-out ${
                         tweet.liked
-                            ? "text-pink-500 dark:text-pink-400 font-semibold"
+                            ? "font-semibold text-pink-500 dark:text-pink-400"
                             : "text-gray-500 dark:text-white hover:text-pink-500 dark:hover:text-pink-400"
                     }`}
                 >
                     いいね
-                </span>
+                </button>
                 <span className="mx-1" />
                 {tweet.liked_count}
                 <span className="mx-2" />
