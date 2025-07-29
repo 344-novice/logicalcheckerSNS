@@ -27,6 +27,11 @@ export default function DarkModeToggle() {
     return (
         <button
             onClick={() => setDarkMode(!darkMode)}
+            aria-label={
+                darkMode
+                    ? "ライトモードに切り替える"
+                    : "ダークモードに切り替える"
+            }
             className="px-6 py-2 rounded bg-gray-500"
         >
             {darkMode ? "💡" : "🌙"}

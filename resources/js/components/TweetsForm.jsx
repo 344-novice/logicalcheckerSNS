@@ -58,26 +58,39 @@ export default function TweetsForm({
 
     return (
         <div>
+            <h2 id="tweets-heading" className="sr-only">
+                ツイート一覧
+            </h2>
             {tweets.map((tweet) => (
-                <div key={tweet.id} className="my-5 p-5 border rounded">
-                    <div className="flex items-start relative mb-3">
-                        <div
+                <article
+                    key={tweet.id}
+                    aria-label={`ツイート by ${tweet.user?.name}`}
+                    className="my-5 p-5 border rounded"
+                >
+                    <div className="relative flex items-start mb-3">
+                        <button
+                            aria-label={`${tweet.user?.name}さんのプロフィールを見る`}
                             onClick={(e) => handleUserClick(e, tweet.user.id)}
                             className="flex flex-col flex-shrink-0 items-center cursor-pointer"
                         >
                             <PreloadedImage
                                 imageUrl={tweet.user?.image}
+                                alt={`${tweet.user?.name}さんのサムネイル画像`}
                                 className="w-20 h-20 cursor-pointer object-cover border-2 border-gray-300 dark:border-gray-400 hover:border-blue-500 dark:hover:border-blue-500 rounded"
                             />
                             {tweet.user?.is_logical_gold && (
-                                <span className="mt-3 text-center text-lg">
+                                <span
+                                    aria-label="論理性の優秀なユーザー"
+                                    className="mt-3 text-center text-lg"
+                                >
                                     🥇
                                 </span>
                             )}
-                        </div>
+                        </button>
 
                         <div className="flex flex-col justify-start ml-4">
-                            <p
+                            <button
+                                aria-label={`${tweet.user?.name}さんのプロフィールを見る`}
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     handleUserClick(e, tweet.user.id);
@@ -85,18 +98,22 @@ export default function TweetsForm({
                                 className="font-semibold text-gray-800 dark:text-white hover:text-blue-500 dark:hover:text-blue-50 cursor-pointer"
                             >
                                 {tweet.user?.name}
-                            </p>
+                            </button>
 
-                            <div
+                            <button
+                                aria-label="ツイート内容を詳しく見る"
                                 onClick={() => handleTweetClick(tweet.id)}
-                                className="font-normal mr-5 mt-3 text-lg text-gray-800 dark:text-gray-200 leading-tight break-words hover:text-blue-500 dark:hover:text-blue-500 cursor-pointer"
+                                className="mt-3 mr-5 font-normal text-lg text-gray-800 hover:text-blue-500 dark:text-gray-200  dark:hover:text-blue-500 leading-tight break-words cursor-pointer"
                             >
                                 {tweet.tweet}
-                            </div>
+                            </button>
                         </div>
 
                         {tweet.is_logical ? (
-                            <div className="mr-5 absolute right-0 top-0">
+                            <div
+                                aria-label="論理的なツイートマーク"
+                                className="absolute right-0 top-0 mr-5"
+                            >
                                 ✅
                             </div>
                         ) : null}
@@ -107,11 +124,12 @@ export default function TweetsForm({
                             {Number(tweet.user.id) === Number(loginUserId) ? (
                                 <button
                                     type="button"
+                                    aria-label={`ツイートID ${tweet.id} を削除`}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         openDeleteConfirmDialog(tweet.id);
                                     }}
-                                    className="mb-2 px-2 py-1 text-sm bg-red-200 dark:bg-white text-red-700 dark:text-red-600 hover:bg-red-600 hover:text-white dark:hover:bg-red-600 dark:hover:text-white rounded-full shadow-md "
+                                    className="mb-2 px-2 py-1 text-sm text-red-700 dark:text-red-600 hover:text-white dark:hover:text-white bg-red-200 dark:bg-white hover:bg-red-600 dark:hover:bg-red-600 rounded-full shadow-md"
                                 >
                                     削除
                                 </button>
@@ -121,21 +139,31 @@ export default function TweetsForm({
 
                     <div className="mr-5 text-sm text-right text-gray-500 dark:text-gray-200">
                         <span
+                            aria-label={`${
+                                tweet.liked ? "いいね済み" : "いいね"
+                            } (${tweet.liked_count}件)`}
+                            aria-pressed={tweet.liked}
                             onClick={() => handleLike(tweet.id)}
                             className={`cursor-pointer select-none transition-colors duration-300 ease-in-out ${
                                 tweet.liked
-                                    ? "text-pink-500 dark:text-pink-400 font-semibold"
+                                    ? "font-semibold text-pink-500 dark:text-pink-400"
                                     : "font-normal text-gray-500 dark:text-white hover:text-pink-500 dark:hover:text-pink-400"
                             }`}
                         >
                             いいね
                         </span>
-                        <span className="mx-1" />
-                        {tweet.liked_count}
-                        <span className="mx-2" />
+                        <span aria-hidden="true" className="mx-1" />
+                        <span aria-live="polite">{tweet.liked_count}</span>
+                        <span
+                            aria-label={`投稿時間: ${formatDate(
+                                tweet.created_at
+                            )}`}
+                            aria-hidden="true"
+                            className="mx-2"
+                        />
                         {formatDate(tweet.created_at)}
                     </div>
-                </div>
+                </article>
             ))}
             <div>
                 <PaginationButton

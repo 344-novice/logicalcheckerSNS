@@ -8,15 +8,23 @@ export default function PostForm({
 }) {
     return (
         <div className="mb-10">
-            <form onSubmit={logicCheck} className="flex items-end">
-                <div className="relative mx-auto w-full max-w-[800px] flex flex-col justify-end">
+            <form
+                aria-labelledby="tweet-form-heading"
+                onSubmit={logicCheck}
+                className="flex items-end"
+            >
+                <div className="relative flex flex-col justify-end mx-auto w-full max-w-[800px]">
+                    <label htmlFor="tweet-input" className="sr-only">
+                        投稿フォーム
+                    </label>
                     <textarea
+                        id="tweet-textarea"
                         name="tweet"
                         rows="7"
                         value={str}
                         onChange={(e) => setStr(e.target.value)}
                         placeholder="グッドバイブなロジックを組み立てよう！"
-                        className="h-[180px] w-full resize-none border-2 dark:border-4 border-green-500 dark:border-gray-400 p-2 pr-24"
+                        className="p-2 pr-24 h-[180px] w-full resize-none border-2 dark:border-4 border-green-500 dark:border-gray-400"
                     />
                     <div
                         className={`absolute bottom-3 right-3 text-sm ${
@@ -35,6 +43,9 @@ export default function PostForm({
                     disabled={
                         isSubmitting || isBlockedByFlagged || str.trim() === ""
                     }
+                    aria-disabled={
+                        isSubmitting || isBlockedByFlagged || str.trim() === ""
+                    }
                     className={`ml-5 p-1 w-[80px] border rounded ${
                         isSubmitting || isBlockedByFlagged || str.trim() === ""
                             ? "bg-gray-300 text-gray-500 cursor-not-allowed"
@@ -45,7 +56,14 @@ export default function PostForm({
                 </button>
             </form>
             <div className="mt-4 pr-20 mx-auto">
-                <div className="w-full">{warningMsg}</div>
+                <div
+                    className="w-full"
+                    role="alert"
+                    aria-live="assertive"
+                    id="logic-warning"
+                >
+                    {warningMsg}
+                </div>
             </div>
         </div>
     );

@@ -49,17 +49,22 @@ export default function UserImageUploader({ userId, onUploaded }) {
         <>
             <Toaster position="top-center" />
             <div className="flex flex-col space-y-3">
-                <label className="w-40 px-4 py-2 text-center bg-blue-500 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-600 text-white cursor-pointer rounded">
+                <label
+                    role="button"
+                    className="px-4 py-2 w-40 text-center text-white bg-blue-500 dark:bg-blue-700 hover:bg-blue-700 dark:hover:bg-blue-600 cursor-pointer rounded"
+                >
                     サムネイルを選択
                     <input
                         type="file"
+                        aria-label="サムネイルを選択"
                         onChange={handleFileChange}
                         className="hidden"
                     />
                 </label>
                 <button
+                    aria-label="画像をアップロード"
                     onClick={handleUpload}
-                    className="w-40 px-4 py-2 text-center text-black hover:text-white bg-gray-100 hover:bg-gray-700 dark:hover:bg-gray-500 border border-black dark:border-none rounded"
+                    className="px-4 py-2 w-40 text-center text-black hover:text-white bg-gray-100 hover:bg-gray-700 dark:hover:bg-gray-500 border border-black dark:border-none rounded"
                 >
                     アップロード
                 </button>
@@ -67,8 +72,8 @@ export default function UserImageUploader({ userId, onUploaded }) {
                     <div>
                         <img
                             src={previewUrl}
-                            alt="プレビュー"
-                            className="mt-5 w-40 h-40 border-2 border-gray-400 object-cover block"
+                            alt="選択された画像のプレビュー"
+                            className="block mt-5 w-40 h-40 border-gray-400 border-2 object-cover"
                         />
                     </div>
                 )}
