@@ -39,7 +39,7 @@
         .hidden-link {
             position: absolute;
             top: -1.5em;
-            left: 0;
+            left: 2em;
             width: 5em;
             height: 5em;
             color: transparent;

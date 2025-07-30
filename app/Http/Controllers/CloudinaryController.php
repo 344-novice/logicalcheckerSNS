@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Cloudinary\Cloudinary;
-use Illuminate\Support\Facades\Config;
-
+use Illuminate\Http\Request;
 class CloudinaryController extends Controller
 {
     public function uploadImage(Request $request)

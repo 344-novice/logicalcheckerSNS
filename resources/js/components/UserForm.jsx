@@ -32,8 +32,6 @@ export default function UserForm({
         setEditMode(false);
     };
 
-    console.log(userData);
-
     return (
         <div
             role="region"

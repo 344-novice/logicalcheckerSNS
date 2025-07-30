@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import UserForm from "../components/UserForm";
-import { getUser, updateUserInfo } from "../api/userApi";
 import { toast } from "sonner";
+import { getUser, updateUserInfo } from "../api/userApi";
+import UserForm from "../components/UserForm";
 
 export default function UserPage({ userId, loginUserId }) {
     const [userData, setUserData] = useState([]);

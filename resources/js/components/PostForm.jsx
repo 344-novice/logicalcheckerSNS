@@ -1,13 +1,30 @@
 export default function PostForm({
-    logicCheck,
-    warningMsg,
-    isSubmitting,
-    isBlockedByFlagged,
+    openLogicalCheckerManualDialog,
     str,
     setStr,
+    isSubmitting,
+    isBlockedByFlagged,
+    warningMsg,
+    logicCheck,
 }) {
     return (
         <div className="mb-10">
+            <div
+                id="logical-checker-manual-dialog"
+                name="logical-checker-manual"
+            >
+                <button
+                    type="button"
+                    aria-label="論理チェッカーについてのマニュアル"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        openLogicalCheckerManualDialog();
+                    }}
+                    className="mb-3 text-red-500 dark:text-red-600 hover:text-pink-500 dark:hover:text-white"
+                >
+                    ！初めて本サービスを使う際にはこちらをお読みください！
+                </button>
+            </div>
             <form
                 aria-labelledby="tweet-form-heading"
                 onSubmit={logicCheck}

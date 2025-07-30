@@ -5,8 +5,6 @@ use App\Http\Controllers\TweetController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-use Illuminate\Support\Facades\Log;
-
 Route::redirect('/', '/login');
 
 Route::get('/home', function () { 

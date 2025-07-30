@@ -8,6 +8,7 @@ export default function PreloadedImage({ imageUrl, className = "" }) {
     useEffect(() => {
         if (!imageUrl) {
             setSrc(DEFAULT_USER_IMAGE);
+            setLoaded(true);
             return;
         }
 
@@ -19,7 +20,7 @@ export default function PreloadedImage({ imageUrl, className = "" }) {
         };
         img.onerror = () => {
             setSrc(DEFAULT_USER_IMAGE);
-            setLoaded(false);
+            setLoaded(true);
         };
     }, [imageUrl]);
 

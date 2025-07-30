@@ -4,10 +4,9 @@ namespace App\Services;
 
 use App\Models\LogicalCheck;
 use App\Models\User;
-use App\Services\ModerationService;
 use App\Services\ChatGPTLogicService;
+use App\Services\ModerationService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class LogicalCheckService
 {

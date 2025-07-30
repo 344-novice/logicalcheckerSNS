@@ -1,10 +1,10 @@
 import ReactDOM from "react-dom/client";
+import { createRoot } from "react-dom/client";
 import SessionTimeout from "./components/SessionTimeout";
-import UserPageName from "./pages/UserPageName";
 import HomePage from "./pages/HomePage";
 import TweetDetailPage from "./pages/TweetDetailPage";
 import UserPage from "./pages/UserPage";
-import { createRoot } from "react-dom/client";
+import UserPageName from "./pages/UserPageName";
 import DarkModeToggle from "./components/DarkmodeSwitch";
 
 const reactRoot = document.getElementById("react-root");

@@ -1,33 +1,36 @@
 import { useCallback, useEffect, useState } from "react";
 import { toast, Toaster } from "sonner";
-import PostForm from "../components/PostForm";
-import TweetsForm from "../components/TweetsForm";
-import PostConfirmDialog from "@/components/PostConfirmDialog";
-import DeleteConfirmDialog from "@/components/DeleteConfirmDialog";
 import {
     deleteTweet,
     getLogicalCheck,
     getTweets,
     postTweet,
 } from "../api/tweetApi";
+import LogicalCheckerManualDialog from "@/components/LogicalCheckerManualDialog";
+import PostForm from "../components/PostForm";
+import TweetsForm from "../components/TweetsForm";
+import PostConfirmDialog from "@/components/PostConfirmDialog";
+import DeleteConfirmDialog from "@/components/DeleteConfirmDialog";
 import { MODERATION_CATEGORY_JA } from "../constants/moderationCategories";
 
 export default function HomePage({ loginUserId }) {
-    const [tweetsData, setTweetsData] = useState([]);
-    const [isPostConfirmOpen, setIsPostConfirmOpen] = useState(false);
-    const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
-    const [targetTweetId, setTargetTweetId] = useState(null);
-    const [indexErrMsg, setIndexErrMsg] = useState("");
-    const [warningMsg, setWarningMsg] = useState("");
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isBlockedByFlagged, setIsBlockedByFlagged] = useState(false);
+    const [isLogicalCheckerManualOpen, setIsLogicalCheckerManualOpen] =
+        useState(false);
     const [str, setStr] = useState("");
+    const [warningMsg, setWarningMsg] = useState("");
+    const [isBlockedByFlagged, setIsBlockedByFlagged] = useState(false);
+    const [isPostConfirmOpen, setIsPostConfirmOpen] = useState(false);
     const [postConfirmData, setPostConfirmData] = useState({
         tweet: "",
         reason: "",
         hints: [],
         logicalCheck: null,
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [tweetsData, setTweetsData] = useState([]);
+    const [indexErrMsg, setIndexErrMsg] = useState("");
+    const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
+    const [targetTweetId, setTargetTweetId] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [lastPage, setLastPage] = useState(1);
 
@@ -172,6 +175,10 @@ export default function HomePage({ loginUserId }) {
         }
     };
 
+    const openLogicalCheckerManualDialog = () => {
+        setIsLogicalCheckerManualOpen(true);
+    };
+
     const openPostConfirmDialog = (tweet, reason, hints, logicalCheck) => {
         setPostConfirmData({
             tweet,
@@ -232,24 +239,18 @@ export default function HomePage({ loginUserId }) {
             )}
 
             <Toaster position="top-center" />
+            <LogicalCheckerManualDialog
+                isOpen={isLogicalCheckerManualOpen}
+                onClose={() => setIsLogicalCheckerManualOpen(false)}
+            />
             <PostForm
-                logicCheck={logicCheck}
-                warningMsg={warningMsg}
-                isSubmitting={isSubmitting}
-                isBlockedByFlagged={isBlockedByFlagged}
+                openLogicalCheckerManualDialog={openLogicalCheckerManualDialog}
                 str={str}
                 setStr={setStr}
-                openPostConfirmDialog={openPostConfirmDialog}
-            />
-            <TweetsForm
-                tweetsData={tweetsData}
-                loginUserId={loginUserId}
-                openDeleteConfirmDialog={openDeleteConfirmDialog}
-                setTweetsData={setTweetsData}
-                msg={indexErrMsg}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                lastPage={lastPage}
+                isSubmitting={isSubmitting}
+                isBlockedByFlagged={isBlockedByFlagged}
+                warningMsg={warningMsg}
+                logicCheck={logicCheck}
             />
             <PostConfirmDialog
                 isOpen={isPostConfirmOpen}
@@ -263,6 +264,16 @@ export default function HomePage({ loginUserId }) {
                 tweet={postConfirmData.tweet}
                 reason={postConfirmData.reason}
                 hints={postConfirmData.hints}
+            />
+            <TweetsForm
+                tweetsData={tweetsData}
+                setTweetsData={setTweetsData}
+                msg={indexErrMsg}
+                loginUserId={loginUserId}
+                openDeleteConfirmDialog={openDeleteConfirmDialog}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                lastPage={lastPage}
             />
             <DeleteConfirmDialog
                 isOpen={isDeleteConfirmOpen}

@@ -10,9 +10,8 @@ use App\Models\User;
 use App\Services\ImageService;
 use App\Services\LogicalCheckService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property bool $is_logical_gold;

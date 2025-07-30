@@ -6,9 +6,9 @@ import PreloadedImage from "./PreloadedImage";
 export default function TweetsForm({
     tweetsData,
     setTweetsData,
+    msg,
     loginUserId,
     openDeleteConfirmDialog,
-    msg,
     currentPage,
     setCurrentPage,
     lastPage,
@@ -90,7 +90,7 @@ export default function TweetsForm({
                             )}
                         </button>
 
-                        <div className="flex flex-col justify-start ml-4">
+                        <div className="flex flex-col items-start justify-start ml-4">
                             <button
                                 aria-label={`${tweetData.user.name}さんのプロフィールを見る`}
                                 onClick={(e) => {
@@ -105,7 +105,7 @@ export default function TweetsForm({
                             <button
                                 aria-label="ツイート内容を詳しく見る"
                                 onClick={() => handleTweetClick(tweetData.id)}
-                                className="mt-3 mr-5 font-normal text-lg text-gray-800 hover:text-blue-500 dark:text-gray-200  dark:hover:text-blue-500 leading-tight break-words cursor-pointer"
+                                className="mt-3 mr-5 text-left font-normal text-lg text-gray-800 hover:text-blue-500 dark:text-gray-200  dark:hover:text-blue-500 leading-tight break-words cursor-pointer"
                             >
                                 {tweetData.tweet}
                             </button>

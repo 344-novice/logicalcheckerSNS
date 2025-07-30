@@ -2,12 +2,11 @@
 
 namespace App\Services;
 
-use PHPMailer\PHPMailer\PHPMailer;
+use League\OAuth2\Client\Grant\RefreshToken;
+use League\OAuth2\Client\Provider\Google;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\OAuth;
-use League\OAuth2\Client\Provider\Google;
-use League\OAuth2\Client\Grant\RefreshToken;
-use Illuminate\Support\Facades\Log;
+use PHPMailer\PHPMailer\PHPMailer;
 
 class GmailOAuthMailer
 {

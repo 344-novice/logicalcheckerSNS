@@ -7,6 +7,7 @@ const isProd = process.env.APP_ENV === "production";
 export default defineConfig({
     server: {
         host: "127.0.0.1",
+        port: 8000,
     },
     base: isProd ? "https://logical-checker-sns.fly.dev/" : "/",
     plugins: [
