@@ -18,8 +18,9 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-
+            $table->boolean('is_admin')->default(false);
             $table->text('image')->nullable();
+            $table->text('profile')->nullable();
             $table->unsignedInteger('total_moderate_false_count')->default(0);
             $table->unsignedInteger('total_logical_true_count')->default(0);
             $table->unsignedInteger('total_tweet_count')->default(0);

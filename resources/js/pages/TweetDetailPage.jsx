@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { toast, Toaster } from "sonner";
+import { deleteTweet, getTweetDetail } from "../api/tweetApi";
 import TweetDetail from "../components/TweetDetail";
 import DeleteConfirmDialog from "@/components/DeleteConfirmDialog";
-import { deleteTweet, getTweetDetail } from "../api/tweetApi";
 
 export default function TweetDetailPage({ loginUserId }) {
     const [tweetData, setTweetData] = useState([]);
-    const [isOpen, setIsOpen] = useState(false);
-    const [targetTweetId, setTargetTweetId] = useState(null);
     const [msg, setMsg] = useState("");
+    const [targetTweetId, setTargetTweetId] = useState(null);
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         const pathParts = window.location.pathname.split("/");
@@ -57,9 +57,9 @@ export default function TweetDetailPage({ loginUserId }) {
             <TweetDetail
                 tweetData={tweetData}
                 setTweetData={setTweetData}
+                msg={msg}
                 loginUserId={loginUserId}
                 openDeleteConfirmDialog={openDeleteConfirmDialog}
-                msg={msg}
             />
             <DeleteConfirmDialog
                 isOpen={isOpen}

@@ -10,7 +10,7 @@ class ModerationService {
         try {
             $response = Http::withToken(config('services.openai.key'))
                 ->post(self::MODERATION_API_URL, [
-                    'model' => 'omni-moderation',
+                    'model' => 'omni-moderation-latest',
                     'input' => $tweet,
                 ]);
 

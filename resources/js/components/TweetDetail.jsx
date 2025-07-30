@@ -5,9 +5,9 @@ import PreloadedImage from "./PreloadedImage";
 export default function TweetDetail({
     tweetData,
     setTweetData,
+    msg,
     loginUserId,
     openDeleteConfirmDialog,
-    msg,
 }) {
     if (msg === "読み込みに失敗しました") {
         return (
