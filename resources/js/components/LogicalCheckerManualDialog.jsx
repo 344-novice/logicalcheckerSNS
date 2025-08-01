@@ -53,7 +53,7 @@ export default function openLogicalCheckerManualDialog({ isOpen, onClose }) {
                             {"　 "}
                             <span className="font-bold italic">
                                 Tips:
-                                批判対象を引用する場合は、引用である旨を明示することでNGを回避できます
+                                批判対象を引用する場合は、引用である旨をはっきり示すことでNGを回避しやすいです
                             </span>
                         </li>
                         <li>
@@ -71,7 +71,7 @@ export default function openLogicalCheckerManualDialog({ isOpen, onClose }) {
                             </span>
                             <br />
                             {"　 "}
-                            対立する立場での議論は歓迎しますが、論理の飛躍や過度の一般化など不当な論拠に基づいて
+                            対立する立場での議論は歓迎しますが、論理の飛躍や過度な一般化など不当な論拠に基づいて
                             <br />
                             {"　 "}
                             非難していないか、本サービスをきっかけに考えていただければ幸いです

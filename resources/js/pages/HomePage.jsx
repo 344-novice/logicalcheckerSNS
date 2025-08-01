@@ -108,11 +108,17 @@ export default function HomePage({ loginUserId }) {
                 setWarningMsg(
                     <div className="text-center text-red-600 dark:text-orange-500">
                         <p>
-                            上記文章に以下の内容が含まれていることが検知されました。修正の上、再度投稿をお願いします。
+                            上記文章に以下の内容が含まれていることが検知されました。
                         </p>
+                        <br />
                         <div>{categoryStr}</div>
+                        <br />
                         <p>
-                            ※そのまま押し通すと管理人がOpenAIにBANされる可能性がありますので、何卒ご容赦ください。
+                            修正の上、再度投稿をお願いします。
+                            <br />
+                            ※言葉遣い判定の精度は完璧ではないですが、そのまま押し通すと
+                            <br />
+                            管理人がOpenAIにBANされる可能性がありますので、何卒ご容赦ください。
                         </p>
                     </div>
                 );
@@ -167,7 +173,7 @@ export default function HomePage({ loginUserId }) {
             if (currentPage > resTweets.data.meta.last_page) {
                 setCurrentPage(resTweets.data.meta.last_page);
             } else {
-                setTweets(resTweets.data.data);
+                setTweetsData(resTweets.data.data);
                 setLastPage(resTweets.data.meta.last_page);
             }
         } catch (err) {

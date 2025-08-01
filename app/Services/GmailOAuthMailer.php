@@ -7,6 +7,7 @@ use League\OAuth2\Client\Provider\Google;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\OAuth;
 use PHPMailer\PHPMailer\PHPMailer;
+use Illuminate\Support\Facades\Log;
 
 class GmailOAuthMailer
 {
@@ -78,6 +79,7 @@ class GmailOAuthMailer
             $mail->send();
             return true;
         } catch (Exception $e) {
+            Log::error('メール送信エラー: '.$e->getMessage());
             report($e);
             return false;
         }

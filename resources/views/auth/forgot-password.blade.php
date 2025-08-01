@@ -1,6 +1,6 @@
 <x-guest-layout>
     <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        <p class="mb-1 font-bold">{{ __('パスワードをお忘れの場合：') }}</p>
+        <p class="mb-1 font-bold">{{ __('パスワードをお忘れの場合') }}</p>
         <p>{{ __('アカウント名とメールアドレスを入力してください。') }}</p>
         <p>{{ __('パスワードリセット用のリンクをメールでお送りします。') }}</p>
     </div>
@@ -8,7 +8,7 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form id="reset-form" method="POST" action="{{ route('password.email') }}">
+    <form id="reset-form" method="POST" action="{{ route('password.email') }}" novalidate>
         @csrf
 
         <!-- Name -->

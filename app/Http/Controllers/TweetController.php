@@ -114,7 +114,7 @@ class TweetController extends Controller
     }
 
     public function detail(Request $request, $id) {
-        $tweet = Tweet::with(['user', 'logicalCheck'])
+        $tweet = Tweet::with(['user', 'logicalCheck', 'likes'])
             ->where('id', $id)
             ->first();
 
@@ -126,6 +126,9 @@ class TweetController extends Controller
         );
 
         $tweetData['user']['is_logical_gold'] = $tweet->user->is_logical_gold;
+
+        $loginUserId = Auth::id();
+        $tweetData['liked'] = $tweet->likes->contains('user_id', $loginUserId);
 
         return response()->json($tweetData);
     }
