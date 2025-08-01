@@ -75,7 +75,7 @@ export default function PostConfirmDialog({
                     <button
                         type="button"
                         onClick={onClose}
-                        className="px-4 py-2 bg-gray-200 dark:bg-gray-500 hover:bg-gray-300 dark:hover:bg-gray-400 rounded"
+                        className="px-4 py-2 font-semibold bg-gray-200 dark:bg-gray-400 hover:bg-gray-300 dark:hover:bg-gray-300 dark:border-2 rounded"
                     >
                         修正する
                     </button>

@@ -44,8 +44,6 @@ export default function TweetDetail({
             liked_count: updated.liked_count,
             liked: updated.liked,
         });
-
-        setTweetsData(updatedTweets);
     };
 
     return (
@@ -55,17 +53,19 @@ export default function TweetDetail({
             className="m-10 border rounded"
         >
             <div className="relative flex items-start m-5">
-                <button
-                    type="button"
-                    aria-label={`${tweetData.user?.name}さんのプロフィールを見る`}
-                    onClick={(e) => handleUserClick(e, tweetData.user_id)}
-                    className="flex flex-col flex-shrink-0 items-center cursor-pointer"
-                >
-                    <PreloadedImage
-                        imageUrl={tweetData.user?.image}
-                        alt={`${tweetData.user?.name}のプロフィール画像`}
-                        className="mb-2 w-40 h-40 cursor-pointer object-cover border-2 dark:hover:border-4 border-gray-300 dark:border-gray-400 hover:border-blue-500 dark:hover:border-blue-500 rounded"
-                    />
+                <div className="flex flex-col flex-shrink-0 items-center">
+                    <button
+                        type="button"
+                        aria-label={`${tweetData.user?.name}さんのプロフィールを見る`}
+                        onClick={(e) => handleUserClick(e, tweetData.user_id)}
+                        className="mb-2 w-40 h-40 object-cover border-2 dark:hover:border-4 border-gray-300 dark:border-gray-400 hover:border-blue-500 dark:hover:border-blue-500 cursor-pointer rounded"
+                    >
+                        <PreloadedImage
+                            imageUrl={tweetData.user?.image}
+                            alt={`${tweetData.user?.name}のプロフィール画像`}
+                            className="w-full h-full object-cover rounded"
+                        />
+                    </button>
                     {tweetData.user?.is_logical_gold && (
                         <span
                             aria-label="論理性の優秀なユーザー"
@@ -75,7 +75,8 @@ export default function TweetDetail({
                             🥇
                         </span>
                     )}
-                </button>
+                </div>
+
                 <div className="flex flex-col justify-start ml-10">
                     <button
                         type="button"
@@ -84,20 +85,18 @@ export default function TweetDetail({
                             e.stopPropagation();
                             handleUserClick(e, tweetData.user_id);
                         }}
-                        className="text-xl font-bold dark:text-white hover:text-blue-500 dark:hover:text-blue-500 cursor-pointer"
+                        className="inline-block self-start text-left text-xl font-bold dark:text-white hover:text-blue-500 dark:hover:text-blue-500 cursor-pointer"
                     >
                         {tweetData.user?.name}
                     </button>
 
                     <div
                         aria-label="ツイート本文"
-                        role="button"
-                        onClick={() => handleTweetClick(tweetData.id)}
                         className="mt-3 mr-10 text-xl text-gray-800 dark:text-gray-200 leading-tight break-words"
                     >
                         {tweetData.tweet}
                     </div>
-                    {tweetData.is_logical ? (
+                    {tweetData.logical_check?.is_logical ? (
                         <div
                             aria-label="論理的なツイートマーク"
                             role="img"

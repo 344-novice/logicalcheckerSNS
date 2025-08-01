@@ -82,6 +82,7 @@ export default function UserForm({
                                         setEditName(e.target.value)
                                     }
                                     maxLength={30}
+                                    placeholder={userData.name}
                                     className="ml-2 px-2 py-1 pr-16 w-full border dark:border-2 rounded-sm"
                                 />
                                 <div
@@ -156,7 +157,7 @@ export default function UserForm({
                         <>
                             <>
                                 <div className="inline-block p-3 w-full max-w-full border-2 break-words whitespace-normal rounded-sm">
-                                    <span>ユーザー名：</span>
+                                    <span>アカウント名：</span>
                                     {userData.name}
                                 </div>
 

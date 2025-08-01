@@ -1,11 +1,11 @@
 <x-guest-layout>
-    <x-register-explanation-modal />
+    <x-register-explanation-modal class="hidden" id="register-explanation-modal" />
     
     <div class="flex justify-between items-end mb-4 text-gray-600 dark:text-gray-400">
         <p id="register-heading" class="font-bold mb-1">{{ __('アカウント登録') }}</p>
     </div>
 
-    <form id="register-form" method="POST" action="{{ route('register') }}" aria-labelledby="register-heading">
+    <form id="register-form" method="POST" action="{{ route('register') }}" aria-labelledby="register-heading" data-dialup="true" novalidate>
         @csrf
 
         <!-- Name -->
@@ -59,16 +59,29 @@
 
     <x-back-to-login-button />
     <script>
-    window.registerPageData = {
-        hasErrors: @json($errors->any())
-    };
-    </script>
-
-        <script>
         document.addEventListener('DOMContentLoaded', function () {
+            const hasErrors = @json($errors->any());
+            const modal = document.getElementById('register-explanation-modal');
+            const hasSeenModal = localStorage.getItem('hasSeenRegisterExplanationModal');
+
+            modal.classList.add('hidden');
+
+            if (!hasErrors && !hasSeenModal) {
+                modal.classList.remove('hidden');
+            }
+
+            const closeButton = document.getElementById('modal-close-button');
+            const optOutCheckbox = document.getElementById('modal-optout-checkbox');
+
+            closeButton.addEventListener('click', () => {
+                modal.classList.add('hidden');
+                if (optOutCheckbox.checked) {
+                    localStorage.setItem('hasSeenRegisterExplanationModal', 'true');
+                }
+            });
+
             const form = document.getElementById('register-form');
             const registerButton = document.getElementById('register-button');
-
             if (form && registerButton) {
                 form.addEventListener('submit', function () {
                     registerButton.disabled = true;

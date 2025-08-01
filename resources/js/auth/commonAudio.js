@@ -1,35 +1,42 @@
-export function playDialUpAudioAndSubmit(formId, buttonIds) {
-    const form = document.getElementById(formId);
-    if (!form) return;
+import { loginAuthentication } from "../api/authApi";
 
-    form.addEventListener("submit", function (e) {
+export function playDialUpAudioAndSubmit(formId, buttonId) {
+    const form = document.getElementById(formId);
+    const button = document.getElementById(buttonId);
+    const audio = new Audio("/dial-up_connection.mp3");
+
+    if (!form || !button) return;
+
+    form.addEventListener("submit", async function (e) {
         e.preventDefault();
 
-        buttonIds.forEach((id) => {
-            const btn = document.getElementById(id);
-            if (btn) {
-                btn.disabled = true;
-                btn.innerText = "ログイン中…";
-                btn.classList.add(
-                    "font-bold",
-                    "bg-white",
-                    "text-black",
-                    "border",
-                    "breeze-loading"
-                );
-            }
-        });
+        button.disabled = true;
+        button.innerText = "ログイン中…";
+        button.classList.add(
+            "font-bold",
+            "bg-white",
+            "text-black",
+            "border",
+            "breeze-loading"
+        );
 
-        const audio = new Audio("/dial-up_connection.mp3");
-        audio
-            .play()
-            .then(() => {
-                setTimeout(() => {
-                    e.target.submit();
-                }, 5000);
-            })
-            .catch(() => {
-                e.target.submit();
-            });
+        try {
+            const response = await loginAuthentication(form);
+
+            if (response.data.success === true) {
+                audio
+                    .play()
+                    .then(() => {
+                        setTimeout(() => {
+                            window.location.href = "/home";
+                        }, 5000);
+                    })
+                    .catch(() => {
+                        window.location.href = "/home";
+                    });
+            }
+        } catch (error) {
+            form.submit();
+        }
     });
 }

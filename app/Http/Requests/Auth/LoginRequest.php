@@ -63,14 +63,6 @@ class LoginRequest extends FormRequest
             ]);
         }
 
-        if (! Hash::check($password, $user->password)) {
-            RateLimiter::hit($this->throttleKey());
-                throw ValidationException::withMessages([
-                    'password' => trans('auth.password'),
-                ]
-            );
-        }
-
         RateLimiter::clear($this->throttleKey());
 
         Auth::login($user, $this->boolean('remember'));

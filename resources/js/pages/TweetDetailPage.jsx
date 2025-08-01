@@ -4,7 +4,7 @@ import { deleteTweet, getTweetDetail } from "../api/tweetApi";
 import TweetDetail from "../components/TweetDetail";
 import DeleteConfirmDialog from "@/components/DeleteConfirmDialog";
 
-export default function TweetDetailPage({ loginUserId }) {
+export default function TweetDetailPage({ loginUserId, setTweetsData }) {
     const [tweetData, setTweetData] = useState([]);
     const [msg, setMsg] = useState("");
     const [targetTweetId, setTargetTweetId] = useState(null);
@@ -57,6 +57,7 @@ export default function TweetDetailPage({ loginUserId }) {
             <TweetDetail
                 tweetData={tweetData}
                 setTweetData={setTweetData}
+                setTweetsData={setTweetsData}
                 msg={msg}
                 loginUserId={loginUserId}
                 openDeleteConfirmDialog={openDeleteConfirmDialog}

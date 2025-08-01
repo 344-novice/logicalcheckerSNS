@@ -8,10 +8,11 @@ export default function PostForm({
     logicCheck,
 }) {
     return (
-        <div className="mb-10">
+        <div className="-mt-5 mb-10">
             <div
                 id="logical-checker-manual-dialog"
                 name="logical-checker-manual"
+                className="text-center"
             >
                 <button
                     type="button"
@@ -20,7 +21,7 @@ export default function PostForm({
                         e.stopPropagation();
                         openLogicalCheckerManualDialog();
                     }}
-                    className="mb-3 text-red-500 dark:text-red-600 hover:text-pink-500 dark:hover:text-white"
+                    className="mb-3 font-bold text-red-500 dark:text-red-600 hover:text-pink-400 dark:hover:text-gray-300"
                 >
                     ！初めて本サービスを使う際にはこちらをお読みください！
                 </button>
@@ -28,16 +29,16 @@ export default function PostForm({
             <form
                 aria-labelledby="tweet-form-heading"
                 onSubmit={logicCheck}
-                className="flex items-end"
+                className="w-full max-w-[800px] mx-auto"
             >
-                <div className="relative flex flex-col justify-end mx-auto w-full max-w-[800px]">
+                <div className="relative flex flex-col justify-end w-full">
                     <label htmlFor="tweet-input" className="sr-only">
                         投稿フォーム
                     </label>
                     <textarea
                         id="tweet-textarea"
                         name="tweet"
-                        rows="7"
+                        rows={7}
                         value={str}
                         onChange={(e) => setStr(e.target.value)}
                         placeholder="グッドバイブなロジックを組み立てよう！"
@@ -55,33 +56,42 @@ export default function PostForm({
                         {str.length}/500字
                     </div>
                 </div>
-                <button
-                    type="submit"
-                    disabled={
-                        isSubmitting || isBlockedByFlagged || str.trim() === ""
-                    }
-                    aria-disabled={
-                        isSubmitting || isBlockedByFlagged || str.trim() === ""
-                    }
-                    className={`ml-5 p-1 w-[80px] border rounded ${
-                        isSubmitting || isBlockedByFlagged || str.trim() === ""
-                            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                            : "bg-blue-500 text-white hover:bg-blue-600"
-                    }`}
-                >
-                    投稿
-                </button>
-            </form>
-            <div className="mt-4 pr-20 mx-auto">
-                <div
-                    className="w-full"
-                    role="alert"
-                    aria-live="assertive"
-                    id="logic-warning"
-                >
-                    {warningMsg}
+
+                <div className="mt-3 flex justify-end items-start">
+                    <div className="mt-4 flex-1">
+                        <div
+                            className="w-full"
+                            role="alert"
+                            aria-live="assertive"
+                            id="logic-warning"
+                        >
+                            {warningMsg}
+                        </div>
+                    </div>
+                    <button
+                        type="submit"
+                        disabled={
+                            isSubmitting ||
+                            isBlockedByFlagged ||
+                            str.trim() === ""
+                        }
+                        aria-disabled={
+                            isSubmitting ||
+                            isBlockedByFlagged ||
+                            str.trim() === ""
+                        }
+                        className={`self-start mt-2 p-1 w-[80px] h-[36px] border-2 rounded ${
+                            isSubmitting ||
+                            isBlockedByFlagged ||
+                            str.trim() === ""
+                                ? "bg-gray-400 text-gray-700 cursor-not-allowed"
+                                : "bg-blue-600 text-white hover:bg-blue-500"
+                        }`}
+                    >
+                        投稿
+                    </button>
                 </div>
-            </div>
+            </form>
         </div>
     );
 }
