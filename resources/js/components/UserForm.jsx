@@ -42,7 +42,7 @@ export default function UserForm({
                 ユーザープロフィール
             </h2>
             <div className="flex m-5">
-                <div className="flex flex-col flex-shrink-0 items-center cursor-pointer">
+                <div className="flex flex-col flex-shrink-0 items-center">
                     <PreloadedImage
                         imageUrl={userData.image}
                         className="mx-5 mt-5 w-40 h-40 object-cover inline-block border-2 dark:border-gray-500 rounded"
@@ -55,7 +55,7 @@ export default function UserForm({
                     >
                         🥇
                     </span>
-                    <div>
+                    <div className="cursor-pointer">
                         {isMyPage && (
                             <UserImageUploader
                                 userId={userData.id}
@@ -83,7 +83,7 @@ export default function UserForm({
                                     }
                                     maxLength={30}
                                     placeholder={userData.name}
-                                    className="ml-2 px-2 py-1 pr-16 w-full border dark:border-2 rounded-sm"
+                                    className="ml-2 px-2 py-1 pr-16 w-full dark:text-black border dark:border-2 rounded-sm"
                                 />
                                 <div
                                     className={`absolute bottom-2 right-3 text-sm select-none pointer-events-none ${
@@ -116,7 +116,7 @@ export default function UserForm({
                                     placeholder={
                                         userData.profile || "500文字以内で入力"
                                     }
-                                    className="px-2py-1  pr-24 ml-2 w-full border dark:border-2 rounded-sm resize-none"
+                                    className="px-2py-1  pr-24 ml-2 w-full dark:text-black border dark:border-2 rounded-sm resize-none"
                                 />
                                 <div
                                     className={`absolute bottom-2 right-3 text-sm select-none pointer-events-none ${
@@ -136,7 +136,7 @@ export default function UserForm({
                                     className={`mr-2 px-3 py-1 rounded text-white ${
                                         !editName || !editName.trim()
                                             ? "bg-gray-400 cursor-not-allowed"
-                                            : "bg-blue-500"
+                                            : "bg-blue-500 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-800"
                                     }`}
                                     disabled={!editName || !editName.trim()}
                                 >
@@ -149,7 +149,7 @@ export default function UserForm({
                                         setEditProfile(userData.profile || "");
                                         setEditMode(false);
                                     }}
-                                    className="px-3 py-1 bg-gray-400 text-white rounded"
+                                    className="px-3 py-1 bg-gray-400 hover:bg-gray-300 text-white rounded"
                                 >
                                     キャンセル
                                 </button>
@@ -171,7 +171,13 @@ export default function UserForm({
                             <div className="flex justify-end mt-5">
                                 {isMyPage && (
                                     <button
-                                        onClick={() => setEditMode(true)}
+                                        onClick={() => {
+                                            setEditName(userData.name || "");
+                                            setEditProfile(
+                                                userData.profile || ""
+                                            );
+                                            setEditMode(true);
+                                        }}
                                         className="px-3 py-1 bg-gray-300 hover:bg-gray-400 text-gray-700 focus:outline-none rounded"
                                     >
                                         編集

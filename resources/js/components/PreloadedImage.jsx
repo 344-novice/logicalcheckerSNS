@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { DEFAULT_USER_IMAGE } from "../constants";
 
 export default function PreloadedImage({ imageUrl, className = "" }) {
-    const [src, setSrc] = useState(DEFAULT_USER_IMAGE);
-    const [loaded, setLoaded] = useState(false);
+    const [src, setSrc] = useState(imageUrl || DEFAULT_USER_IMAGE);
+    const [loaded, setLoaded] = useState(imageUrl ? true : false);
 
     useEffect(() => {
         if (!imageUrl) {
@@ -11,6 +11,8 @@ export default function PreloadedImage({ imageUrl, className = "" }) {
             setLoaded(true);
             return;
         }
+
+        setLoaded(false);
 
         const img = new Image();
         img.src = imageUrl;

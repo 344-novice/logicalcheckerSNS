@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TweetController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -11,19 +12,18 @@ Route::get('/home', function () {
     return view('home', ['loginUserId' => Auth::id()]);
 })->middleware('auth')->name('home');
 
-
-Route::get('/tweet-detail/{id}', [TweetController::class, 'show'])
-    ->where('id', '[0-9]+');
-
 Route::get('/mypage', function () {
     return view('user', [
         'userId' => Auth::id(), 'loginUserId' => Auth::id()
     ]);
 })->middleware('auth')->name('mypage');
 
-Route::get('/user/{id}', function ($id) {
-    return view('user', ['userId' => $id, 'loginUserId' => Auth::id()]);
-})->where('id', '[0-9]+')->name('user');
+Route::get('/user/{id}', [UserController::class, 'show'])
+    ->where('id', '[0-9]+')
+    ->name('user');
+
+Route::get('/tweet-detail/{id}', [TweetController::class, 'show'])
+    ->where('id', '[0-9]+');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
