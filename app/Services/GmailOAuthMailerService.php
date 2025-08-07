@@ -9,7 +9,7 @@ use PHPMailer\PHPMailer\OAuth;
 use PHPMailer\PHPMailer\PHPMailer;
 use Illuminate\Support\Facades\Log;
 
-class GmailOAuthMailer
+class GmailOAuthMailerService
 {
     protected $clientId;
     protected $clientSecret;

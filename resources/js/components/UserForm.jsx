@@ -113,7 +113,9 @@ export default function UserForm({
                                         setEditProfile(e.target.value)
                                     }
                                     maxLength={500}
-                                    placeholder="500文字以内で入力"
+                                    placeholder={
+                                        userData.profile || "500文字以内で入力"
+                                    }
                                     className="px-2py-1  pr-24 ml-2 w-full border dark:border-2 rounded-sm resize-none"
                                 />
                                 <div
