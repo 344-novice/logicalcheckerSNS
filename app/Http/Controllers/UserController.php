@@ -9,6 +9,25 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    public function show($id)
+    {
+        $loginId = Auth::id();
+
+        $user = User::find($id);
+        if (!$user) {
+            return redirect('/home')->with('error', '指定されたユーザーは存在しないか、削除されています。');
+        }
+
+        if ((int)$id === $loginId) {
+            return redirect()->route('mypage');
+        }
+
+        return view('user', [
+            'userId' => $id,
+            'loginUserId' => $loginId,
+        ]);
+    }
+
     public function showUser($id)
     {
         $user = User::findOrFail($id);

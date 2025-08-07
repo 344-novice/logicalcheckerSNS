@@ -4,6 +4,7 @@ export default function PostConfirmDialog({
     isOpen,
     onClose,
     onConfirm,
+    isSubmitting,
     tweet,
     reason,
     hints,
@@ -14,10 +15,18 @@ export default function PostConfirmDialog({
         return sentences.map((sentence, i) => <p key={i}>{sentence}。</p>);
     }
 
+    const handleClick = async () => {
+        if (isSubmitting) return;
+        try {
+            await onConfirm();
+            onClose();
+        } catch (error) {}
+    };
+
     return (
         <Dialog
             open={isOpen}
-            onClose={onClose}
+            onClose={() => {}}
             className="fixed flex items-center justify-center inset-0 z-50"
         >
             <div
@@ -81,13 +90,15 @@ export default function PostConfirmDialog({
                     </button>
                     <button
                         type="button"
-                        onClick={() => {
-                            onConfirm();
-                            onClose();
-                        }}
-                        className="px-4 py-2 text-white bg-blue-500 dark:bg-blue-700 hover:bg-blue-600 dark:hover:bg-blue-600 rounded"
+                        onClick={handleClick}
+                        disabled={isSubmitting}
+                        className={`px-4 py-2 text-white rounded ${
+                            isSubmitting
+                                ? "bg-gray-400 cursor-not-allowed"
+                                : "bg-blue-500 hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-600"
+                        }`}
                     >
-                        投稿する
+                        {isSubmitting ? "投稿中..." : "投稿する"}
                     </button>
                 </div>
             </Dialog.Panel>

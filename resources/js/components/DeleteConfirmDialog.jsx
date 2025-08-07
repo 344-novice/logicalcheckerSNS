@@ -1,10 +1,23 @@
 import { Dialog } from "@headlessui/react";
 
-export default function DeleteConfirmDialog({ isOpen, onClose, onConfirm }) {
+export default function DeleteConfirmDialog({
+    isOpen,
+    onClose,
+    onConfirm,
+    isSubmitting,
+}) {
+    const handleClick = async () => {
+        if (isSubmitting) return;
+        try {
+            await onConfirm();
+            onClose();
+        } catch (error) {}
+    };
+
     return (
         <Dialog
             open={isOpen}
-            onClose={onClose}
+            onClose={() => {}}
             aria-modal="true"
             className="fixed inset-0 flex items-center justify-center z-50"
         >
@@ -31,10 +44,8 @@ export default function DeleteConfirmDialog({ isOpen, onClose, onConfirm }) {
                         キャンセル
                     </button>
                     <button
-                        onClick={() => {
-                            onConfirm();
-                            onClose();
-                        }}
+                        onClick={handleClick}
+                        disabled={isSubmitting}
                         aria-label="ツイートを削除する"
                         className="px-4 py-2 text-white bg-red-500 dark:bg-red-600 hover:bg-red-600 dark:hover:bg-red-500 rounded"
                     >

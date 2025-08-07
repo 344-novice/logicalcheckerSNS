@@ -151,11 +151,14 @@ export default function HomePage({ loginUserId }) {
     };
 
     const postSubmit = async (tweet, logicalCheck) => {
+        setIsSubmitting(true);
+
         try {
             await postTweet(tweet, logicalCheck);
             toast.success("投稿完了しました");
             setStr("");
             fetchData(currentPage);
+            setIsPostConfirmOpen(false);
         } catch (err) {
             handleErrorToast(err.response?.status);
         } finally {
@@ -267,6 +270,7 @@ export default function HomePage({ loginUserId }) {
                         postConfirmData.logicalCheck
                     )
                 }
+                isSubmitting={isSubmitting}
                 tweet={postConfirmData.tweet}
                 reason={postConfirmData.reason}
                 hints={postConfirmData.hints}
@@ -285,6 +289,7 @@ export default function HomePage({ loginUserId }) {
                 isOpen={isDeleteConfirmOpen}
                 onClose={() => setIsDeleteConfirmOpen(false)}
                 onConfirm={() => deleteSubmit(targetTweetId)}
+                isSubmitting={isSubmitting}
             />
         </>
     );

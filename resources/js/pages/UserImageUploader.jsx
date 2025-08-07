@@ -7,6 +7,7 @@ export default function UserImageUploader({ userId, onUploaded }) {
     const [file, setFile] = useState(null);
     const [previewUrl, setPreviewUrl] = useState(null);
     const fileInputRef = useRef(null);
+    const [isUploading, setIsUploading] = useState(false);
 
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
@@ -24,6 +25,8 @@ export default function UserImageUploader({ userId, onUploaded }) {
             return;
         }
 
+        setIsUploading(true);
+
         try {
             const formData = new FormData();
             formData.append("file", file);
@@ -34,15 +37,19 @@ export default function UserImageUploader({ userId, onUploaded }) {
             await getCsrfCookie();
             await postUserImage(userId, data.secure_url);
 
-            if (onUploaded) onUploaded();
+            if (onUploaded) {
+                onUploaded();
+            }
+
             setFile(null);
             setPreviewUrl(null);
             toast.success("画像を更新しました");
         } catch (error) {
             toast.error("アップロードに失敗しました");
+        } finally {
+            setIsUploading(false);
+            if (fileInputRef.current) fileInputRef.current.value = "";
         }
-
-        if (fileInputRef.current) fileInputRef.current.value = "";
     };
 
     return (
@@ -64,9 +71,14 @@ export default function UserImageUploader({ userId, onUploaded }) {
                 <button
                     aria-label="画像をアップロード"
                     onClick={handleUpload}
-                    className="px-4 py-2 w-40 text-center text-black hover:text-white bg-gray-100 hover:bg-gray-700 dark:hover:bg-gray-500 border border-black dark:border-none rounded"
+                    disabled={isUploading}
+                    className={`px-4 py-2 w-40 text-center rounded border ${
+                        isUploading
+                            ? "bg-gray-400 text-gray-600 dark:border-none cursor-not-allowed"
+                            : "text-black hover:text-white bg-gray-100 hover:bg-gray-700 dark:hover:bg-gray-500 dark:border-none"
+                    }`}
                 >
-                    アップロード
+                    {isUploading ? "アップロード中..." : "アップロード"}
                 </button>
                 {file && (
                     <div>
