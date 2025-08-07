@@ -23,7 +23,7 @@ class TweetController extends Controller
         $tweets = Tweet::with(['user', 'logicalCheck', 'likes'])
             ->where('delete_flag', 0)
             ->latest()
-            ->paginate(5);;
+            ->paginate(20);;
             
         return TweetResource::collection($tweets);
     }

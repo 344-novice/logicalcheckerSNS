@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Services\GmailOAuthMailer; 
+use App\Services\GmailOAuthMailerService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -52,7 +52,7 @@ class PasswordResetLinkController extends Controller
         $resetUrl = config('app.url') . $resetPath;
 
         try {
-            (new GmailOAuthMailer())->sendPasswordResetMail(
+            (new GmailOAuthMailerService())->sendPasswordResetMail(
                 to: $user->email,
                 subject: '【パスワード再設定】リンクをお送りします',
                 body: "以下のURLからパスワードを再設定してください：\n\n{$resetUrl}\n\nこのリンクは60分で期限切れになります。"

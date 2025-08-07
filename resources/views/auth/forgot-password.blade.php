@@ -35,15 +35,18 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('reset-form');
-            const loginButton = document.getElementById('login-button');
 
-            if (form && loginButton) {
-                form.addEventListener('submit', function () {
-                    loginButton.disabled = true;
-                    loginButton.innerText = '送信中…';
-                    loginButton.classList.add('font-bold', 'bg-white', 'text-black', 'border', 'breeze-loading');
-                });
-            }
+            const loginButton = document.getElementById('login-button');
+            const backToLoginButton = document.getElementById('back-to-login-button');
+
+            form.addEventListener('submit', function () {
+                loginButton.disabled = true;
+                loginButton.innerText = '送信中…';
+                loginButton.classList.add('font-bold', 'bg-white', 'text-black', 'border', 'breeze-loading');
+
+                backToLoginButton.disabled = true;
+                backToLoginButton.classList.add('bg-white', 'text-gray', 'pointer-events-none');
+            });
         });
     </script>
 

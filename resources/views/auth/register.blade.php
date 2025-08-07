@@ -81,14 +81,18 @@
             });
 
             const form = document.getElementById('register-form');
+
             const registerButton = document.getElementById('register-button');
-            if (form && registerButton) {
-                form.addEventListener('submit', function () {
-                    registerButton.disabled = true;
-                    registerButton.innerText = '登録中…';
-                    registerButton.classList.add('font-bold', 'bg-white', 'text-black', 'border', 'breeze-loading');
-                });
-            }
+            const backToLoginButton = document.getElementById('back-to-login-button');
+
+            form.addEventListener('submit', function () {
+                registerButton.disabled = true;
+                registerButton.innerText = '登録中…';
+                registerButton.classList.add('font-bold', 'bg-white', 'text-black', 'border', 'breeze-loading');
+
+                backToLoginButton.disabled = true;
+                backToLoginButton.classList.add('bg-white', 'text-gray', 'pointer-events-none');
+            });
         });
     </script>
 
