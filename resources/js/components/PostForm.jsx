@@ -2,7 +2,7 @@ export default function PostForm({
     openLogicalCheckerManualDialog,
     str,
     setStr,
-    isSubmitting,
+    isPostSubmitting,
     isBlockedByFlagged,
     warningMsg,
     logicCheck,
@@ -71,17 +71,17 @@ export default function PostForm({
                     <button
                         type="submit"
                         disabled={
-                            isSubmitting ||
+                            isPostSubmitting ||
                             isBlockedByFlagged ||
                             str.trim() === ""
                         }
                         aria-disabled={
-                            isSubmitting ||
+                            isPostSubmitting ||
                             isBlockedByFlagged ||
                             str.trim() === ""
                         }
                         className={`self-start mt-2 p-1 w-[80px] h-[36px] border-2 rounded ${
-                            isSubmitting ||
+                            isPostSubmitting ||
                             isBlockedByFlagged ||
                             str.trim() === ""
                                 ? "bg-gray-400 text-gray-700 cursor-not-allowed"

@@ -12,14 +12,14 @@
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('メールアドレス')" />
-            <x-text-input id="email" type="email" name="email" :value="old('email', $request->email)" class="block mt-1 w-full" required autofocus autocomplete="username" />
+            <x-text-input id="email" type="email" name="email" :value="old('email', $request->email)" class="block mt-1 w-full bg-gray-100 text-gray-700 cursor-not-allowed" required readonly autofocus autocomplete="username" />
             <x-input-error id="email-error" :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('パスワード')" />
-            <x-text-input id="password" type="password" name="password" class="block mt-1 w-full" required autocomplete="new-password" />
+            <x-input-label for="password" :value="__('新しいパスワード')" />
+            <x-text-input id="password" type="password" name="password" placeholder="8文字以上" class="block mt-1 w-full" required autocomplete="new-password" />
             <x-input-error id="password-error" :messages="$errors->get('password')" class="mt-2" />
         </div>
 
@@ -27,7 +27,7 @@
         <div class="mt-4">
             <x-input-label for="password_confirmation" :value="__('確認用パスワード')" />
 
-            <x-text-input id="password_confirmation" type="password" name="password_confirmation" class="block mt-1 w-full" required autocomplete="new-password" />
+            <x-text-input id="password_confirmation" type="password" name="password_confirmation" placeholder="上記と同じ内容" class="block mt-1 w-full" required autocomplete="new-password" />
 
             <x-input-error id="password-confirmation-error" :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>

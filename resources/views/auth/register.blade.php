@@ -26,25 +26,26 @@
         <div class="mt-4">
             <x-input-label for="password" :value="__('パスワード')" />
 
-            <x-text-input id="password" class="block mt-1 w-full"
+            <x-text-input id="password"
                             type="password"
                             name="password"
                             placeholder="8文字以上"
-                            id="password-error" 
+                            class="block mt-1 w-full"
                             required autocomplete="new-password"
             />
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            <x-input-error id="password-error" :messages="$errors->get('password')" class="mt-2" />
         </div>
 
         <!-- Confirm Password -->
         <div class="mt-4">
             <x-input-label for="password_confirmation" :value="__('確認用パスワード')" />
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
+            <x-text-input id="password_confirmation" 
                             type="password"
                             name="password_confirmation"
                             placeholder="上記と同じ内容"
+                            class="block mt-1 w-full"
                             required autocomplete="new-password" />
 
             <x-input-error id="password-confirmation-error" :messages="$errors->get('password_confirmation')" class="mt-2" />

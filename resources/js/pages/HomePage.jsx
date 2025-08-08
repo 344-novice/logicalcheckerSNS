@@ -26,7 +26,8 @@ export default function HomePage({ loginUserId }) {
         hints: [],
         logicalCheck: null,
     });
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isPostSubmitting, setIsPostSubmitting] = useState(false);
+    const [isDeleteSubmitting, setIsDeleteSubmitting] = useState(false);
     const [tweetsData, setTweetsData] = useState([]);
     const [indexErrMsg, setIndexErrMsg] = useState("");
     const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
@@ -80,21 +81,21 @@ export default function HomePage({ loginUserId }) {
             return;
         }
 
-        if (isSubmitting) return;
+        if (isPostSubmitting) return;
 
-        setIsSubmitting(true);
+        setIsPostSubmitting(true);
 
         try {
             const resLogicalCheck = await getLogicalCheck(tweet);
 
             setWarningMsg("");
-            setIsSubmitting(false);
+            setIsPostSubmitting(false);
 
             const logicalCheck = resLogicalCheck.data;
 
             if (logicalCheck.error) {
                 toast.fail(logicalCheck.message);
-                setIsSubmitting(false);
+                setIsPostSubmitting(false);
                 return;
             }
 
@@ -123,7 +124,7 @@ export default function HomePage({ loginUserId }) {
                     </div>
                 );
                 setIsBlockedByFlagged(true);
-                setIsSubmitting(false);
+                setIsPostSubmitting(false);
                 return;
             }
 
@@ -139,19 +140,19 @@ export default function HomePage({ loginUserId }) {
                     logicalCheck.logic_result.hints,
                     logicalCheck
                 );
-                setIsSubmitting(false);
+                setIsPostSubmitting(false);
                 return;
             }
 
             await postSubmit(tweet, logicalCheck);
         } catch (err) {
             handleErrorToast(err.response?.status);
-            setIsSubmitting(false);
+            setIsPostSubmitting(false);
         }
     };
 
     const postSubmit = async (tweet, logicalCheck) => {
-        setIsSubmitting(true);
+        setIsPostSubmitting(true);
 
         try {
             await postTweet(tweet, logicalCheck);
@@ -162,11 +163,13 @@ export default function HomePage({ loginUserId }) {
         } catch (err) {
             handleErrorToast(err.response?.status);
         } finally {
-            setIsSubmitting(false);
+            setIsPostSubmitting(false);
         }
     };
 
     const deleteSubmit = async (tweetId) => {
+        setIsDeleteSubmitting(true);
+
         try {
             await deleteTweet(tweetId);
             toast.success("削除が完了しました");
@@ -181,6 +184,8 @@ export default function HomePage({ loginUserId }) {
             }
         } catch (err) {
             handleErrorToast(err.response?.status);
+        } finally {
+            setIsDeleteSubmitting(false);
         }
     };
 
@@ -217,7 +222,7 @@ export default function HomePage({ loginUserId }) {
 
     return (
         <>
-            {isSubmitting && (
+            {isPostSubmitting && (
                 <div className="fixed flex items-center justify-center inset-0 bg-black/30 z-50">
                     <div className="flex flex-col p-6 items-center bg-white dark:bg-gray-800 rounded-lg">
                         <svg
@@ -256,7 +261,7 @@ export default function HomePage({ loginUserId }) {
                 openLogicalCheckerManualDialog={openLogicalCheckerManualDialog}
                 str={str}
                 setStr={setStr}
-                isSubmitting={isSubmitting}
+                isPostSubmitting={isPostSubmitting}
                 isBlockedByFlagged={isBlockedByFlagged}
                 warningMsg={warningMsg}
                 logicCheck={logicCheck}
@@ -270,7 +275,7 @@ export default function HomePage({ loginUserId }) {
                         postConfirmData.logicalCheck
                     )
                 }
-                isSubmitting={isSubmitting}
+                isPostSubmitting={isPostSubmitting}
                 tweet={postConfirmData.tweet}
                 reason={postConfirmData.reason}
                 hints={postConfirmData.hints}
@@ -289,7 +294,7 @@ export default function HomePage({ loginUserId }) {
                 isOpen={isDeleteConfirmOpen}
                 onClose={() => setIsDeleteConfirmOpen(false)}
                 onConfirm={() => deleteSubmit(targetTweetId)}
-                isSubmitting={isSubmitting}
+                isDeleteSubmitting={isDeleteSubmitting}
             />
         </>
     );

@@ -4,7 +4,7 @@ export default function PostConfirmDialog({
     isOpen,
     onClose,
     onConfirm,
-    isSubmitting,
+    isPostSubmitting,
     tweet,
     reason,
     hints,
@@ -16,7 +16,7 @@ export default function PostConfirmDialog({
     }
 
     const handleClick = async () => {
-        if (isSubmitting) return;
+        if (isPostSubmitting) return;
         try {
             await onConfirm();
             onClose();
@@ -84,21 +84,26 @@ export default function PostConfirmDialog({
                     <button
                         type="button"
                         onClick={onClose}
-                        className="px-4 py-2 font-semibold bg-gray-200 dark:bg-gray-400 hover:bg-gray-300 dark:hover:bg-gray-300 dark:border-2 rounded"
+                        disabled={isPostSubmitting}
+                        className={`px-4 py-2 font-semibold rounded ${
+                            isPostSubmitting
+                                ? "bg-gray-100 text-gray-500 border cursor-not-allowed"
+                                : "bg-gray-200 hover:bg-gray-300 dark:bg-gray-400 dark:hover:bg-gray-300 dark:border-2"
+                        }`}
                     >
                         修正する
                     </button>
                     <button
                         type="button"
                         onClick={handleClick}
-                        disabled={isSubmitting}
+                        disabled={isPostSubmitting}
                         className={`px-4 py-2 text-white rounded ${
-                            isSubmitting
+                            isPostSubmitting
                                 ? "bg-gray-400 cursor-not-allowed"
                                 : "bg-blue-500 hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-600"
                         }`}
                     >
-                        {isSubmitting ? "投稿中..." : "投稿する"}
+                        {isPostSubmitting ? "投稿中..." : "投稿する"}
                     </button>
                 </div>
             </Dialog.Panel>
